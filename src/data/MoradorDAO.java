@@ -1,47 +1,53 @@
 package data;
 
 import Main.Morador;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class MoradorDAO extends ConnectDAO implements Map<Integer,Morador> {
+public class MoradorDAO implements Map<Integer,Morador> {
 
-
-    private PreparedStatement preparedStatement= null;
-    private ResultSet resultSet = null;
-
-    public MoradorDAO() throws Exception{
-    }
+    private Connection con;
 
     @Override
     public void clear(){
         try{
-            preparedStatement = connect.prepareStatement("delete from mydb.morador; ");
-            preparedStatement.executeUpdate();
-        }catch (SQLException e){
-
+            con = Connect.connect();
+            Statement stm = con.createStatement();
+            stm.executeUpdate("delete from mydb.morador");
+        }catch (ClassNotFoundException | SQLException e) {
+            throw new NullPointerException(e.getMessage()); 
+        } finally {
+            Connect.close(con);
         }
     }
-
+    
+    @Override
     public boolean containsKey(Object key) throws NullPointerException {
         boolean r = false;
 
         try{
+            con = Connect.connect();
+            Statement stm = con.createStatement();
             String sql = "select id from mydb.morador where Id ='"+(int)key+"'";
-            resultSet = statement.executeQuery(sql);
-            r=resultSet.next();
+            ResultSet rs = stm.executeQuery(sql);
+            r=rs.next();
 
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw new NullPointerException(e.getMessage());
+        }finally{
+            Connect.close(con);
         }
         return r;
     }
 
+    @Override
     public boolean containsValue(Object value){
         Morador a = (Morador) value;
         return containsKey(a.getKey());
@@ -51,15 +57,18 @@ public class MoradorDAO extends ConnectDAO implements Map<Integer,Morador> {
     public Morador get(Object key){
         Morador a = null;
         try{
-
-            preparedStatement = connect.prepareStatement("select * from mybd.morador where id=?");
-            preparedStatement.setInt(1, (Integer)key);
-            resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
-                a = new Morador(resultSet.getInt("Id"), resultSet.getInt("Apartamento"), resultSet.getString("Nome"), resultSet.getString("Contacto"), resultSet.getFloat("Saldo"), resultSet.getString("Imagem"));
+            con = Connect.connect();
+            PreparedStatement pStm = con.prepareStatement("select * from mybd.morador where id=?");
+            pStm.setInt(1, (Integer)key);
+            ResultSet rs = pStm.executeQuery();
+            if(rs.next()){
+                a = new Morador(rs.getInt("Id"),rs.getInt("Apartamento"), rs.getString("Nome"), rs.getString("Contacto"), rs.getFloat("Saldo"), rs.getString("Imagem"));
             }
 
-        }catch(SQLException e){
+        }catch(ClassNotFoundException | SQLException e){
+             e.printStackTrace();
+        } finally {
+            Connect.close(con);
         }
 
         return a;
@@ -74,26 +83,30 @@ public class MoradorDAO extends ConnectDAO implements Map<Integer,Morador> {
     public Morador put(Integer id,Morador morador){
         Morador a = null;
         try{
-            preparedStatement = connect.prepareStatement("insert into mydb.Morador values (?,?,?,?,?,?)\n" +
-            "ON DUPLICATE KEY UPDATE Id=VALUES(Id),  Apartamento=VALUES(Apartamento), Nome = VALUES(Nome), Contacto = VALUES(Contacto), Saldo = VALUES(Saldo), Imagem = VALUES(Imagem), statement.RETURN_GENERATED_KEYS");
+            con = Connect.connect();
+            PreparedStatement pStm = con.prepareStatement("insert into mydb.morador values (?,?,?,?,?,?)\n" +
+            "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Nome=VALUES(Nome), Contacto=VALUES(Contacto), Saldo=VALUES(Saldo), Imagem=VALUES(Imagem),   statement.RETURN_GENERATED_KEYS");
 
-            preparedStatement.setInt(1,morador.getId());
-            preparedStatement.setInt(2,morador.getApartamento());
-            preparedStatement.setString(3,morador.getNome());
-            preparedStatement.setString(4,morador.getContacto());
-            preparedStatement.setFloat(5,morador.getSaldo());
-            preparedStatement.setString(6,morador.getImagem());
-            preparedStatement.executeUpdate();
+            pStm.setInt(1,morador.getId());
+            pStm.setInt(2,morador.getApartamento());
+            pStm.setString(3,morador.getNome());
+            pStm.setString(4,morador.getContacto());
+            pStm.setFloat(5,morador.getSaldo());
+            pStm.setString(6,morador.getImagem());
+            pStm.executeUpdate();
 
-            resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()){
-                int newId = resultSet.getInt(1);
+            ResultSet rs = pStm.getGeneratedKeys();
+            if(rs.next()){
+                int newId = rs.getInt(1);
                 morador.setId(newId);
             }
             a = morador;
-        }catch(SQLException e){
-
+        }catch(ClassNotFoundException | SQLException e){
+            e.printStackTrace();
+        }finally {
+            Connect.close(con);
         }
+        
         return a;
     }
 
@@ -108,11 +121,14 @@ public class MoradorDAO extends ConnectDAO implements Map<Integer,Morador> {
     public Morador remove(Object key){
         Morador a = this.get(key);
         try{
-            preparedStatement = connect.prepareStatement("delete from mydb.morador where Id = ? ; ");
-            preparedStatement.setInt(1,(int)key);
-            preparedStatement.executeUpdate();
-        }catch (SQLException e){
-
+            con = Connect.connect();
+            PreparedStatement pStm = con.prepareStatement("delete from mydb.morador where Id = ? ; ");
+            pStm.setInt(1,(int)key);
+            pStm.executeUpdate();
+        }catch (ClassNotFoundException | SQLException e){
+            e.printStackTrace();
+        }finally {
+            Connect.close(con);
         }
         return a;
     }
@@ -121,15 +137,18 @@ public class MoradorDAO extends ConnectDAO implements Map<Integer,Morador> {
     public int size(){
         int i=0;
         try{
+            con= Connect.connect();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery("select * form mydb.morador");
 
-            resultSet = statement.executeQuery("select * form mydb.morador");
-
-            while(resultSet.next()){
+            while(rs.next()){
                 i++;
             }
 
-        }catch(SQLException e){
+        }catch(ClassNotFoundException | SQLException e){
             throw new NullPointerException(e.getMessage());
+        }finally {
+            Connect.close(con);
         }
 
         return i;
@@ -140,18 +159,22 @@ public class MoradorDAO extends ConnectDAO implements Map<Integer,Morador> {
     public Collection<Morador> values(){
         Collection<Morador> cat = new HashSet<>();
         try{
-            resultSet = statement.executeQuery("select * from mydb.morador");
-            while(resultSet.next()){
-                cat.add(new Morador(resultSet.getInt("Id"),resultSet.getInt("Apartamento"),resultSet.getString("Nome"),resultSet.getString("Contacto"),resultSet.getFloat("Saldo"),resultSet.getString("Imagem")));
+            con = Connect.connect();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery("select * from mydb.morador");
+            while(rs.next()){
+                cat.add(new Morador(rs.getInt("Id"),rs.getInt("Apartamento"),rs.getString("Nome"),rs.getString("Contacto"),rs.getFloat("Saldo"),rs.getString("Imagem")));
             }
 
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            Connect.close(con);
         }
 
         return cat;
     }
-
 
     @Override
      public Set<Map.Entry<Integer,Morador>> entrySet(){
@@ -165,14 +188,12 @@ public class MoradorDAO extends ConnectDAO implements Map<Integer,Morador> {
 
     @Override
     public int hashCode(){
-        return this.connect.hashCode();
+        return this.con.hashCode();
     }
 
     @Override
     public Set<Integer> keySet(){
         throw new NullPointerException("Not implemented!");
     }
-
-
 
 }

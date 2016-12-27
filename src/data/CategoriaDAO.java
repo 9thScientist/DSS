@@ -1,47 +1,53 @@
 package data;
 
 import Main.Categoria;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class CategoriaDAO extends ConnectDAO implements Map<Integer,Categoria> {
+public class CategoriaDAO implements Map<Integer,Categoria> {
 
-
-    private PreparedStatement preparedStatement= null;
-    private ResultSet resultSet = null;
-
-    public CategoriaDAO() throws Exception{
-    }
+    private Connection con;
 
     @Override
     public void clear(){
         try{
-            preparedStatement = connect.prepareStatement("delete from mydb.categoria; ");
-            preparedStatement.executeUpdate();
-        }catch (SQLException e){
-
+            con = Connect.connect();
+            Statement stm = con.createStatement();
+            stm.executeUpdate("delete from mydb.categoria");
+        }catch (ClassNotFoundException | SQLException e) {
+            throw new NullPointerException(e.getMessage()); 
+        } finally {
+            Connect.close(con);
         }
     }
-
+    
+    @Override
     public boolean containsKey(Object key) throws NullPointerException {
         boolean r = false;
 
         try{
+            con = Connect.connect();
+            Statement stm = con.createStatement();
             String sql = "select id from mydb.categoria where Id ='"+(int)key+"'";
-            resultSet = statement.executeQuery(sql);
-            r=resultSet.next();
+            ResultSet rs = stm.executeQuery(sql);
+            r=rs.next();
 
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw new NullPointerException(e.getMessage());
+        }finally{
+            Connect.close(con);
         }
         return r;
     }
 
+    @Override
     public boolean containsValue(Object value){
         Categoria a = (Categoria) value;
         return containsKey(a.getKey());
@@ -51,15 +57,18 @@ public class CategoriaDAO extends ConnectDAO implements Map<Integer,Categoria> {
     public Categoria get(Object key){
         Categoria a = null;
         try{
-
-            preparedStatement = connect.prepareStatement("select * from mybd.categoria where id=?");
-            preparedStatement.setInt(1, (Integer)key);
-            resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
-                a = new Categoria(resultSet.getInt("Id"), resultSet.getString("Categoria"), resultSet.getBoolean("Regular"));
+            con = Connect.connect();
+            PreparedStatement pStm = con.prepareStatement("select * from mybd.categoria where id=?");
+            pStm.setInt(1, (Integer)key);
+            ResultSet rs = pStm.executeQuery();
+            if(rs.next()){
+                a = new Categoria(rs.getInt("Id"), rs.getString("Categoria"),rs.getBoolean("Regular"));
             }
 
-        }catch(SQLException e){
+        }catch(ClassNotFoundException | SQLException e){
+             e.printStackTrace();
+        } finally {
+            Connect.close(con);
         }
 
         return a;
@@ -74,23 +83,27 @@ public class CategoriaDAO extends ConnectDAO implements Map<Integer,Categoria> {
     public Categoria put(Integer id,Categoria categoria){
         Categoria a = null;
         try{
-            preparedStatement = connect.prepareStatement("insert into mydb.categoria values (?,?,?)\n" +
-            "ON DUPLICATE KEY UPDATE Id=VALUES(Id),  Categoria=VALUES(Categoria), Regular = VALUES(Regular), statement.RETURN_GENERATED_KEYS");
+            con = Connect.connect();
+            PreparedStatement pStm = con.prepareStatement("insert into mydb.categoria values (?,?,?)\n" +
+            "ON DUPLICATE KEY UPDATE Id=VALUES(Id),  Categoria=VALUES(Categoria), Regular=VALUES(Regular) statement.RETURN_GENERATED_KEYS");
 
-            preparedStatement.setInt(1,categoria.getId());
-            preparedStatement.setString(2,categoria.getCategoria());
-            preparedStatement.setBoolean(3,categoria.getRegular());
-            preparedStatement.executeUpdate();
+            pStm.setInt(1,categoria.getId());
+            pStm.setString(2,categoria.getCategoria());
+            pStm.setBoolean(1,categoria.getRegular());
+            pStm.executeUpdate();
 
-            resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()){
-                int newId = resultSet.getInt(1);
+            ResultSet rs = pStm.getGeneratedKeys();
+            if(rs.next()){
+                int newId = rs.getInt(1);
                 categoria.setId(newId);
             }
             a = categoria;
-        }catch(SQLException e){
-
+        }catch(ClassNotFoundException | SQLException e){
+            e.printStackTrace();
+        }finally {
+            Connect.close(con);
         }
+        
         return a;
     }
 
@@ -105,11 +118,14 @@ public class CategoriaDAO extends ConnectDAO implements Map<Integer,Categoria> {
     public Categoria remove(Object key){
         Categoria a = this.get(key);
         try{
-            preparedStatement = connect.prepareStatement("delete from mydb.categoria where Id = ? ; ");
-            preparedStatement.setInt(1,(int)key);
-            preparedStatement.executeUpdate();
-        }catch (SQLException e){
-
+            con = Connect.connect();
+            PreparedStatement pStm = con.prepareStatement("delete from mydb.categoria where Id = ? ; ");
+            pStm.setInt(1,(int)key);
+            pStm.executeUpdate();
+        }catch (ClassNotFoundException | SQLException e){
+            e.printStackTrace();
+        }finally {
+            Connect.close(con);
         }
         return a;
     }
@@ -118,15 +134,18 @@ public class CategoriaDAO extends ConnectDAO implements Map<Integer,Categoria> {
     public int size(){
         int i=0;
         try{
+            con= Connect.connect();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery("select * form mydb.categoria");
 
-            resultSet = statement.executeQuery("select * form mydb.categoria");
-
-            while(resultSet.next()){
+            while(rs.next()){
                 i++;
             }
 
-        }catch(SQLException e){
+        }catch(ClassNotFoundException | SQLException e){
             throw new NullPointerException(e.getMessage());
+        }finally {
+            Connect.close(con);
         }
 
         return i;
@@ -137,13 +156,18 @@ public class CategoriaDAO extends ConnectDAO implements Map<Integer,Categoria> {
     public Collection<Categoria> values(){
         Collection<Categoria> cat = new HashSet<>();
         try{
-            resultSet = statement.executeQuery("select * from mydb.Categoria");
-            while(resultSet.next()){
-                cat.add(new Categoria(resultSet.getInt("Id"),resultSet.getString("Categoria"),resultSet.getBoolean("Regular")));
+            con = Connect.connect();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery("select * from mydb.categoria");
+            while(rs.next()){
+                cat.add(new Categoria(rs.getInt("Id"),rs.getString("Categoria"),rs.getBoolean("Regular")));
             }
 
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            Connect.close(con);
         }
 
         return cat;
@@ -161,7 +185,7 @@ public class CategoriaDAO extends ConnectDAO implements Map<Integer,Categoria> {
 
     @Override
     public int hashCode(){
-        return this.connect.hashCode();
+        return this.con.hashCode();
     }
 
     @Override

@@ -11,8 +11,7 @@ public class Connect {
 	private static final String PASSWORD = "dsspw";
 
     public static Connection connect() throws SQLException, ClassNotFoundException {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
+           Class.forName("com.mysql.jdbc.Driver");
             return DriverManager.getConnection("jdbc:mysql://"+URL+"/"+DB+"?user="+
 				USERNAME+"&password="+PASSWORD+"&useSSL=false");
     }
@@ -22,7 +21,7 @@ public class Connect {
             if (c != null && !c.isClosed())
 				c.close();
         } catch (Exception e) {
-			e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }

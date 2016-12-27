@@ -1,47 +1,53 @@
 package data;
 
 import Main.Apartamento;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class ApartamentoDAO extends ConnectDAO implements Map<Integer,Apartamento> {
+public class ApartamentoDAO implements Map<Integer,Apartamento> {
 
-
-    private PreparedStatement preparedStatement= null;
-    private ResultSet resultSet = null;
-
-    public ApartamentoDAO() throws Exception{
-    }
+    private Connection con;
 
     @Override
     public void clear(){
         try{
-            preparedStatement = connect.prepareStatement("delete from mydb.apartamento; ");
-            preparedStatement.executeUpdate();
-        }catch (SQLException e){
-
+            con = Connect.connect();
+            Statement stm = con.createStatement();
+            stm.executeUpdate("delete from mydb.apartamento");
+        }catch (ClassNotFoundException | SQLException e) {
+            throw new NullPointerException(e.getMessage()); 
+        } finally {
+            Connect.close(con);
         }
     }
-
+    
+    @Override
     public boolean containsKey(Object key) throws NullPointerException {
         boolean r = false;
 
         try{
+            con = Connect.connect();
+            Statement stm = con.createStatement();
             String sql = "select id from mydb.apartamento where Id ='"+(int)key+"'";
-            resultSet = statement.executeQuery(sql);
-            r=resultSet.next();
+            ResultSet rs = stm.executeQuery(sql);
+            r=rs.next();
 
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw new NullPointerException(e.getMessage());
+        }finally{
+            Connect.close(con);
         }
         return r;
     }
 
+    @Override
     public boolean containsValue(Object value){
         Apartamento a = (Apartamento) value;
         return containsKey(a.getKey());
@@ -51,15 +57,18 @@ public class ApartamentoDAO extends ConnectDAO implements Map<Integer,Apartament
     public Apartamento get(Object key){
         Apartamento a = null;
         try{
-
-            preparedStatement = connect.prepareStatement("select * from mybd.apartamento where id=?");
-            preparedStatement.setInt(1, (Integer)key);
-            resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
-                a = new Apartamento(resultSet.getInt("Id"), resultSet.getFloat("Saldo"));
+            con = Connect.connect();
+            PreparedStatement pStm = con.prepareStatement("select * from mybd.apartamento where id=?");
+            pStm.setInt(1, (Integer)key);
+            ResultSet rs = pStm.executeQuery();
+            if(rs.next()){
+                a = new Apartamento(rs.getInt("Id"), rs.getFloat("Saldo"));
             }
 
-        }catch(SQLException e){
+        }catch(ClassNotFoundException | SQLException e){
+             e.printStackTrace();
+        } finally {
+            Connect.close(con);
         }
 
         return a;
@@ -74,22 +83,26 @@ public class ApartamentoDAO extends ConnectDAO implements Map<Integer,Apartament
     public Apartamento put(Integer id,Apartamento apartamento){
         Apartamento a = null;
         try{
-            preparedStatement = connect.prepareStatement("insert into mydb.apartamento values (?,?)\n" +
+            con = Connect.connect();
+            PreparedStatement pStm = con.prepareStatement("insert into mydb.apartamento values (?,?)\n" +
             "ON DUPLICATE KEY UPDATE Id=VALUES(Id),  Saldo=VALUES(Saldo), statement.RETURN_GENERATED_KEYS");
 
-            preparedStatement.setInt(1,apartamento.getId());
-            preparedStatement.setFloat(2,apartamento.getSaldo());
-            preparedStatement.executeUpdate();
+            pStm.setInt(1,apartamento.getId());
+            pStm.setFloat(2,apartamento.getSaldo());
+            pStm.executeUpdate();
 
-            resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()){
-                int newId = resultSet.getInt(1);
+            ResultSet rs = pStm.getGeneratedKeys();
+            if(rs.next()){
+                int newId = rs.getInt(1);
                 apartamento.setId(newId);
             }
             a = apartamento;
-        }catch(SQLException e){
-
+        }catch(ClassNotFoundException | SQLException e){
+            e.printStackTrace();
+        }finally {
+            Connect.close(con);
         }
+        
         return a;
     }
 
@@ -104,11 +117,14 @@ public class ApartamentoDAO extends ConnectDAO implements Map<Integer,Apartament
     public Apartamento remove(Object key){
         Apartamento a = this.get(key);
         try{
-            preparedStatement = connect.prepareStatement("delete from mydb.apartamento where Id = ? ; ");
-            preparedStatement.setInt(1,(int)key);
-            preparedStatement.executeUpdate();
-        }catch (SQLException e){
-
+            con = Connect.connect();
+            PreparedStatement pStm = con.prepareStatement("delete from mydb.apartamento where Id = ? ; ");
+            pStm.setInt(1,(int)key);
+            pStm.executeUpdate();
+        }catch (ClassNotFoundException | SQLException e){
+            e.printStackTrace();
+        }finally {
+            Connect.close(con);
         }
         return a;
     }
@@ -117,15 +133,18 @@ public class ApartamentoDAO extends ConnectDAO implements Map<Integer,Apartament
     public int size(){
         int i=0;
         try{
+            con= Connect.connect();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery("select * form mydb.apartamento");
 
-            resultSet = statement.executeQuery("select * form mydb.apartamento");
-
-            while(resultSet.next()){
+            while(rs.next()){
                 i++;
             }
 
-        }catch(SQLException e){
+        }catch(ClassNotFoundException | SQLException e){
             throw new NullPointerException(e.getMessage());
+        }finally {
+            Connect.close(con);
         }
 
         return i;
@@ -136,13 +155,18 @@ public class ApartamentoDAO extends ConnectDAO implements Map<Integer,Apartament
     public Collection<Apartamento> values(){
         Collection<Apartamento> cat = new HashSet<>();
         try{
-            resultSet = statement.executeQuery("select * from mydb.apartamento");
-            while(resultSet.next()){
-                cat.add(new Apartamento(resultSet.getInt("Id"),resultSet.getFloat("Saldo")));
+            con = Connect.connect();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery("select * from mydb.apartamento");
+            while(rs.next()){
+                cat.add(new Apartamento(rs.getInt("Id"),rs.getFloat("Saldo")));
             }
 
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            Connect.close(con);
         }
 
         return cat;
@@ -160,7 +184,7 @@ public class ApartamentoDAO extends ConnectDAO implements Map<Integer,Apartament
 
     @Override
     public int hashCode(){
-        return this.connect.hashCode();
+        return this.con.hashCode();
     }
 
     @Override
