@@ -4,7 +4,6 @@ import Main.Categoria;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
@@ -13,65 +12,70 @@ import java.util.Set;
 
 public class CategoriaDAO implements Map<Integer,Categoria> {
 
-    private Connection con;
+    private Connection conn;
 
     @Override
     public void clear(){
-        try{
-            con = Connect.connect();
-            Statement stm = con.createStatement();
-            stm.executeUpdate("delete from mydb.categoria");
-        }catch (ClassNotFoundException | SQLException e) {
-            throw new NullPointerException(e.getMessage()); 
+        try {
+            conn = Connect.connect();
+            Statement stm = conn.createStatement();
+            stm.executeUpdate("DELETE FROM categoria");
+        } catch (Exception e) {
+            throw new NullPointerException(e.getMessage());
         } finally {
             Connect.close(con);
         }
     }
-    
+
     @Override
     public boolean containsKey(Object key) throws NullPointerException {
         boolean r = false;
 
-        try{
-            con = Connect.connect();
-            Statement stm = con.createStatement();
-            String sql = "select id from mydb.categoria where Id ='"+(int)key+"'";
-            ResultSet rs = stm.executeQuery(sql);
-            r=rs.next();
-
-        } catch (ClassNotFoundException | SQLException e) {
+        try {
+            conn = Connect.connect();
+            Statement stm = conn.prepareStatement("SELECT Id FROM categoria WHERE Id = ");
+			stm.setId(1, (Integer) key);
+            ResultSet rs = stm.executeQuery();
+            r = rs.next();
+        } catch (Exception e) {
             throw new NullPointerException(e.getMessage());
-        }finally{
-            Connect.close(con);
+        } finally{
+            Connect.close(conn);
         }
+
         return r;
     }
 
     @Override
     public boolean containsValue(Object value){
-        Categoria a = (Categoria) value;
-        return containsKey(a.getKey());
-        }
+        Categoria c = (Categoria) value;
+        return containsKey(c.getId());
+	}
 
     @Override
     public Categoria get(Object key){
-        Categoria a = null;
-        try{
-            con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("select * from mydb.categoria where id=?");
-            pStm.setInt(1, (Integer)key);
-            ResultSet rs = pStm.executeQuery();
-            if(rs.next()){
-                a = new Categoria(rs.getInt("Id"), rs.getString("Categoria"),rs.getBoolean("Regular"));
-            }
+        Categoria c = null;
 
-        }catch(ClassNotFoundException | SQLException e){
+        try {
+            conn = Connect.connect();
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM categoria WHERE ID = ?");
+            stm.setInt(1, (Integer) key);
+            ResultSet rs = stm.executeQuery();
+
+            if(rs.next()) {
+				int id = rs.getInt("Id");
+				Sting nome = rs.getString("Categoria");
+				boolean recorrente = rs.getBoolean("Regular");
+
+                c = new Categoria(id, nome, recorrente);
+			}
+		} catch (Exception e) {
              e.printStackTrace();
         } finally {
-            Connect.close(con);
+            Connect.close(conn);
         }
 
-        return a;
+        return c;
     }
 
     @Override
@@ -80,94 +84,102 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
     }
 
     @Override
-    public Categoria put(Integer id,Categoria categoria){
-        Categoria a = null;
-        try{
-            con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("insert into mydb.categoria values (?,?,?)\n" +
-            "ON DUPLICATE KEY UPDATE Id=VALUES(Id),  Categoria=VALUES(Categoria), Regular=VALUES(Regular) statement.RETURN_GENERATED_KEYS");
+    public Categoria put(Integer id, Categoria cat){
+        Categoria c = null;
 
-            pStm.setInt(1,categoria.getId());
-            pStm.setString(2,categoria.getCategoria());
-            pStm.setBoolean(1,categoria.getRegular());
+        try {
+            conn = Connect.connect();
+            PreparedStatement stm = conn.prepareStatement(
+				"INSERT INTO categoria VALUES (?,?,?)\n" +
+				"ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Regular=VALUES(Regular)", statement.RETURN_GENERATED_KEYS);
+
+            pStm.setInt(1, cat.getId());
+            pStm.setString(2, cat.getDescricao());
+            pStm.setBoolean(3, cat.isRecorrente());
             pStm.executeUpdate();
 
-            ResultSet rs = pStm.getGeneratedKeys();
-            if(rs.next()){
+            ResultSet rs = stm.getGeneratedKeys();
+
+            if (rs.next()) {
                 int newId = rs.getInt(1);
-                categoria.setId(newId);
+                cat.setId(newId);
             }
-            a = categoria;
-        }catch(ClassNotFoundException | SQLException e){
+
+            c = cat;
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            Connect.close(con);
+        } finally {
+            Connect.close(conn);
         }
-        
-        return a;
+
+        return c;
     }
 
     @Override
-    public void putAll(Map<? extends Integer,? extends Categoria> t) {
-        for(Categoria a : t.values()) {
-            put(a.getId(), a);
-        }
+    public void putAll(Map<? extends Integer,? extends Categoria> collection) {
+        for(Categoria c : collection.values())
+            put(c.getId(), c);
     }
 
     @Override
     public Categoria remove(Object key){
-        Categoria a = this.get(key);
-        try{
-            con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("delete from mydb.categoria where Id = ? ; ");
-            pStm.setInt(1,(int)key);
-            pStm.executeUpdate();
-        }catch (ClassNotFoundException | SQLException e){
+        Categoria c = get(key);
+
+        try {
+            conn = Connect.connect();
+            PreparedStatement stm = conn.prepareStatement("DELETE FROM categoria WHERE Id = ?");
+            stm.setInt(1, (int) key);
+            stm.executeUpdate();
+        } catch (Exception e){
             e.printStackTrace();
-        }finally {
-            Connect.close(con);
+        } finally {
+            Connect.close(conn);
         }
-        return a;
+
+        return c;
     }
 
     @Override
     public int size(){
-        int i=0;
-        try{
-            con= Connect.connect();
-            Statement stm = con.createStatement();
-            ResultSet rs = stm.executeQuery("select * form mydb.categoria");
+        int counter = 0;
 
-            while(rs.next()){
-                i++;
-            }
+        try {
+            conn = Connect.connect();
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT * FROM categoria");
 
-        }catch(ClassNotFoundException | SQLException e){
+            while(rs.next())
+                counter += 1;
+
+        } catch (Exception e){
             throw new NullPointerException(e.getMessage());
-        }finally {
-            Connect.close(con);
+        } finally {
+            Connect.close(conn);
         }
 
-        return i;
-
+        return counter;
     }
 
     @Override
     public Collection<Categoria> values(){
         Collection<Categoria> cat = new HashSet<>();
-        try{
-            con = Connect.connect();
-            Statement stm = con.createStatement();
-            ResultSet rs = stm.executeQuery("select * from mydb.categoria");
+
+        try {
+            conn = Connect.connect();
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT * FROM categoria");
+
             while(rs.next()){
-                cat.add(new Categoria(rs.getInt("Id"),rs.getString("Categoria"),rs.getBoolean("Regular")));
+				int id = rs.getInt("Id");
+				String nome = rs.getNome("Categoria");
+				boolean recorrente = rs.getBoolean("Regular");
+
+                cat.add(new Categoria(id, nome, recorrente);
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            Connect.close(con);
+        } finally {
+            Connect.close(conn);
         }
 
         return cat;
@@ -175,22 +187,21 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
 
     @Override
      public Set<Map.Entry<Integer,Categoria>> entrySet(){
-        throw new NullPointerException("public Set<Map.Entry<Object,Object>> entrySet() not implemented!");
+        throw new NullPointerException("Not implemented");
     }
 
     @Override
     public boolean equals(Object o){
-        throw new NullPointerException("public boolean equals(Object o) not implemented!");
+        throw new NullPointerException("Not implemented");
     }
 
     @Override
     public int hashCode(){
-        return this.con.hashCode();
+        return conn.hashCode();
     }
 
     @Override
     public Set<Integer> keySet(){
-        throw new NullPointerException("Not implemented!");
+        throw new NullPointerException("Not implemented");
     }
-
 }
