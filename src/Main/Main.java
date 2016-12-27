@@ -5,8 +5,7 @@
  */
 package Main;
 import java.sql.*;
-import data.ConnectDAO;
-import data.ApartamentoDAO;
+import data.Connect;
 
 /**
  *
@@ -26,18 +25,11 @@ public class Main {
             // na porta 3306 em localhost
             
             //liga o programa a base de dados
-            ConnectDAO dao = new ConnectDAO();
+            Connect dao = new Connect();
+            Connection c = dao.connect();
             
-            //criar os objetos com os quais queremos comunicar
-            ApartamentoDAO da = new ApartamentoDAO();    
-            //operações sobre os objetos
-            da.writeDB(2, 10);
-            da.readDB();
-            da.deleteById(2);
-            da.readDB();
-                
             //fechar conecção a base de dados
-            dao.close();
+            dao.close(c);
         }
     
 }

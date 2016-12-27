@@ -1,47 +1,56 @@
 package data;
 
+import Main.Despesa;
 import Main.Movimento;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class MovimentoDAO extends ConnectDAO implements Map<Integer,Movimento> {
+public class MovimentoDAO implements Map<Integer,Movimento> {
 
-
-    private PreparedStatement preparedStatement= null;
-    private ResultSet resultSet = null;
-
-    public MovimentoDAO() throws Exception{
-    }
+    private Connection con;
 
     @Override
     public void clear(){
         try{
-            preparedStatement = connect.prepareStatement("delete from mydb.movimento; ");
-            preparedStatement.executeUpdate();
-        }catch (SQLException e){
-
+            con = Connect.connect();
+            Statement stm = con.createStatement();
+            stm.executeUpdate("delete from mydb.movimento");
+            stm.executeUpdate("delete from mydb.despesa");
+            stm.executeUpdate("delete from mydb.racio");
+        }catch (ClassNotFoundException | SQLException e) {
+            throw new NullPointerException(e.getMessage()); 
+        } finally {
+            Connect.close(con);
         }
     }
-
+    
+    @Override
     public boolean containsKey(Object key) throws NullPointerException {
         boolean r = false;
 
         try{
+            con = Connect.connect();
+            Statement stm = con.createStatement();
             String sql = "select id from mydb.movimento where Id ='"+(int)key+"'";
-            resultSet = statement.executeQuery(sql);
-            r=resultSet.next();
+            ResultSet rs = stm.executeQuery(sql);
+            r=rs.next();
 
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw new NullPointerException(e.getMessage());
+        }finally{
+            Connect.close(con);
         }
         return r;
     }
 
+    @Override
     public boolean containsValue(Object value){
         Movimento a = (Movimento) value;
         return containsKey(a.getKey());
@@ -51,17 +60,29 @@ public class MovimentoDAO extends ConnectDAO implements Map<Integer,Movimento> {
     public Movimento get(Object key){
         Movimento a = null;
         try{
-
-            preparedStatement = connect.prepareStatement("select * from mybd.movimento where id=?");
-            preparedStatement.setInt(1, (Integer)key);
-            resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
-                a = new Movimento(resultSet.getInt("Id"), resultSet.getInt("Apartamento"),resultSet.getInt("Morador"),resultSet.getFloat("Valor"),resultSet.getDate("Data"),resultSet.getBoolean("Transacao"));
+            con = Connect.connect();
+            PreparedStatement pStm = con.prepareStatement("select * from mydb.movimento where id=?");
+            pStm.setInt(1, (Integer)key);
+            ResultSet rs = pStm.executeQuery();
+            if(rs.next()){
+                
+                ApartamentoDAO apa = new ApartamentoDAO();
+                MoradorDAO  mor = new MoradorDAO();
+            
+                if(rs.getBoolean("Transacao")){
+                    a = new Movimento(rs.getInt("Id"), apa.get(rs.getInt("Apartamento")),mor.get(rs.getInt("Morador")), rs.getFloat("Valor"), rs.getDate("Data"), rs.getBoolean("Transacao"));
+                }
+                else{
+                    DespesaDAO des = new DespesaDAO();
+                    a = des.get(rs.getInt("Id"));   
+                }
             }
 
-        }catch(SQLException e){
+        }catch(ClassNotFoundException | SQLException e){
+             e.printStackTrace();
+        } finally {
+            Connect.close(con);
         }
-
         return a;
     }
 
@@ -74,25 +95,36 @@ public class MovimentoDAO extends ConnectDAO implements Map<Integer,Movimento> {
     public Movimento put(Integer id,Movimento movimento){
         Movimento a = null;
         try{
-            preparedStatement = connect.prepareStatement("insert into mydb.movimento values (?,?,?,?,?,?)\n" +
-            "ON DUPLICATE KEY UPDATE Id=VALUES(Id),  Apartamento=VALUES(Apartamento), Morador = VALUES(Morador), Valor = VALUES(Valor), Data = VALUES(Data), Transacao = VALUES(Transacao), statement.RETURN_GENERATED_KEYS");
+            
+            if(!movimento.getTransacao()){
+        
+                con = Connect.connect();
+                PreparedStatement pStm = con.prepareStatement("insert into mydb.movimento values (?,?,?,?,?,?)\n" +
+                "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Morador=VALUES(Morador), Valor=VALUES(Valor), Data=VALUES(Data), Transacao=VALUES(Transacao), Apartamento=VALUES(Apartamento), statement.RETURN_GENERATED_KEYS");
 
-            preparedStatement.setInt(1,movimento.getId());
-            preparedStatement.setInt(2,movimento.getApartamento());
-            preparedStatement.setInt(3,movimento.getMorador());
-            preparedStatement.setFloat(4,movimento.getValor());
-            preparedStatement.setDate(5,movimento.getData());
-            preparedStatement.setBoolean(6,movimento.getTransacao());
-            preparedStatement.executeUpdate();
+                pStm.setInt(1,movimento.getId());
+                pStm.setInt(2,movimento.getApartamento().getId());
+                pStm.setInt(3,movimento.getMorador().getId());
+                pStm.setFloat(4,movimento.getValor());
+                pStm.setDate(5,movimento.getData());
+                pStm.setBoolean(4,movimento.getTransacao());
+                pStm.executeUpdate();
 
-            resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()){
-                int newId = resultSet.getInt(1);
-                movimento.setId(newId);
-            }
+                ResultSet rs = pStm.getGeneratedKeys();
+                if(rs.next()){
+                    int newId = rs.getInt(1);
+                    movimento.setId(newId);
+                }
             a = movimento;
-        }catch(SQLException e){
-
+            }
+            else{
+               DespesaDAO des = new DespesaDAO();
+               des.put(movimento.getId(),(Despesa)movimento);
+            }
+        }catch(ClassNotFoundException | SQLException e){
+            e.printStackTrace();
+        }finally {
+            Connect.close(con);
         }
         return a;
     }
@@ -108,11 +140,23 @@ public class MovimentoDAO extends ConnectDAO implements Map<Integer,Movimento> {
     public Movimento remove(Object key){
         Movimento a = this.get(key);
         try{
-            preparedStatement = connect.prepareStatement("delete from mydb.movimento where Id = ? ; ");
-            preparedStatement.setInt(1,(int)key);
-            preparedStatement.executeUpdate();
-        }catch (SQLException e){
-
+            con = Connect.connect();
+            PreparedStatement pStm = con.prepareStatement("delete from mydb.movimento where Id = ? ; ");
+            pStm.setInt(1,(int)key);
+            pStm.executeUpdate();
+            
+            pStm = con.prepareStatement("delete from mydb.despesa where Id = ? ; ");
+            pStm.setInt(1,(int)key);
+            pStm.executeUpdate();
+            
+            pStm = con.prepareStatement("delete from mydb.racio where Despesa = ? ; ");
+            pStm.setInt(1,(int)key);
+            pStm.executeUpdate();
+            
+        }catch (ClassNotFoundException | SQLException e){
+            e.printStackTrace();
+        }finally {
+            Connect.close(con);
         }
         return a;
     }
@@ -121,35 +165,48 @@ public class MovimentoDAO extends ConnectDAO implements Map<Integer,Movimento> {
     public int size(){
         int i=0;
         try{
+            con= Connect.connect();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery("select * form mydb.Movimento");
 
-            resultSet = statement.executeQuery("select * form mydb.movimento");
-
-            while(resultSet.next()){
+            while(rs.next()){
                 i++;
             }
 
-        }catch(SQLException e){
+        }catch(ClassNotFoundException | SQLException e){
             throw new NullPointerException(e.getMessage());
+        }finally {
+            Connect.close(con);
         }
-
         return i;
-
     }
 
     @Override
     public Collection<Movimento> values(){
-        Collection<Movimento> mov = new HashSet<>();
+        Collection<Movimento> cat = new HashSet<>();
         try{
-            resultSet = statement.executeQuery("select * from mydb.movimento");
-            while(resultSet.next()){
-                mov.add(new Movimento(resultSet.getInt("Id"),resultSet.getInt("Apartamento"),resultSet.getInt("Morador"),resultSet.getFloat("Valor"),resultSet.getDate("Data"),resultSet.getBoolean("Transacao")));
+            
+            con = Connect.connect();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery("select * from mydb.Movimento");
+            
+            while(rs.next()){
+                if(rs.getBoolean("Transacao")){
+                    ApartamentoDAO apa = new ApartamentoDAO();
+                    MoradorDAO mor = new MoradorDAO();
+                    cat.add(new Movimento(rs.getInt("Id"), apa.get(rs.getInt("Apartamento")), mor.get(rs.getInt("Morador")), rs.getFloat("Valor"), rs.getDate("Data"), rs.getBoolean("Transacao")));
+                }
+                else{
+                    DespesaDAO des = new DespesaDAO();
+                    cat.add((Despesa) des.get(rs.getInt("Id")));
+                }
             }
-
-
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            Connect.close(con);
         }
-
-        return mov;
+    return cat;
     }
 
     @Override
@@ -164,14 +221,11 @@ public class MovimentoDAO extends ConnectDAO implements Map<Integer,Movimento> {
 
     @Override
     public int hashCode(){
-        return this.connect.hashCode();
+        return this.con.hashCode();
     }
 
     @Override
     public Set<Integer> keySet(){
         throw new NullPointerException("Not implemented!");
     }
-
-
-
 }

@@ -11,7 +11,7 @@ package Main;
  */
 public class Morador {
 
-    public Morador(int aInt, int aInt0, String string, String string0, float aFloat, String string1) {
+    public Morador(int aInt, Apartamento aInt0, String string, String string0, float aFloat, String string1) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -19,7 +19,7 @@ public class Morador {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public int getApartamento() {
+    public Apartamento getApartamento() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

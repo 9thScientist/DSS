@@ -58,7 +58,7 @@ public class ApartamentoDAO implements Map<Integer,Apartamento> {
         Apartamento a = null;
         try{
             con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("select * from mybd.apartamento where id=?");
+            PreparedStatement pStm = con.prepareStatement("select * from mydb.apartamento where id=?");
             pStm.setInt(1, (Integer)key);
             ResultSet rs = pStm.executeQuery();
             if(rs.next()){

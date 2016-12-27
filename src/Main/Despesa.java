@@ -6,6 +6,7 @@
 package Main;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
@@ -14,18 +15,11 @@ import java.util.TreeMap;
  */
 public class Despesa extends Movimento {
 
-    public Despesa(int aInt, int aInt0, int aInt1, float aFloat, Date date, boolean aBoolean, int aInt2, String string, TreeMap<Integer, Float> racios) {
+    
+
+    public Despesa(int aInt, Apartamento get, Morador get0, float aFloat, Date date, boolean aBoolean, Categoria get1, HashMap<Integer, Racio> racios) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     public int getKey(){return 0;}
 
@@ -41,11 +35,15 @@ public class Despesa extends Movimento {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public int getApartamento() {
+    public Apartamento getApartamento() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public TreeMap<Integer, Float> getRacio() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public HashMap<Integer,Racio> getRacios() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

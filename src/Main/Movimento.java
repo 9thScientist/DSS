@@ -13,25 +13,26 @@ import java.sql.Date;
  */
 public class Movimento {
 
-    public Movimento(int aInt, int aInt0, int aInt1, float aFloat, Date date, boolean aBoolean) {
+    public Movimento(int aInt, Apartamento aInt0, Morador aInt1, float aFloat, Date date, boolean aBoolean) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public void setId(int newId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
+    
     public int getKey(){return 0;}
 
     public int getId() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public int getApartamento() {
+    public Apartamento getApartamento() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public int getMorador() {
+    public Morador getMorador() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

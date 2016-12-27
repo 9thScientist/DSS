@@ -58,11 +58,12 @@ public class MoradorDAO implements Map<Integer,Morador> {
         Morador a = null;
         try{
             con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("select * from mybd.morador where id=?");
+            PreparedStatement pStm = con.prepareStatement("select * from mydb.morador where id=?");
             pStm.setInt(1, (Integer)key);
             ResultSet rs = pStm.executeQuery();
             if(rs.next()){
-                a = new Morador(rs.getInt("Id"),rs.getInt("Apartamento"), rs.getString("Nome"), rs.getString("Contacto"), rs.getFloat("Saldo"), rs.getString("Imagem"));
+                ApartamentoDAO apa = new ApartamentoDAO();
+                a = new Morador(rs.getInt("Id"),apa.get(rs.getInt("Apartamento")), rs.getString("Nome"), rs.getString("Contacto"), rs.getFloat("Saldo"), rs.getString("Imagem"));
             }
 
         }catch(ClassNotFoundException | SQLException e){
@@ -88,7 +89,7 @@ public class MoradorDAO implements Map<Integer,Morador> {
             "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Nome=VALUES(Nome), Contacto=VALUES(Contacto), Saldo=VALUES(Saldo), Imagem=VALUES(Imagem),   statement.RETURN_GENERATED_KEYS");
 
             pStm.setInt(1,morador.getId());
-            pStm.setInt(2,morador.getApartamento());
+            pStm.setInt(2,morador.getApartamento().getId());
             pStm.setString(3,morador.getNome());
             pStm.setString(4,morador.getContacto());
             pStm.setFloat(5,morador.getSaldo());
@@ -163,7 +164,8 @@ public class MoradorDAO implements Map<Integer,Morador> {
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery("select * from mydb.morador");
             while(rs.next()){
-                cat.add(new Morador(rs.getInt("Id"),rs.getInt("Apartamento"),rs.getString("Nome"),rs.getString("Contacto"),rs.getFloat("Saldo"),rs.getString("Imagem")));
+                ApartamentoDAO  apa = new ApartamentoDAO();
+                cat.add(new Morador(rs.getInt("Id"),apa.get(rs.getInt("Apartamento")),rs.getString("Nome"),rs.getString("Contacto"),rs.getFloat("Saldo"),rs.getString("Imagem")));
             }
 
 

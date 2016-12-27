@@ -58,7 +58,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
         Categoria a = null;
         try{
             con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("select * from mybd.categoria where id=?");
+            PreparedStatement pStm = con.prepareStatement("select * from mydb.categoria where id=?");
             pStm.setInt(1, (Integer)key);
             ResultSet rs = pStm.executeQuery();
             if(rs.next()){
