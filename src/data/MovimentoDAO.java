@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class MovimentoDAO implements Map<Integer,Movimento> {
+public class MovimentoDAO implements Map<Movimento,Morador> {
 
     private Connection con;
 
@@ -38,7 +38,7 @@ public class MovimentoDAO implements Map<Integer,Movimento> {
         try{
             con = Connect.connect();
             Statement stm = con.createStatement();
-            String sql = "select id from mydb.movimento where Id ='"+(int)key+"'";
+            String sql = "select id from mydb.movimento where Id ='"+(Movimento)key.getId()+"'";
             ResultSet rs = stm.executeQuery(sql);
             r=rs.next();
 
@@ -52,8 +52,7 @@ public class MovimentoDAO implements Map<Integer,Movimento> {
 
     @Override
     public boolean containsValue(Object value){
-        Movimento a = (Movimento) value;
-        return containsKey(a.getKey());
+        throw new NullPointerException("public boolean containsValue(Object o) not implemented!");
         }
 
     @Override
@@ -62,7 +61,7 @@ public class MovimentoDAO implements Map<Integer,Movimento> {
         try{
             con = Connect.connect();
             PreparedStatement pStm = con.prepareStatement("select * from mydb.movimento where id=?");
-            pStm.setInt(1, (Integer)key);
+            pStm.setInt(1, (Movimento)key.getId());
             ResultSet rs = pStm.executeQuery();
             if(rs.next()){
                 
@@ -92,7 +91,7 @@ public class MovimentoDAO implements Map<Integer,Movimento> {
     }
 
     @Override
-    public Movimento put(Integer id,Movimento movimento){
+    public Movimento put(Movimento movimento,Morador morador){
         Movimento a = null;
         try{
             
@@ -142,15 +141,15 @@ public class MovimentoDAO implements Map<Integer,Movimento> {
         try{
             con = Connect.connect();
             PreparedStatement pStm = con.prepareStatement("delete from mydb.movimento where Id = ? ; ");
-            pStm.setInt(1,(int)key);
+            pStm.setInt(1,(Movimento)key.getId());
             pStm.executeUpdate();
             
             pStm = con.prepareStatement("delete from mydb.despesa where Id = ? ; ");
-            pStm.setInt(1,(int)key);
+            pStm.setInt(1,(Movimento)key.getId());
             pStm.executeUpdate();
             
             pStm = con.prepareStatement("delete from mydb.racio where Despesa = ? ; ");
-            pStm.setInt(1,(int)key);
+            pStm.setInt(1,(Movimento)key.getId());
             pStm.executeUpdate();
             
         }catch (ClassNotFoundException | SQLException e){
@@ -210,7 +209,7 @@ public class MovimentoDAO implements Map<Integer,Movimento> {
     }
 
     @Override
-     public Set<Map.Entry<Integer,Movimento>> entrySet(){
+     public Set<Map.Entry<Movimento,Morador>> entrySet(){
         throw new NullPointerException("public Set<Map.Entry<Object,Object>> entrySet() not implemented!");
     }
 

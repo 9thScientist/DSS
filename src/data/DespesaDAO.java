@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class DespesaDAO implements Map<Integer,Despesa> {
+public class DespesaDAO implements Map<Despesa,Morador> {
 
     private Connection con;
 
@@ -53,7 +53,7 @@ public class DespesaDAO implements Map<Integer,Despesa> {
         try{
             con = Connect.connect();
             Statement stm = con.createStatement();
-            String sql = "select id from mydb.despesa where Id ='"+(int)key+"'";
+            String sql = "select id from mydb.despesa where Id ='"+(Despesa)key.getId()+"'";
             ResultSet rs = stm.executeQuery(sql);
             r=rs.next();
 
@@ -67,9 +67,8 @@ public class DespesaDAO implements Map<Integer,Despesa> {
 
     @Override
     public boolean containsValue(Object value){
-        Despesa a = (Despesa) value;
-        return containsKey(a.getKey());
-        }
+        throw new NullPointerException("public boolean containsValue(Object o) not implemented!");
+    }
 
     @Override
     public Despesa get(Object key){
@@ -77,15 +76,15 @@ public class DespesaDAO implements Map<Integer,Despesa> {
         try{
             con = Connect.connect();
             PreparedStatement pStm = con.prepareStatement("select * from mydb.despesa where id=?");
-            pStm.setInt(1, (Integer)key);
+            pStm.setInt(1, (Despesa)key.getId());
             ResultSet rs = pStm.executeQuery();
             
             PreparedStatement pStmM = con.prepareStatement("select * from mydb.movimento where id=?");
-            pStmM.setInt(1, (Integer)key);
+            pStmM.setInt(1, (Despesa)key.getId());
             ResultSet rsM = pStmM.executeQuery();
             
             PreparedStatement pStmR = con.prepareStatement("select * from mydb.racio where Despesa=?");
-            pStmR.setInt(1, (Integer)key);
+            pStmR.setInt(1, (Despesa)key.getId());
             ResultSet rsR = pStmR.executeQuery();
             
             PreparedStatement pStmC = con.prepareStatement("select * from mydb.categoria where Id=?");
@@ -117,12 +116,12 @@ public class DespesaDAO implements Map<Integer,Despesa> {
     }
 
     @Override
-    public Despesa put(Integer id,Despesa despesa){
+    public Despesa put(Despesa despesa,Morador morador){
         Despesa a = null;
         try{
             con = Connect.connect();
             PreparedStatement pStm = con.prepareStatement("insert into mydb.despesa values (?,?,?)\n" +
-            "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Descrição= VALUES(Descrição) statement.RETURN_GENERATED_KEYS");
+            "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Descrição= VALUES(Descrição)", Statement.RETURN_GENERATED_KEYS);
 
             pStm.setInt(1,despesa.getId());
             pStm.setInt(2,despesa.getCategoria());
@@ -164,7 +163,7 @@ public class DespesaDAO implements Map<Integer,Despesa> {
     }
 
     @Override
-    public void putAll(Map<? extends Integer,? extends Despesa> t) {
+    public void putAll(Map<? extends Despesa,? extends Morador> t) {
         for(Despesa a : t.values()) {
             put(a.getId(), a);
         }
@@ -176,13 +175,13 @@ public class DespesaDAO implements Map<Integer,Despesa> {
         try{
             con = Connect.connect();
             PreparedStatement pStm = con.prepareStatement("delete from mydb.despesa where Id = ? ; ");
-            pStm.setInt(1,(int)key);
+            pStm.setInt(1,(Despesa)key.getId());
             pStm.executeUpdate();
             pStm = con.prepareStatement("delete from mydb.movimento where Id = ? ; ");
-            pStm.setInt(1,(int)key);
+            pStm.setInt(1,(Despesa)key.getId());
             pStm.executeUpdate();
             pStm = con.prepareStatement("delete from mydb.racio where Despesa = ? ; ");
-            pStm.setInt(1,(int)key);
+            pStm.setInt(1,(Despesa)key.getId());
             pStm.executeUpdate();
             
         }catch (ClassNotFoundException | SQLException e){
@@ -256,7 +255,7 @@ public class DespesaDAO implements Map<Integer,Despesa> {
     }
 
     @Override
-     public Set<Map.Entry<Integer,Despesa>> entrySet(){
+     public Set<Map.Entry<Despesa,Morador>> entrySet(){
         throw new NullPointerException("public Set<Map.Entry<Object,Object>> entrySet() not implemented!");
     }
 
