@@ -1,6 +1,7 @@
 package data;
 
 import Main.Despesa;
+import Main.Morador;
 import Main.Racio;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -92,14 +93,12 @@ public class DespesaDAO implements Map<Integer,Despesa> {
             ResultSet rsC = pStmC.executeQuery();
             
             if(rs.next()){
-                HashMap<Integer, Racio> racios = new HashMap<>();
-                int i =1;
+                HashMap<Morador, Float> racios = new HashMap<>();
                 MoradorDAO mor = new MoradorDAO();
                 ApartamentoDAO apa = new ApartamentoDAO();
                 CategoriaDAO cat = new CategoriaDAO();
                 while(rsR.next()){
-                    racios.put(i,new Racio(mor.get(rsR.getInt("Id")),rsR.getFloat("Valor")));
-                    i++;
+                    racios.put(mor.get(rsR.getInt("Id")),rsR.getFloat("Valor"));
                 }
                 a = new Despesa(rsM.getInt("Id"), apa.get(rsM.getInt("Apartamento")), mor.get(rsM.getInt("Morador")), rsM.getFloat("Valor"), rsM.getDate("Data"), rsM.getBoolean("Transacao"),cat.get(rs.getInt("Categoria")),racios);
             }
@@ -140,16 +139,15 @@ public class DespesaDAO implements Map<Integer,Despesa> {
             pStm.setDate(5,despesa.getData());
             pStm.setBoolean(6,despesa.getTransacao());
             pStm.executeUpdate();
-            
-            for(Racio r : despesa.getRacios().values()) {
+            for(Map.Entry<Morador,Float> r : despesa.getRacios().entrySet()) {
                 
-                pStm = con.prepareStatement("insert into mydb.racio values (?,?,?)\n" +
+                PreparedStatement pStmR = con.prepareStatement("insert into mydb.racio values (?,?,?)\n" +
                 "ON DUPLICATE KEY UPDATE Morador=VALUES(Morador), Despesa=VALUES(Despesa), Racio=VALUES(Racio), statement.RETURN_GENERATED_KEYS");
 
-                pStm.setInt(1,r.getMorador().getId());
-                pStm.setInt(2,r.getDespesa());
-                pStm.setFloat(3,r.getRacio());
-                pStm.executeUpdate();
+                pStmR.setInt(1,r.getKey().getId());
+                pStmR.setInt(2,despesa.getId());
+                pStmR.setFloat(3,r.getValue());
+                pStmR.executeUpdate();
             }
             ResultSet rs = pStm.getGeneratedKeys();
             if(rs.next()){
@@ -239,19 +237,17 @@ public class DespesaDAO implements Map<Integer,Despesa> {
                 pStmR.setInt(1, rs.getInt("Categoria"));
                 ResultSet rsC = pStmC.executeQuery();
 
-                HashMap<Integer, Racio> racios = new HashMap<>();
-                int i =1;
+                HashMap<Morador, Float> racios = new HashMap<>();
+                
                 MoradorDAO mor = new MoradorDAO();
                 ApartamentoDAO apa = new ApartamentoDAO();
                 CategoriaDAO cate = new CategoriaDAO();
                 while(rsR.next()){
-                    racios.put(i,new Racio(mor.get(rsR.getInt("Id")),rsR.getFloat("Valor")));
-                    i++;
-                
+                    racios.put(mor.get(rsM.getInt("Morador")),rsR.getFloat("Valor"));
                 }
                 cat.add(new Despesa(rsM.getInt("Id"), apa.get(rsM.getInt("Apartamento")), mor.get(rsM.getInt("Morador")), rsM.getFloat("Valor"), rsM.getDate("Data"), rsM.getBoolean("Transacao"),cate.get(rs.getInt("Categoria")),racios));
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }finally {
             Connect.close(con);

@@ -5,39 +5,25 @@
  */
 package Main;
 
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.TreeMap;
-
 /**
  *
  * @author andre
  */
-public class Despesa extends Movimento {
+public class Racio {
 
-    public Despesa(int aInt, Apartamento get, Morador get0, float aFloat, Date date, boolean aBoolean, Categoria get1, HashMap<Morador, Float> racios) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    public int getKey(){return 0;}
-
-    public int getId() {
+    public Racio(Morador get, float aFloat) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public int getCategoria() {
+    public Morador getMorador() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public String getDescricao() {
+    public int getDespesa() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public Apartamento getApartamento() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public HashMap<Morador,Float> getRacios() {
+    public float getRacio() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
