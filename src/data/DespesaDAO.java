@@ -99,7 +99,7 @@ public class DespesaDAO implements Map<Despesa,Morador> {
                 while(rsR.next()){
                     racios.put(mor.get(rsR.getInt("Id")),rsR.getFloat("Valor"));
                 }
-                a = new Despesa(rsM.getInt("Id"), apa.get(rsM.getInt("Apartamento")), mor.get(rsM.getInt("Morador")), rsM.getFloat("Valor"), rsM.getDate("Data"), rsM.getBoolean("Transacao"),cat.get(rs.getInt("Categoria")),racios);
+                a = new Despesa(rsM.getInt("Id"), apa.get(rsM.getInt("Apartamento")), mor.get(rsM.getInt("Morador")), rsM.getFloat("Valor"), rsM.getDate("Data"), rsM.getBoolean("Transacao"),rs.getBoolean("Pago"),rs.getString("Descricao"),cat.get(rs.getInt("Categoria")),racios);
             }
 
         }catch(ClassNotFoundException | SQLException e){
@@ -120,12 +120,13 @@ public class DespesaDAO implements Map<Despesa,Morador> {
         Despesa a = null;
         try{
             con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("insert into mydb.despesa values (?,?,?)\n" +
-            "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Descrição= VALUES(Descrição)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement pStm = con.prepareStatement("insert into mydb.despesa values (?,?,?,?)\n" +
+            "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Descrição= VALUES(Descrição),Pago= VALUES(Pago)", Statement.RETURN_GENERATED_KEYS);
 
             pStm.setInt(1,despesa.getId());
             pStm.setInt(2,despesa.getCategoria());
             pStm.setString(3,despesa.getDescricao());
+            pStm.setBoolean(4,despesa.getPago());
             pStm.executeUpdate();
             
             pStm = con.prepareStatement("insert into mydb.movimento values (?,?,?,?,?,?)\n" +
@@ -244,7 +245,7 @@ public class DespesaDAO implements Map<Despesa,Morador> {
                 while(rsR.next()){
                     racios.put(mor.get(rsM.getInt("Morador")),rsR.getFloat("Valor"));
                 }
-                cat.add(new Despesa(rsM.getInt("Id"), apa.get(rsM.getInt("Apartamento")), mor.get(rsM.getInt("Morador")), rsM.getFloat("Valor"), rsM.getDate("Data"), rsM.getBoolean("Transacao"),cate.get(rs.getInt("Categoria")),racios));
+                cat.add(new Despesa(rsM.getInt("Id"), apa.get(rsM.getInt("Apartamento")), mor.get(rsM.getInt("Morador")), rsM.getFloat("Valor"), rsM.getDate("Data"), rsM.getBoolean("Transacao"),rs.getBoolean("Pago"),rs.getString("Descrição"),cate.get(rs.getInt("Categoria")),racios));
             }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

@@ -91,7 +91,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
             conn = Connect.connect();
             PreparedStatement stm = conn.prepareStatement(
 				"INSERT INTO categoria VALUES (?,?,?)\n" +
-				"ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Regular=VALUES(Regular)", statement.RETURN_GENERATED_KEYS);
+				"ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Regular=VALUES(Regular)", Statement.RETURN_GENERATED_KEYS);
 
             pStm.setInt(1, cat.getId());
             pStm.setString(2, cat.getDescricao());
@@ -172,7 +172,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
             while(rs.next()){
 				int id = rs.getInt("Id");
 				String nome = rs.getNome("Categoria");
-				boolean recorrente = rs.getBoolean("Regular");
+				boolean recorrente = rs.getBoolean("Recorrente");
 
                 cat.add(new Categoria(id, nome, recorrente);
             }
