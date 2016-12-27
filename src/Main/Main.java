@@ -34,6 +34,7 @@ public class Main {
             da.writeDB(2, 10);
             da.readDB();
             da.deleteById(2);
+            da.readDB();
                 
             //fechar conecção a base de dados
             dao.close();
