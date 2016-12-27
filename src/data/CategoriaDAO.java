@@ -1,13 +1,15 @@
 package data;
 
+import Main.Categoria;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Map;
 
 
 
-public class CategoriaDAO extends ConnectDAO {
+public class CategoriaDAO extends ConnectDAO implements Map<Integer, Categoria>{
     
    
     private PreparedStatement preparedStatement= null;

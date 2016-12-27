@@ -1,92 +1,153 @@
 package data;
 
+import Main.Morador;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
 
-
-public class MoradorDAO extends ConnectDAO {
+public class MoradorDAO extends ConnectDAO implements Map<Integer,Morador> {
     
+   
     private PreparedStatement preparedStatement= null;
     private ResultSet resultSet = null;
     
     public MoradorDAO() throws Exception{
-        statement = connect.createStatement();
     }
-    
-    
-    public void readDB() throws SQLException{
-        try{
-            resultSet= statement.executeQuery("select * from mydb.morador");
 
-            while(resultSet.next()){
-                int id = resultSet.getInt("Id");
-                String nome = resultSet.getString ("Nome");
-                String contacto = resultSet.getString ("Contacto");
-                float saldo = resultSet.getFloat ("Saldo");
-                String imagem = resultSet.getString ("Imagem");
-                
-                
-                System.out.println("Id: " +id);
-                System.out.println("Nome: " + nome);
-                System.out.println("Contacto: " + contacto);
-                System.out.println("Saldo: " + saldo);
-                System.out.println("Imagem: " + imagem);
-                
-            
-            }
-        }catch( SQLException e){
+    @Override 
+    public void clear(){
+        try{
+            preparedStatement = connect.prepareStatement("delete from mydb.morador; ");
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
         
         }
-    
-    
     }
     
-    
-    public void writeDB(int id,String nome, String contacto, float saldo, String imagem) throws SQLException{
-        try{
-            preparedStatement = connect.prepareStatement("insert into mydb.morador values (?,?,?,?,?)");
-            preparedStatement.setInt(1,id);
-            preparedStatement.setString(2,nome);
-            preparedStatement.setString(3,contacto);
-            preparedStatement.setFloat(4,saldo);
-            preparedStatement.setString(5,imagem);
-            preparedStatement.executeUpdate();
+    public boolean cointainsKey(int key) throws NullPointerException {
+        boolean r = false;
         
+        try{
+            String sql = "select id from mydb.morador where Id ='"+Integer.toString(key)+"'";
+            resultSet = statement.executeQuery(sql);
+            r=resultSet.next();
+        
+        } catch (SQLException e) {
+            throw new NullPointerException(e.getMessage());
+        }
+        return r;
+    }
+    
+    public boolean cointainsValue(Morador value){
+        Morador a = (Morador) value;
+        return containsKey(a.getKey());
+        }
+    
+    @Override
+    public Morador get(Object key){
+        Morador a = null;
+        try{
+        
+            preparedStatement = connect.prepareStatement("select * from mybd.morador where id=?");
+            preparedStatement.setInt(1, (Integer)key);
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                a = new Morador(resultSet.getInt("Id"), resultSet.getInt("Apartamento"), resultSet.getString("Nome"), resultSet.getString("Contacto"), resultSet.getFloat("Saldo"), resultSet.getString("Imagem"));
+            }
+            
+        }catch(SQLException e){
+        }
+        
+        return a;
+    }
+    
+    @Override
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+    
+    @Override
+    public Morador put(Integer id,Morador morador){
+        Morador a = null;
+        try{
+            preparedStatement = connect.prepareStatement("insert into mydb.Morador values (?,?,?,?,?,?)\n" +
+            "ON DUPLICATE KEY UPDATE Id=VALUES(Id),  Apartamento=VALUES(Apartamento), Nome = VALUES(Nome), Contacto = VALUES(Contacto), Saldo = VALUES(Saldo), Imagem = VALUES(Imagem), statement.RETURN_GENERATED_KEYS");
+            
+            preparedStatement.setInt(1,morador.getId());
+            preparedStatement.setInt(2,morador.getApartamento());
+            preparedStatement.setString(3,morador.getNome());
+            preparedStatement.setString(4,morador.getContacto());
+            preparedStatement.setFloat(5,morador.getSaldo());
+            preparedStatement.setString(6,morador.getImagem());
+            preparedStatement.executeUpdate();
+            
+            resultSet = statement.getGeneratedKeys();
+            if(resultSet.next()){
+                int newId = resultSet.getInt(1);
+                morador.setId(newId);
+            }
+            a = morador;
         }catch(SQLException e){
         
         }
+        return a;
     }
-    
-    public void deleteById(int res) throws SQLException{
+
+    @Override
+    public void putAll(Map<? extends Integer,? extends Morador> t) {
+        for(Morador a : t.values()) {
+            put(a.getId(), a);
+        }
+    }
+
+    @Override
+    public Morador remove(Object key){
+        Morador a = this.get(key);
         try{
             preparedStatement = connect.prepareStatement("delete from mydb.morador where Id = ? ; ");
-            preparedStatement.setInt(1,res);
+            preparedStatement.setInt(1,(int)key);
             preparedStatement.executeUpdate();
         }catch (SQLException e){
         
         }
+        return a;
     }
     
-    public void deleteByNome(String nome) throws SQLException{
+    @Override
+    public int size(){
+        int i=0;
         try{
-            preparedStatement = connect.prepareStatement("delete from mydb.apartamento where Nome = ? ; ");
-            preparedStatement.setString(1,nome);
-            preparedStatement.executeUpdate();
-        }catch (SQLException e){
-        
+            
+            resultSet = statement.executeQuery("select * form mydb.morador");
+            
+            while(resultSet.next()){
+                i++;
+            }
+       
+        }catch(SQLException e){
+            throw new NullPointerException(e.getMessage());
         }
+        
+        return i;
+    
     }
     
-    public void deleteByContacto(String contacto) throws SQLException{
+    @Override
+    public Collection<Morador> values(){
+        Collection<Morador> cat = new HashSet<>();
         try{
-            preparedStatement = connect.prepareStatement("delete from mydb.apartamento where Nome = ? ; ");
-            preparedStatement.setString(1,contacto);
-            preparedStatement.executeUpdate();
-        }catch (SQLException e){
+            resultSet = statement.executeQuery("select * from mydb.morador");
+            while(resultSet.next()){
+                cat.add(new Morador(resultSet.getInt("Id"),resultSet.getInt("Apartamento"),resultSet.getString("Nome"),resultSet.getString("Contacto"),resultSet.getFloat("Saldo"),resultSet.getString("Imagem")));
+            }
         
+        
+        } catch (SQLException e) {
         }
-    }
-    
         
+        return cat;
+    }  
 }
