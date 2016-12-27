@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class MoradorDAO extends ConnectDAO implements Map<Integer,Morador> {
     
@@ -27,11 +28,11 @@ public class MoradorDAO extends ConnectDAO implements Map<Integer,Morador> {
         }
     }
     
-    public boolean cointainsKey(int key) throws NullPointerException {
+    public boolean containsKey(Object key) throws NullPointerException {
         boolean r = false;
         
         try{
-            String sql = "select id from mydb.morador where Id ='"+Integer.toString(key)+"'";
+            String sql = "select id from mydb.morador where Id ='"+(int)key+"'";
             resultSet = statement.executeQuery(sql);
             r=resultSet.next();
         
@@ -41,7 +42,7 @@ public class MoradorDAO extends ConnectDAO implements Map<Integer,Morador> {
         return r;
     }
     
-    public boolean cointainsValue(Morador value){
+    public boolean containsValue(Object value){
         Morador a = (Morador) value;
         return containsKey(a.getKey());
         }
@@ -150,4 +151,28 @@ public class MoradorDAO extends ConnectDAO implements Map<Integer,Morador> {
         
         return cat;
     }  
+    
+    
+    @Override
+     public Set<Map.Entry<Integer,Morador>> entrySet(){
+        throw new NullPointerException("public Set<Map.Entry<Object,Object>> entrySet() not implemented!");
+    }
+     
+    @Override
+    public boolean equals(Object o){
+        throw new NullPointerException("public boolean equals(Object o) not implemented!");
+    }
+    
+    @Override
+    public int hashCode(){
+        return this.connect.hashCode();
+    }
+    
+    @Override
+    public Set<Integer> keySet(){
+        throw new NullPointerException("Not implemented!");
+    }
+    
+    
+    
 }

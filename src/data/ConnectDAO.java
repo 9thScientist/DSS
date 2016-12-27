@@ -36,29 +36,4 @@ public class ConnectDAO {
     public Connection getCon(){
         return connect;
     }
-    
-    
-    
-    
-    
-    public Set<Map.Entry<Object,Object>> entrySet(){
-        throw new NullPointerException("public Set<Map.Entry<Object,Object>> entrySet() not implemented!");
-    }
-    
-    public boolean equals(Object o){
-        throw new NullPointerException("public boolean equals(Object o) not implemented!");
-    }
-    
-    public int hashCode(){
-        return this.connect.hashCode();
-    }
-    
-    public Set<Object> keySet(){
-        throw new NullPointerException("Not implemented!");
-    }
-    
-    
-    
-    
-    
 }

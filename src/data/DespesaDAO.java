@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class DespesaDAO extends ConnectDAO implements Map<Integer,Despesa> {
@@ -49,11 +50,11 @@ public class DespesaDAO extends ConnectDAO implements Map<Integer,Despesa> {
         }
     }
     
-    public boolean cointainsKey(int key) throws NullPointerException {
+    public boolean containsKey(Object key) throws NullPointerException {
         boolean r = false;
         
         try{
-            String sql = "select id from mydb.despesa where Id ='"+Integer.toString(key)+"'";
+            String sql = "select id from mydb.despesa where Id ='"+(int) key+"'";
             resultSet = statement.executeQuery(sql);
             r=resultSet.next();
         
@@ -63,7 +64,7 @@ public class DespesaDAO extends ConnectDAO implements Map<Integer,Despesa> {
         return r;
     }
     
-    public boolean cointainsValue(Despesa value){
+    public boolean containsValue(Object value){
         Despesa a = (Despesa) value;
         return containsKey(a.getKey());
         }
@@ -247,4 +248,28 @@ public class DespesaDAO extends ConnectDAO implements Map<Integer,Despesa> {
         
         return cat;
     }  
+    
+    @Override
+     public Set<Map.Entry<Integer,Despesa>> entrySet(){
+        throw new NullPointerException("public Set<Map.Entry<Object,Object>> entrySet() not implemented!");
+    }
+     
+    @Override
+    public boolean equals(Object o){
+        throw new NullPointerException("public boolean equals(Object o) not implemented!");
+    }
+    
+    @Override
+    public int hashCode(){
+        return this.connect.hashCode();
+    }
+    
+    @Override
+    public Set<Integer> keySet(){
+        throw new NullPointerException("Not implemented!");
+    }
+    
+    
+    
+    
 }
