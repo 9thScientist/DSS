@@ -1,9 +1,10 @@
 import java.util.*;
+import data.MoradorDAO;
 
 public class Apartamento {
 	private int id;
 	private float saldo;
-	private Map<Integer, Morador> moradores;
+	private MoradorDAO moradores;
 
 	public Apartamento(int id, float s) {
 		this.id = id;

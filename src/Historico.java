@@ -1,8 +1,12 @@
 import java.util.*;
+import data.MovimentoDAO;
+import data.DespesaDAO;
+import data.CategoriaDAO;
 
 public class Historico {
-	private Map<Integer, Movimento> historico;
-	private Map<Integer, Categoria> categorias;
+	private MovimentoDAO historico;
+	private DespesaDAO despesas;
+	private CategoriaDAO categorias;
 
 	public Historico() {
 		historico = new TreeMap<>();
@@ -63,7 +67,9 @@ public class Historico {
 	}
 
 	public void addMovimento(Movimento m) {
-		historico.put(m.getId(), m);
+		if (m.getClass().getSimpleName().equals("Despesa"))
+			despesas.put(m.getId(), m);
+		else historico.put(m.getId(), m);
 	}
 
 	public void editMovimento(int movimento, Movimento n_movimento) {
