@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Movimento {
+public class Movimento implements Comparable<Movimento> {
 	private int id;
 	private Apartamento apartamento;
 	private Morador morador;
@@ -89,5 +89,9 @@ public class Movimento {
 		data = m.getData();
 		valor = m.getValor();
 		transacao = m.isTransacao();
+	}
+
+	public int compareTo(Movimento mov) {
+		return data.compareTo(mov.data);
 	}
 }
