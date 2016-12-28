@@ -15,7 +15,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
     private Connection conn;
 
     @Override
-    public void clear(){
+    public void clear() {
         try {
             conn = Connect.connect();
             Statement stm = conn.createStatement();
@@ -23,39 +23,36 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
         } catch (Exception e) {
             throw new NullPointerException(e.getMessage());
         } finally {
-            Connect.close(con);
+            Connect.close(conn);
         }
     }
 
     @Override
     public boolean containsKey(Object key) throws NullPointerException {
         boolean r = false;
-
         try {
             conn = Connect.connect();
-            Statement stm = conn.prepareStatement("SELECT Id FROM categoria WHERE Id = ");
-			stm.setId(1, (Integer) key);
-            ResultSet rs = stm.executeQuery();
+            Statement stm = conn.createStatement();
+            String sql = "select id from mydb.categoria where Id ='"+(int)key+"'";
+            ResultSet rs = stm.executeQuery(sql);
             r = rs.next();
         } catch (Exception e) {
             throw new NullPointerException(e.getMessage());
         } finally{
             Connect.close(conn);
         }
-
         return r;
     }
 
     @Override
-    public boolean containsValue(Object value){
+    public boolean containsValue(Object value) {
         Categoria c = (Categoria) value;
         return containsKey(c.getId());
-	}
+    }
 
     @Override
-    public Categoria get(Object key){
+    public Categoria get(Object key) {
         Categoria c = null;
-
         try {
             conn = Connect.connect();
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM categoria WHERE ID = ?");
@@ -63,18 +60,16 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
             ResultSet rs = stm.executeQuery();
 
             if(rs.next()) {
-				int id = rs.getInt("Id");
-				Sting nome = rs.getString("Categoria");
-				boolean recorrente = rs.getBoolean("Regular");
-
+                int id = rs.getInt("Id");
+                Sting nome = rs.getString("Categoria");
+                boolean recorrente = rs.getBoolean("Regular");
                 c = new Categoria(id, nome, recorrente);
-			}
-		} catch (Exception e) {
+            }
+	} catch (Exception e) {
              e.printStackTrace();
         } finally {
             Connect.close(conn);
         }
-
         return c;
     }
 
@@ -84,7 +79,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
     }
 
     @Override
-    public Categoria put(Integer id, Categoria cat){
+    public Categoria put(Integer id, Categoria cat) {
         Categoria c = null;
 
         try {
@@ -93,25 +88,17 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
 				"INSERT INTO categoria VALUES (?,?,?)\n" +
 				"ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Regular=VALUES(Regular)", Statement.RETURN_GENERATED_KEYS);
 
-            pStm.setInt(1, cat.getId());
-            pStm.setString(2, cat.getDescricao());
-            pStm.setBoolean(3, cat.isRecorrente());
-            pStm.executeUpdate();
-
+            stm.setInt(1, cat.getId());
+            stm.setString(2, cat.getDescricao());
+            stm.setBoolean(3, cat.isRecorrente());
+            stm.executeUpdate();
             ResultSet rs = stm.getGeneratedKeys();
-
-            if (rs.next()) {
-                int newId = rs.getInt(1);
-                cat.setId(newId);
-            }
-
             c = cat;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             Connect.close(conn);
         }
-
         return c;
     }
 
@@ -122,9 +109,8 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
     }
 
     @Override
-    public Categoria remove(Object key){
+    public Categoria remove(Object key) {
         Categoria c = get(key);
-
         try {
             conn = Connect.connect();
             PreparedStatement stm = conn.prepareStatement("DELETE FROM categoria WHERE Id = ?");
@@ -135,73 +121,64 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
         } finally {
             Connect.close(conn);
         }
-
         return c;
     }
 
     @Override
-    public int size(){
+    public int size() {
         int counter = 0;
-
         try {
             conn = Connect.connect();
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery("SELECT * FROM categoria");
-
             while(rs.next())
                 counter += 1;
-
         } catch (Exception e){
             throw new NullPointerException(e.getMessage());
         } finally {
             Connect.close(conn);
         }
-
         return counter;
     }
 
     @Override
-    public Collection<Categoria> values(){
+    public Collection<Categoria> values() {
         Collection<Categoria> cat = new HashSet<>();
-
         try {
             conn = Connect.connect();
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery("SELECT * FROM categoria");
-
-            while(rs.next()){
-				int id = rs.getInt("Id");
-				String nome = rs.getNome("Categoria");
-				boolean recorrente = rs.getBoolean("Recorrente");
-
-                cat.add(new Categoria(id, nome, recorrente);
+        while(rs.next()){
+            int id = rs.getInt("Id");
+            String nome = rs.getNome("Categoria");
+            boolean recorrente = rs.getBoolean("Recorrente");
+            cat.add(new Categoria(id, nome, recorrente);
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             Connect.close(conn);
         }
-
         return cat;
     }
 
     @Override
-     public Set<Map.Entry<Integer,Categoria>> entrySet(){
+     public Set<Map.Entry<Integer,Categoria>> entrySet() {
         throw new NullPointerException("Not implemented");
     }
 
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         throw new NullPointerException("Not implemented");
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return conn.hashCode();
     }
 
     @Override
-    public Set<Integer> keySet(){
+    public Set<Integer> keySet() {
         throw new NullPointerException("Not implemented");
     }
 }

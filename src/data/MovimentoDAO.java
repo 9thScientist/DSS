@@ -12,12 +12,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class MovimentoDAO implements Map<Movimento,Morador> {
+public class MovimentoDAO implements Map<Integer,Movimento> {
 
     private Connection con;
 
     @Override
-    public void clear(){
+    public void clear() {
         try{
             con = Connect.connect();
             Statement stm = con.createStatement();
@@ -34,14 +34,12 @@ public class MovimentoDAO implements Map<Movimento,Morador> {
     @Override
     public boolean containsKey(Object key) throws NullPointerException {
         boolean r = false;
-
         try{
             con = Connect.connect();
             Statement stm = con.createStatement();
-            String sql = "select id from mydb.movimento where Id ='"+(Movimento)key.getId()+"'";
+            String sql = "select id from mydb.movimento where Id ='"+(Integer)key+"'";
             ResultSet rs = stm.executeQuery(sql);
             r=rs.next();
-
         } catch (ClassNotFoundException | SQLException e) {
             throw new NullPointerException(e.getMessage());
         }finally{
@@ -51,23 +49,22 @@ public class MovimentoDAO implements Map<Movimento,Morador> {
     }
 
     @Override
-    public boolean containsValue(Object value){
+    public boolean containsValue(Object value) {
         throw new NullPointerException("public boolean containsValue(Object o) not implemented!");
-        }
+    }
 
     @Override
-    public Movimento get(Object key){
+    public Movimento get(Object key) {
         Movimento a = null;
         try{
             con = Connect.connect();
             PreparedStatement pStm = con.prepareStatement("select * from mydb.movimento where id=?");
-            pStm.setInt(1, (Movimento)key.getId());
+            pStm.setInt(1, (Integer)key);
             ResultSet rs = pStm.executeQuery();
             if(rs.next()){
                 
                 ApartamentoDAO apa = new ApartamentoDAO();
                 MoradorDAO  mor = new MoradorDAO();
-            
                 if(rs.getBoolean("Transacao")){
                     a = new Movimento(rs.getInt("Id"), apa.get(rs.getInt("Apartamento")),mor.get(rs.getInt("Morador")), rs.getFloat("Valor"), rs.getDate("Data"), rs.getBoolean("Transacao"));
                 }
@@ -76,7 +73,6 @@ public class MovimentoDAO implements Map<Movimento,Morador> {
                     a = des.get(rs.getInt("Id"));   
                 }
             }
-
         }catch(ClassNotFoundException | SQLException e){
              e.printStackTrace();
         } finally {
@@ -91,16 +87,13 @@ public class MovimentoDAO implements Map<Movimento,Morador> {
     }
 
     @Override
-    public Movimento put(Movimento movimento,Morador morador){
+    public Movimento put(Integer key, Movimento movimento) {
         Movimento a = null;
         try{
-            
             if(!movimento.getTransacao()){
-        
                 con = Connect.connect();
                 PreparedStatement pStm = con.prepareStatement("insert into mydb.movimento values (?,?,?,?,?,?)\n" +
-                "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Morador=VALUES(Morador), Valor=VALUES(Valor), Data=VALUES(Data), Transacao=VALUES(Transacao), Apartamento=VALUES(Apartamento), statement.RETURN_GENERATED_KEYS");
-
+                "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Morador=VALUES(Morador), Valor=VALUES(Valor), Data=VALUES(Data), Transacao=VALUES(Transacao), Apartamento=VALUES(Apartamento)", Statement.RETURN_GENERATED_KEYS);
                 pStm.setInt(1,movimento.getId());
                 pStm.setInt(2,movimento.getApartamento().getId());
                 pStm.setInt(3,movimento.getMorador().getId());
@@ -108,13 +101,7 @@ public class MovimentoDAO implements Map<Movimento,Morador> {
                 pStm.setDate(5,movimento.getData());
                 pStm.setBoolean(4,movimento.getTransacao());
                 pStm.executeUpdate();
-
-                ResultSet rs = pStm.getGeneratedKeys();
-                if(rs.next()){
-                    int newId = rs.getInt(1);
-                    movimento.setId(newId);
-                }
-            a = movimento;
+                a = movimento;
             }
             else{
                DespesaDAO des = new DespesaDAO();
@@ -136,22 +123,21 @@ public class MovimentoDAO implements Map<Movimento,Morador> {
     }
 
     @Override
-    public Movimento remove(Object key){
+    public Movimento remove(Object key) {
         Movimento a = this.get(key);
         try{
             con = Connect.connect();
             PreparedStatement pStm = con.prepareStatement("delete from mydb.movimento where Id = ? ; ");
-            pStm.setInt(1,(Movimento)key.getId());
+            pStm.setInt(1,(Integer)key);
             pStm.executeUpdate();
             
             pStm = con.prepareStatement("delete from mydb.despesa where Id = ? ; ");
-            pStm.setInt(1,(Movimento)key.getId());
+            pStm.setInt(1,(Integer)key);
             pStm.executeUpdate();
             
             pStm = con.prepareStatement("delete from mydb.racio where Despesa = ? ; ");
-            pStm.setInt(1,(Movimento)key.getId());
+            pStm.setInt(1,(Integer)key);
             pStm.executeUpdate();
-            
         }catch (ClassNotFoundException | SQLException e){
             e.printStackTrace();
         }finally {
@@ -161,17 +147,15 @@ public class MovimentoDAO implements Map<Movimento,Morador> {
     }
 
     @Override
-    public int size(){
+    public int size() {
         int i=0;
         try{
             con= Connect.connect();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery("select * form mydb.Movimento");
-
             while(rs.next()){
                 i++;
             }
-
         }catch(ClassNotFoundException | SQLException e){
             throw new NullPointerException(e.getMessage());
         }finally {
@@ -181,10 +165,9 @@ public class MovimentoDAO implements Map<Movimento,Morador> {
     }
 
     @Override
-    public Collection<Movimento> values(){
+    public Collection<Movimento> values() {
         Collection<Movimento> cat = new HashSet<>();
         try{
-            
             con = Connect.connect();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery("select * from mydb.Movimento");
@@ -209,22 +192,22 @@ public class MovimentoDAO implements Map<Movimento,Morador> {
     }
 
     @Override
-     public Set<Map.Entry<Movimento,Morador>> entrySet(){
+     public Set<Map.Entry<Integer,Movimento>> entrySet() {
         throw new NullPointerException("public Set<Map.Entry<Object,Object>> entrySet() not implemented!");
     }
 
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         throw new NullPointerException("public boolean equals(Object o) not implemented!");
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return this.con.hashCode();
     }
 
     @Override
-    public Set<Integer> keySet(){
+    public Set<Integer> keySet() {
         throw new NullPointerException("Not implemented!");
     }
 }

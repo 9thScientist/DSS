@@ -15,7 +15,7 @@ public class MoradorDAO implements Map<Integer,Morador> {
     private Connection conn;
 
     @Override
-    public void clear(){
+    public void clear() {
         try {
             conn = Connect.connect();
             Statement stm = con.createStatement();
@@ -30,32 +30,29 @@ public class MoradorDAO implements Map<Integer,Morador> {
     @Override
     public boolean containsKey(Object key) throws NullPointerException {
         boolean r = false;
-
         try {
             conn = Connect.connect();
-            Statement stm = con.prepareStatement("SELECT Id from morador WHERE Id = ?");
-			stm.setInt(1, (Integer) key);
-            ResultSet rs = stm.executeQuery();
+            Statement stm = conn.createStatement();
+            String sql = "select id from mydb.morador where Id ='"+(Integer)key+"'";
+            ResultSet rs = stm.executeQuery(sql);
             r = rs.next();
         } catch (Exception e) {
             throw new NullPointerException(e.getMessage());
         } finally {
             Connect.close(conn);
         }
-
         return r;
     }
 
     @Override
-    public boolean containsValue(Object value){
+    public boolean containsValue(Object value) {
         Morador m = (Morador) value;
         return containsKey(m.getId());
-	}
+    }
 
     @Override
-    public Morador get(Object key){
+    public Morador get(Object key) {
         Morador m = null;
-
         try {
             conn = Connect.connect();
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM morador WHERE Id = ?");
@@ -64,14 +61,12 @@ public class MoradorDAO implements Map<Integer,Morador> {
 
             if (rs.next()){
                 ApartamentoDAO apDAO = new ApartamentoDAO();
-
-				int id = rs.getInt("Id");
-				Apartamento ap = apDAO.get(rs.getInt("Apartamento"));
-				String nome = rs.getString("Nome");
-				String contacto = rs.getString("Contacto");
-				String imagem = rs.getString("Imagem");
-				float saldo = rs.getSaldo("Saldo");
-
+                int id = rs.getInt("Id");
+                Apartamento ap = apDAO.get(rs.getInt("Apartamento"));
+                String nome = rs.getString("Nome");
+                String contacto = rs.getString("Contacto");
+                String imagem = rs.getString("Imagem");
+                float saldo = rs.getSaldo("Saldo");
                 a = new Morador(id, ap, nome, contacto, saldo, imagem);
             }
         } catch (Exception e) {
@@ -79,7 +74,6 @@ public class MoradorDAO implements Map<Integer,Morador> {
         } finally {
             Connect.close(conn);
         }
-
         return m;
     }
 
@@ -89,38 +83,29 @@ public class MoradorDAO implements Map<Integer,Morador> {
     }
 
     @Override
-    public Morador put(Integer id,Morador morador){
+    public Morador put(Integer id,Morador morador) {
         Morador m = null;
-
         try {
             conn = Connect.connect();
             PreparedStatement stm = conn.prepareStatement(
 				"INSERT INTO morador VALUES (?,?,?,?,?,?)\n" +
-				"ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Nome=VALUES(Nome), Contacto=VALUES(Contacto), Saldo=VALUES(Saldo), Imagem=VALUES(Imagem)", statement.RETURN_GENERATED_KEYS);
+				"ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Nome=VALUES(Nome), Contacto=VALUES(Contacto), Saldo=VALUES(Saldo), Imagem=VALUES(Imagem)", Statement.RETURN_GENERATED_KEYS);
 
-            pStm.setInt(1, morador.getId());
-            pStm.setInt(2, morador.getApartamento().getId());
-            pStm.setString(3, morador.getNome());
-            pStm.setString(4, morador.getContacto());
-            pStm.setFloat(5, morador.getSaldo());
-            pStm.setString(6, morador.getImagem());
-            pStm.executeUpdate();
-
+            stm.setInt(1, morador.getId());
+            stm.setInt(2, morador.getApartamento().getId());
+            stm.setString(3, morador.getNome());
+            stm.setString(4, morador.getContacto());
+            stm.setFloat(5, morador.getSaldo());
+            stm.setString(6, morador.getImagem());
+            stm.executeUpdate();
             ResultSet rs = stm.getGeneratedKeys();
-
-            if(rs.next()){
-                int newId = rs.getInt(1);
-                morador.setId(newId);
-            }
-
             m = morador;
         } catch (Exception e){
             e.printStackTrace();
         } finally {
-            Connect.close(con);
+            Connect.close(conn);
         }
-
-        return n;
+        return m;
     }
 
     @Override
@@ -132,7 +117,6 @@ public class MoradorDAO implements Map<Integer,Morador> {
     @Override
     public Morador remove(Object key){
         Morador m = get(key);
-
         try{
             conn = Connect.connect();
             PreparedStatement stm = conn.prepareStatement("DELETE FROM morador WHERE Id = ?");
@@ -143,49 +127,41 @@ public class MoradorDAO implements Map<Integer,Morador> {
         } finally {
             Connect.close(conn);
         }
-
         return m;
     }
 
     @Override
-    public int size(){
+    public int size() {
         int counter = 0;
-
         try {
             conn = Connect.connect();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery("SELECT * FROM morador");
-
-            while(rs.next())
+        while(rs.next())
                 counter += 1;
         } catch (Exception e) {
             throw new NullPointerException(e.getMessage());
         } finally {
             Connect.close(conn);
         }
-
         return counter;
     }
 
     @Override
-    public Collection<Morador> values(){
+    public Collection<Morador> values() {
         Collection<Morador> cat = new HashSet<>();
-
         try{
             conn = Connect.connect();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery("SELECT * FROM morador");
-
             while(rs.next()){
                 ApartamentoDAO apDAO = new ApartamentoDAO();
-
-				int id = rs.getInt("Id");
-				Apartamento ap = apDAO.get(rs.getInt("Apartamento"));
-				String nome = rs.getString("Nome");
-				String contacto = rs.getString("Contacto");
-				String imagem = rs.getString("Imagem");
-				float saldo = rs.getFloat("Saldo");
-
+                int id = rs.getInt("Id");
+                Apartamento ap = apDAO.get(rs.getInt("Apartamento"));
+                String nome = rs.getString("Nome");
+                String contacto = rs.getString("Contacto");
+                String imagem = rs.getString("Imagem");
+                float saldo = rs.getFloat("Saldo");
                 cat.add(new Morador(id, ap, nome, contacto, saldo, imagem);
             }
         } catch (Exception e) {
@@ -193,27 +169,26 @@ public class MoradorDAO implements Map<Integer,Morador> {
         } finally {
             Connect.close(conn);
         }
-
         return cat;
     }
 
     @Override
-     public Set<Map.Entry<Integer,Morador>> entrySet(){
+     public Set<Map.Entry<Integer,Morador>> entrySet() {
         throw new NullPointerException("Not implemented");
     }
 
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         throw new NullPointerException("Not implemented");
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return conn.hashCode();
     }
-e
+    
     @Override
-    public Set<Integer> keySet(){
+    public Set<Integer> keySet() {
         throw new NullPointerException("Not implemented");
     }
 

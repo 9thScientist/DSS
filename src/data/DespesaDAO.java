@@ -2,7 +2,6 @@ package data;
 
 import Main.Despesa;
 import Main.Morador;
-import Main.Racio;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,19 +13,18 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class DespesaDAO implements Map<Despesa,Morador> {
+public class DespesaDAO implements Map<Integer,Despesa> {
 
     private Connection con;
 
     @Override
-    public void clear(){
+    public void clear() {
         try{
             con = Connect.connect();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery("select id from mydb.despesa");
             
             while(rs.next()){
-                
                 PreparedStatement pStm = con.prepareStatement("delete from mydb.despesa where Id = ? ; ");
                 pStm.setInt(1,(int)rs.getInt("Id"));
                 pStm.executeUpdate();
@@ -53,10 +51,9 @@ public class DespesaDAO implements Map<Despesa,Morador> {
         try{
             con = Connect.connect();
             Statement stm = con.createStatement();
-            String sql = "select id from mydb.despesa where Id ='"+(Despesa)key.getId()+"'";
+            String sql = "select id from mydb.despesa where Id ='"+(Integer)key+"'";
             ResultSet rs = stm.executeQuery(sql);
             r=rs.next();
-
         } catch (ClassNotFoundException | SQLException e) {
             throw new NullPointerException(e.getMessage());
         }finally{
@@ -66,25 +63,25 @@ public class DespesaDAO implements Map<Despesa,Morador> {
     }
 
     @Override
-    public boolean containsValue(Object value){
+    public boolean containsValue(Object value) {
         throw new NullPointerException("public boolean containsValue(Object o) not implemented!");
     }
 
     @Override
-    public Despesa get(Object key){
+    public Despesa get(Object key) {
         Despesa a = null;
         try{
             con = Connect.connect();
             PreparedStatement pStm = con.prepareStatement("select * from mydb.despesa where id=?");
-            pStm.setInt(1, (Despesa)key.getId());
+            pStm.setInt(1, (Integer)key);
             ResultSet rs = pStm.executeQuery();
             
             PreparedStatement pStmM = con.prepareStatement("select * from mydb.movimento where id=?");
-            pStmM.setInt(1, (Despesa)key.getId());
+            pStmM.setInt(1, (Integer)key);
             ResultSet rsM = pStmM.executeQuery();
             
             PreparedStatement pStmR = con.prepareStatement("select * from mydb.racio where Despesa=?");
-            pStmR.setInt(1, (Despesa)key.getId());
+            pStmR.setInt(1, (Integer)key);
             ResultSet rsR = pStmR.executeQuery();
             
             PreparedStatement pStmC = con.prepareStatement("select * from mydb.categoria where Id=?");
@@ -116,7 +113,7 @@ public class DespesaDAO implements Map<Despesa,Morador> {
     }
 
     @Override
-    public Despesa put(Despesa despesa,Morador morador){
+    public Despesa put(Integer Id,Despesa despesa) {
         Despesa a = null;
         try{
             con = Connect.connect();
@@ -130,7 +127,7 @@ public class DespesaDAO implements Map<Despesa,Morador> {
             pStm.executeUpdate();
             
             pStm = con.prepareStatement("insert into mydb.movimento values (?,?,?,?,?,?)\n" +
-            "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Morador=VALUES(Morador), Valor=VALUES(Valor), Data=VALUES(Data), Transacao=VALUES(Transacao), statement.RETURN_GENERATED_KEYS");
+            "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Morador=VALUES(Morador), Valor=VALUES(Valor), Data=VALUES(Data), Transacao=VALUES(Transacao)", Statement.RETURN_GENERATED_KEYS);
 
             pStm.setInt(1,despesa.getId());
             pStm.setInt(2,despesa.getApartamento().getId());
@@ -140,9 +137,8 @@ public class DespesaDAO implements Map<Despesa,Morador> {
             pStm.setBoolean(6,despesa.getTransacao());
             pStm.executeUpdate();
             for(Map.Entry<Morador,Float> r : despesa.getRacios().entrySet()) {
-                
                 PreparedStatement pStmR = con.prepareStatement("insert into mydb.racio values (?,?,?)\n" +
-                "ON DUPLICATE KEY UPDATE Morador=VALUES(Morador), Despesa=VALUES(Despesa), Racio=VALUES(Racio), statement.RETURN_GENERATED_KEYS");
+                "ON DUPLICATE KEY UPDATE Morador=VALUES(Morador), Despesa=VALUES(Despesa), Racio=VALUES(Racio)", Statement.RETURN_GENERATED_KEYS);
 
                 pStmR.setInt(1,r.getKey().getId());
                 pStmR.setInt(2,despesa.getId());
@@ -150,10 +146,6 @@ public class DespesaDAO implements Map<Despesa,Morador> {
                 pStmR.executeUpdate();
             }
             ResultSet rs = pStm.getGeneratedKeys();
-            if(rs.next()){
-                int newId = rs.getInt(1);
-                despesa.setId(newId);
-            }
             a = despesa;
         }catch(ClassNotFoundException | SQLException e){
             e.printStackTrace();
@@ -164,27 +156,26 @@ public class DespesaDAO implements Map<Despesa,Morador> {
     }
 
     @Override
-    public void putAll(Map<? extends Despesa,? extends Morador> t) {
+    public void putAll(Map<? extends Integer,? extends Despesa> t) {
         for(Despesa a : t.values()) {
             put(a.getId(), a);
         }
     }
 
     @Override
-    public Despesa remove(Object key){
+    public Despesa remove(Object key) {
         Despesa a = this.get(key);
         try{
             con = Connect.connect();
             PreparedStatement pStm = con.prepareStatement("delete from mydb.despesa where Id = ? ; ");
-            pStm.setInt(1,(Despesa)key.getId());
+            pStm.setInt(1,(Integer)key);
             pStm.executeUpdate();
             pStm = con.prepareStatement("delete from mydb.movimento where Id = ? ; ");
-            pStm.setInt(1,(Despesa)key.getId());
+            pStm.setInt(1,(Integer)key);
             pStm.executeUpdate();
             pStm = con.prepareStatement("delete from mydb.racio where Despesa = ? ; ");
-            pStm.setInt(1,(Despesa)key.getId());
+            pStm.setInt(1,(Integer)key);
             pStm.executeUpdate();
-            
         }catch (ClassNotFoundException | SQLException e){
             e.printStackTrace();
         }finally {
@@ -194,7 +185,7 @@ public class DespesaDAO implements Map<Despesa,Morador> {
     }
 
     @Override
-    public int size(){
+    public int size() {
         int i=0;
         try{
             con= Connect.connect();
@@ -204,27 +195,22 @@ public class DespesaDAO implements Map<Despesa,Morador> {
             while(rs.next()){
                 i++;
             }
-
         }catch(ClassNotFoundException | SQLException e){
             throw new NullPointerException(e.getMessage());
         }finally {
             Connect.close(con);
         }
-
         return i;
-
     }
 
     @Override
-    public Collection<Despesa> values(){
+    public Collection<Despesa> values() {
         Collection<Despesa> cat = new HashSet<>();
         try{
             con = Connect.connect();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery("select * from mydb.despesa");
             while(rs.next()){
-                
-                
                 PreparedStatement pStmM = con.prepareStatement("select * from mydb.movimento where id=?");
                 pStmM.setInt(1,rs.getInt("Id")); 
                 ResultSet rsM = pStmM.executeQuery();
@@ -256,22 +242,22 @@ public class DespesaDAO implements Map<Despesa,Morador> {
     }
 
     @Override
-     public Set<Map.Entry<Despesa,Morador>> entrySet(){
+     public Set<Map.Entry<Integer,Despesa>> entrySet() {
         throw new NullPointerException("public Set<Map.Entry<Object,Object>> entrySet() not implemented!");
     }
 
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         throw new NullPointerException("public boolean equals(Object o) not implemented!");
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return this.con.hashCode();
     }
 
     @Override
-    public Set<Integer> keySet(){
+    public Set<Integer> keySet() {
         throw new NullPointerException("Not implemented!");
     }
 
