@@ -55,7 +55,7 @@ public class Morador {
 		return ativo;
 	}
 
-	public void desativat() {
+	public void desativar() {
 		ativo = false;
 	}
 

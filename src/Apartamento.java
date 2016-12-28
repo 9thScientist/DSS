@@ -8,7 +8,7 @@ public class Apartamento {
 	public Apartamento(int id, float s) {
 		this.id = id;
 		saldo = s;
-		moradores = new Map<>();
+		moradores = new HashMap<>();
 	}
 
 	public int getId() {
@@ -67,7 +67,7 @@ public class Apartamento {
 		saldo -= valor;
 	}
 
-	public int getMoradorId() {
+	public int genMoradorId() {
 		return moradores.size();
 	}
 }

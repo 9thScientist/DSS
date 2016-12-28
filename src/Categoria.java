@@ -37,4 +37,15 @@ public class Categoria {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public boolean equals(Object obj) {
+		if (obj == null || (obj.getClass() != this.getClass())) return false;
+
+		if (obj == this) return true;
+
+		Categoria c = (Categoria) obj;
+		return c.getId() == id &&
+			   c.isRecorrente() == this.isRecorrente() &&
+		       c.getDescricao().equals(this.getDescricao());
+	}
 }

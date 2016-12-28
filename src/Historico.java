@@ -1,13 +1,11 @@
 import java.util.*;
 
 public class Historico {
-	private Map<Movimento, Morador> historico;
-	private Map<Despesa, Morador> prestacoes;
+	private Map<Integer, Movimento> historico;
 	private Map<Integer, Categoria> categorias;
 
 	public Historico() {
-		historico = new HashMap<>();
-		prestacoes = new HashMap<>();
+		historico = new TreeMap<>();
 		categorias = new HashMap<>();
 	}
 
@@ -32,24 +30,44 @@ public class Historico {
 		categorias.remove(c);
 	}
 
-	public Map<Movimento, Morador> getMovimentos() {
-		Map<Movimento, Morador> ret = new HashMap<>();
+	public Set<Movimento> getMovimentos() {
+		Set<Movimento> ret = new TreeSet<>();
 
-		ret.putAll(historico);
+		for (Movimento movimento : historico.values())
+			ret.add(movimento);
 
-		return historico;
+		return ret;
 	}
 
-	public void addMovimento(Movimento m, Morador mo) {
-		historico.put(m, mo);
+	public Set<Movimento> getMovimentos(GregorianCalendar from, GregorianCalendar to) {
+		Set<Movimento> ret = new TreeSet<>();
+
+		for (Movimento m : historico.values())
+			if (m.getData().compareTo(from) >= 0 && m.getData().compareTo(to) <= 0 )
+				ret.add(m);
+
+		return ret;
 	}
 
-	public void editMovimento(int mov_id, Movimento n_movimento) {
-		for (Movimento m : historico.keySet())
-			if (m.getId() == mov_id) {
-				m.update(n_movimento);
-				break;
+	public Set<Movimento> getMovimentos(GregorianCalendar from, GregorianCalendar to, Categoria categoria) {
+		Set<Movimento> ret = new TreeSet<>();
+
+		for (Movimento m : historico.values())
+			if (m.getData().compareTo(from) >= 0 && m.getData().compareTo(to) <= 0 && m.getClass().getSimpleName().equals("Despesa")) {
+				Despesa d = (Despesa) m;
+				if (d.getCategoria().equals(categoria))
+					ret.add(m);
 			}
+
+		return ret;
+	}
+
+	public void addMovimento(Movimento m) {
+		historico.put(m.getId(), m);
+	}
+
+	public void editMovimento(int movimento, Movimento n_movimento) {
+		historico.get(movimento).update(n_movimento);
 	}
 
 	public void removerMovimento(Movimento mov) {
@@ -65,10 +83,11 @@ public class Historico {
 	}
 
 	public Movimento getMovimento(int id) throws MovimentoNaoExisteException {
-		for (Movimento m : historico.keySet())
-			if (m.getId() == id)
-				return m;
+		Movimento movimento = historico.get(id);
 
-		throw new MovimentoNaoExisteException("Não existe nenhum movimento " + id);
+		if (movimento == null)
+			throw new MovimentoNaoExisteException("Não existe nenhum movimento " + id);
+
+		return movimento;
 	}
 }
