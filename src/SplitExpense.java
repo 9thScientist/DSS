@@ -7,7 +7,7 @@ public class SplitExpense {
 
 	public void registarDespesa(boolean tr, String d, Categoria c, float valor,
 			GregorianCalendar data, Map<Morador, Float> racios, Morador morador) {
-		int id = historico.getMovimentoId();
+		int id = historico.genMovimentoId();
 		Despesa despesa = new Despesa(id, apartamento, morador, d, valor, data, tr, c, racios);
 		historico.addMovimento(despesa, morador);
 
@@ -17,7 +17,14 @@ public class SplitExpense {
 
 	public void editarDespesa(int id, Despesa d) throws MovimentoNaoExisteException {
 		Despesa despesa = (Despesa) historico.getMovimento(id);
+		int ant_valor = despesa.getValor();
+		Map<Morador, Float> ant_racios = despesa.getRacios();
 		despesa.update(d);
+
+		apartamento.addSaldo(ant_valor);
+		apartamento.decSaldo(d.getValor());
+		apartamento.updateSaldos(ant_valor, ant_racios);
+		apartamento.updateSaldos(-(d.getValor()), d.getRacios());
 	}
 
 	public void removerDespesa(Despesa d) {
@@ -48,10 +55,20 @@ public class SplitExpense {
 			throw new SaldoInsuficienteException("Saldo Insuficiente");
 
 		m.decSaldo(valor);
+		apartamento.decSaldo(valor);
+
+		int id = apartamento.genMovimentoId();
+		Movimento levantamento = new Movimento(id, apartamento, m, valor, now.getTime(), true)
+		historico.addMovimento(levantamento, m);
 	}
 
 	public void depositar(Morador m, float valor) throws MontanteInvalidoException {
 		m.addSaldo(valor);
+		apartamento.addSaldo(valor);
+
+		int id = apartamento.genMovimentoId();
+		Movimento deposito = new Movimento(id, apartamento, m, valor, now.getTime(), true);
+		historico.addMovimento(deposito);
 	}
 
 	public Map<Movimento, Morador> getHistorico() {
@@ -59,7 +76,7 @@ public class SplitExpense {
 	}
 
 	public Categoria criarCategoria(String descricao, boolean recorrente) {
-		int id = historico.getCategoriaId();
+		int id = historico.genCategoriaId();
 		Categoria categoria = new Categoria(id, descricao, recorrente);
 
 		historico.addCategoria(categoria);

@@ -8,6 +8,7 @@ public class Apartamento {
 	public Apartamento(int id, float s) {
 		this.id = id;
 		saldo = s;
+		moradores = new Map<>();
 	}
 
 	public int getId() {
@@ -49,6 +50,7 @@ public class Apartamento {
 	}
 
 	public void removerMorador(Morador m) {
+		m.desativar();
 		moradores.remove(m);
 	}
 

@@ -3,6 +3,7 @@ import java.sql.Date;
 
 public class Despesa extends Movimento {
 	private int id;
+	private boolean pago;
 	private String descricao;
 	private Map<Morador, Float> racios;
 	private Categoria categoria;
@@ -15,6 +16,7 @@ public class Despesa extends Movimento {
 		racios = new HashMap<>();
 		racios.putAll(rcs);
 		categoria = new Categoria(c);
+		pago = false;
 
 	}
 
@@ -26,7 +28,7 @@ public class Despesa extends Movimento {
 		racios = new HashMap<>();
 		racios.putAll(rcs);
 		categoria = new Categoria(c);
-
+		pago = false;
 	}
 
 	public Despesa(Despesa d) {
@@ -36,6 +38,7 @@ public class Despesa extends Movimento {
 		racios = d.getRacios();
 		categoria = d.getCategoria();
 		descricao = d.getDescricao();
+		pago = d.pago();
 //		super(id, d.getApartamento(), d.getApartamento(), d.getValor(), d.getDate(), d.isTransacao());
 	}
 
@@ -56,6 +59,18 @@ public class Despesa extends Movimento {
 
 	public Categoria getCategoria() {
 		return categoria;
+	}
+
+	public boolean pago() {
+		return pago;
+	}
+
+	public void pagar() {
+		pago = true;
+	}
+
+	public void setPago(boolean n) {
+		pago = n;
 	}
 
 	public void setDescricao(String d) {

@@ -56,11 +56,11 @@ public class Historico {
 		historico.remove(mov);
 	}
 
-	public int getMovimentoId() {
+	public int genMovimentoId() {
 		return historico.size();
 	}
 
-	public int getCategoriaId() {
+	public int genCategoriaId() {
 		return categorias.size();
 	}
 
