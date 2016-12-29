@@ -66,11 +66,13 @@ public class Apartamento {
 		morador.setNome(nome);
 		morador.setContacto(contacto);
 		morador.setImagem(img);
+                
+                moradores.put(morador.getId(), morador);
 	}
 
 	public void removerMorador(Morador m) {
 		m.desativar();
-		moradores.remove(m);
+		moradores.remove(m.getId());
 	}
 
 	public void updateSaldos(float valor, Map<Morador, Float> racios) {

@@ -61,6 +61,11 @@ public class SplitExpense {
 		Morador morador = apartamento.getMoradorNome(nome);
 		morador.update(m);
 	}
+        
+        public void editarMorador(String nome, String n_nome, String n_contacto, String n_imagem) {
+            Morador morador = apartamento.getMoradorNome(nome);
+            apartamento.editMorador(morador, n_nome, n_contacto, n_imagem);
+	}
 
 	public void removerMorador(String morador) {
             Apartamento a = new Apartamento();

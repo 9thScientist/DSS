@@ -4,17 +4,34 @@
  * and open the template in the editor.
  */
 package Interface;
-
+import javax.swing.JOptionPane;
+import Main.SplitExpense;
+import Moradores.*;
+import java.util.*;
 /**
  *
  * @author zesilva63
  */
 public class EditarMoradorUI extends javax.swing.JFrame {
 
-    /**
+    String[] moradores;
+    Morador moradorSelec;
+    
+     /**
      * Creates new form EditarMoradorUI
      */
     public EditarMoradorUI() {
+        
+        SplitExpense se = new SplitExpense();
+        Set<Morador> ms = new HashSet<>(se.getApartamento().getMoradores().values());
+        List<String> tmp = new ArrayList<>();
+        
+        for (Morador m : ms)
+            if (m.ativo())
+                tmp.add(m.getNome());
+        moradores = new String[tmp.size()];
+        moradores = tmp.toArray(moradores);
+        
         initComponents();
     }
 
@@ -29,12 +46,13 @@ public class EditarMoradorUI extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        MoradoresList = new javax.swing.JList<>();
-        RemoverButton = new javax.swing.JButton();
+        EditarButton = new javax.swing.JButton();
         Title = new java.awt.Label();
         labelUsername = new javax.swing.JLabel();
-        txtUsername = new javax.swing.JTextField();
+        newUsername = new javax.swing.JTextField();
+        oldUsername = new javax.swing.JComboBox<>(moradores);
+        newContacto = new javax.swing.JTextField();
+        labelUsername1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,17 +63,10 @@ public class EditarMoradorUI extends javax.swing.JFrame {
             }
         });
 
-        MoradoresList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(MoradoresList);
-
-        RemoverButton.setText("Editar");
-        RemoverButton.addActionListener(new java.awt.event.ActionListener() {
+        EditarButton.setText("Editar");
+        EditarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RemoverButtonActionPerformed(evt);
+                EditarButtonActionPerformed(evt);
             }
         });
 
@@ -66,11 +77,27 @@ public class EditarMoradorUI extends javax.swing.JFrame {
 
         labelUsername.setText("Novo Username:");
 
-        txtUsername.addActionListener(new java.awt.event.ActionListener() {
+        newUsername.setText(oldUsername.getName());
+        newUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUsernameActionPerformed(evt);
+                newUsernameActionPerformed(evt);
             }
         });
+
+        oldUsername.setName(""); // NOI18N
+        oldUsername.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                oldUsernameActionPerformed(evt);
+            }
+        });
+
+        newContacto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newContactoActionPerformed(evt);
+            }
+        });
+
+        labelUsername1.setText("Novo Contacto:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -79,24 +106,25 @@ public class EditarMoradorUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(167, 167, 167)
+                        .addComponent(EditarButton))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton1)
                         .addGap(82, 82, 82)
                         .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(68, 68, 68)
-                                .addComponent(RemoverButton)
-                                .addGap(29, 29, 29))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(labelUsername)
-                                .addGap(18, 18, 18)))
-                        .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(70, Short.MAX_VALUE))
+                        .addGap(52, 52, 52)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(labelUsername)
+                            .addComponent(labelUsername1))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(newContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(oldUsername, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(newUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,17 +133,18 @@ public class EditarMoradorUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelUsername)
-                            .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(RemoverButton)))
+                .addGap(47, 47, 47)
+                .addComponent(oldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelUsername)
+                    .addComponent(newUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(newContacto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelUsername1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(EditarButton)
                 .addGap(50, 50, 50))
         );
 
@@ -133,27 +162,54 @@ public class EditarMoradorUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void RemoverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoverButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RemoverButtonActionPerformed
+    private void EditarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarButtonActionPerformed
+        if (newUsername.getText().equals("") || newContacto.getText().equals(""))
+            JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos.",  "Erro", JOptionPane.ERROR_MESSAGE);
+        else {
+            SplitExpense se = new SplitExpense();
+            String oldname = moradores[oldUsername.getSelectedIndex()];
+            
+            se.editarMorador(oldname, newUsername.getText(), newContacto.getText(), "");
+                       
+            this.setVisible(false);
+            new MoradoresUI().setVisible(true);
+        }
+    }//GEN-LAST:event_EditarButtonActionPerformed
 
-    private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
+    private void newUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newUsernameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtUsernameActionPerformed
+    }//GEN-LAST:event_newUsernameActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.setVisible(false);
         new MoradoresUI().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void oldUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oldUsernameActionPerformed
+        SplitExpense se = new SplitExpense();
+        String nome = moradores[oldUsername.getSelectedIndex()];
+        moradorSelec = se.getApartamento().getMoradorNome(nome);
+        updateFields();
+    }//GEN-LAST:event_oldUsernameActionPerformed
+
+    private void updateFields() {
+        newUsername.setText(moradorSelec.getNome());
+        newContacto.setText(moradorSelec.getContacto());
+    }
+    
+    private void newContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newContactoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newContactoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> MoradoresList;
-    private javax.swing.JButton RemoverButton;
+    private javax.swing.JButton EditarButton;
     private java.awt.Label Title;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelUsername;
-    private javax.swing.JTextField txtUsername;
+    private javax.swing.JLabel labelUsername1;
+    private javax.swing.JTextField newContacto;
+    private javax.swing.JTextField newUsername;
+    private javax.swing.JComboBox<String> oldUsername;
     // End of variables declaration//GEN-END:variables
 }

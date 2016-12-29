@@ -6,6 +6,7 @@
 package Interface;
 
 import Main.SplitExpense;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -35,7 +36,7 @@ public class AdicionarMoradorUI extends javax.swing.JFrame {
         txtUsername = new javax.swing.JTextField();
         labelUsername = new javax.swing.JLabel();
         labelSaldo = new javax.swing.JLabel();
-        txtSaldoInicial = new javax.swing.JTextField();
+        txtContacto = new javax.swing.JTextField();
         ButtonAdicionar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -60,11 +61,11 @@ public class AdicionarMoradorUI extends javax.swing.JFrame {
 
         labelUsername.setText("Username:");
 
-        labelSaldo.setText("Saldo Inicial:");
+        labelSaldo.setText("Contacto");
 
-        txtSaldoInicial.addActionListener(new java.awt.event.ActionListener() {
+        txtContacto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSaldoInicialActionPerformed(evt);
+                txtContactoActionPerformed(evt);
             }
         });
 
@@ -89,15 +90,15 @@ public class AdicionarMoradorUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(labelSaldo)
-                                .addGap(48, 48, 48)
-                                .addComponent(txtSaldoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(ButtonAdicionar)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(labelUsername)
-                                .addGap(57, 57, 57)
-                                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelUsername)
+                                    .addComponent(labelSaldo))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtContacto, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                                    .addComponent(txtUsername))))))
                 .addContainerGap(126, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -111,11 +112,11 @@ public class AdicionarMoradorUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelUsername))
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelSaldo)
-                    .addComponent(txtSaldoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                    .addComponent(txtContacto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(58, 58, 58)
                 .addComponent(ButtonAdicionar)
                 .addContainerGap(49, Short.MAX_VALUE))
         );
@@ -143,15 +144,22 @@ public class AdicionarMoradorUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsernameActionPerformed
 
-    private void txtSaldoInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSaldoInicialActionPerformed
+    private void txtContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContactoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtSaldoInicialActionPerformed
+    }//GEN-LAST:event_txtContactoActionPerformed
 
     private void ButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAdicionarActionPerformed
         SplitExpense s = new SplitExpense();
         
-        System.out.println("us:"+txtUsername.getText());
-        s.registarMorador(txtUsername.getText(),"","");
+        if (txtUsername.getText().equals("") || txtContacto.getText().equals(""))
+            JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos.",  "Erro",JOptionPane.ERROR_MESSAGE);
+        else {
+            System.out.println("us:"+txtUsername.getText());
+            s.registarMorador(txtUsername.getText(),txtContacto.getText(),"");
+            
+            this.setVisible(false);
+            new MoradoresUI().setVisible(true);
+        }
     }//GEN-LAST:event_ButtonAdicionarActionPerformed
 
     
@@ -162,7 +170,7 @@ public class AdicionarMoradorUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelSaldo;
     private javax.swing.JLabel labelUsername;
-    private javax.swing.JTextField txtSaldoInicial;
+    private javax.swing.JTextField txtContacto;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
