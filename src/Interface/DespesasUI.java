@@ -82,7 +82,7 @@ public class DespesasUI extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        EditarCategoriasButton.setText("Editar Categorias");
+        EditarCategoriasButton.setText("Categorias");
         EditarCategoriasButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EditarCategoriasButtonActionPerformed(evt);

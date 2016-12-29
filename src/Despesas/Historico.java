@@ -34,8 +34,17 @@ public class Historico {
 	}
 
 	public void removerCategoria(Categoria c) {
-		categorias.remove(c);
+            System.out.println("got here"+ c.getId());
+            categorias.remove(c.getId());
 	}
+        
+        public Set<String> getCategorias() {
+		Set<String> ret = new TreeSet<>();
+                for (Categoria cat : categorias.values())
+                    ret.add(cat.getDescricao());
+                return ret;
+	}
+        
 
 	public Set<Movimento> getMovimentos() {
 		Set<Movimento> ret = new TreeSet<>();
@@ -102,4 +111,17 @@ public class Historico {
 
 		return movimento;
 	}
+        
+        public Categoria getCategoriaNome(String nome){
+            CategoriaDAO dao = new CategoriaDAO();
+            return dao.getByNome(nome);
+        }
+        
+        public int getIdCategoria(String nome){
+            CategoriaDAO dao = new CategoriaDAO();
+            Categoria c = dao.get(nome);
+            return c.getId();
+        }
+        
+        
 }

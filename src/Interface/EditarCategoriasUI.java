@@ -5,17 +5,38 @@
  */
 package Interface;
 
+import Despesas.Categoria;
+import Despesas.Historico;
+import Main.SplitExpense;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Set;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+
 /**
  *
  * @author zesilva63
  */
 public class EditarCategoriasUI extends javax.swing.JFrame {
-
+    
+    
+    DefaultListModel<String> model;
+    
     /**
      * Creates new form EditarCategoriasUI
      */
     public EditarCategoriasUI() {
         initComponents();
+        SplitExpense s = new SplitExpense();
+        model = new DefaultListModel();
+        Set<String> cat = s.getFullHistorico().getCategorias();
+        
+        for(String c : cat)
+            model.add(model.getSize(),c);
+        
+        listaCategorias.setModel(model);
     }
 
     /**
@@ -27,16 +48,17 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        background = new javax.swing.JPanel();
         BackButton = new javax.swing.JButton();
         Title = new java.awt.Label();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        EditarButton = new javax.swing.JButton();
-        AdiconarButton = new javax.swing.JButton();
-        RemoverButton = new javax.swing.JButton();
+        listaCategorias = new javax.swing.JList<>();
+        nomeNovaCategoria = new javax.swing.JTextField();
+        textoNovaCategoria = new javax.swing.JLabel();
+        editarButton = new javax.swing.JButton();
+        adiconarButton = new javax.swing.JButton();
+        removerButton = new javax.swing.JButton();
+        recorrente = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,81 +74,87 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
         Title.setFont(new java.awt.Font("Gargi-1.2b", 1, 24)); // NOI18N
         Title.setText("SplitExpense");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(listaCategorias);
 
-        jLabel1.setText("Nova Categoria");
+        textoNovaCategoria.setText("Nova Categoria");
 
-        EditarButton.setText("Editar Categoria");
-        EditarButton.addActionListener(new java.awt.event.ActionListener() {
+        editarButton.setText("Editar Categoria");
+        editarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EditarButtonActionPerformed(evt);
+                editarButtonActionPerformed(evt);
             }
         });
 
-        AdiconarButton.setText("Adicionar Categoria");
-
-        RemoverButton.setText("Remover Categoria");
-        RemoverButton.addActionListener(new java.awt.event.ActionListener() {
+        adiconarButton.setText("Adicionar Categoria");
+        adiconarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RemoverButtonActionPerformed(evt);
+                adiconarButtonActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+        removerButton.setText("Remover Categoria");
+        removerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removerButtonActionPerformed(evt);
+            }
+        });
+
+        recorrente.setText("Recorrente");
+
+        javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
+        background.setLayout(backgroundLayout);
+        backgroundLayout.setHorizontalGroup(
+            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backgroundLayout.createSequentialGroup()
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgroundLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(BackButton)
                         .addGap(82, 82, 82)
                         .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(backgroundLayout.createSequentialGroup()
                         .addGap(34, 34, 34)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(EditarButton)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(142, 142, 142)
+                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(backgroundLayout.createSequentialGroup()
+                                .addComponent(editarButton)
                                 .addGap(3, 3, 3)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(RemoverButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(AdiconarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                .addContainerGap(36, Short.MAX_VALUE))
+                                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(removerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(adiconarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(backgroundLayout.createSequentialGroup()
+                                .addComponent(textoNovaCategoria)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(recorrente)
+                                    .addComponent(nomeNovaCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        backgroundLayout.setVerticalGroup(
+            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backgroundLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BackButton))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(backgroundLayout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(backgroundLayout.createSequentialGroup()
                         .addGap(77, 77, 77)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nomeNovaCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textoNovaCategoria))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(recorrente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(AdiconarButton)
+                        .addComponent(adiconarButton)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(EditarButton)
-                            .addComponent(RemoverButton))))
+                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(editarButton)
+                            .addComponent(removerButton))))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
@@ -136,40 +164,53 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void EditarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_EditarButtonActionPerformed
+    private void editarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarButtonActionPerformed
+        SplitExpense s = new SplitExpense();
+        s.editarCategoria(s.getFullHistorico().getIdCategoria(listaCategorias.getSelectedValue()),nomeNovaCategoria.getText(),recorrente.isSelected());
+    }//GEN-LAST:event_editarButtonActionPerformed
 
-    private void RemoverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoverButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RemoverButtonActionPerformed
+    private void removerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerButtonActionPerformed
+        SplitExpense s = new SplitExpense();
+        s.removerCategoria(listaCategorias.getSelectedValue());
+        model.remove(listaCategorias.getSelectedIndex());
+        listaCategorias.setModel(model);
+    }//GEN-LAST:event_removerButtonActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
         this.setVisible(false);
         new DespesasUI().setVisible(true);
     }//GEN-LAST:event_BackButtonActionPerformed
 
+    private void adiconarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adiconarButtonActionPerformed
+        SplitExpense s = new SplitExpense();
+        String nome = nomeNovaCategoria.getText();
+        model.add(model.getSize(),nome);
+        listaCategorias.setModel(model);
+        s.criarCategoria(nome,recorrente.isSelected());
+    }//GEN-LAST:event_adiconarButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AdiconarButton;
     private javax.swing.JButton BackButton;
-    private javax.swing.JButton EditarButton;
-    private javax.swing.JButton RemoverButton;
     private java.awt.Label Title;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton adiconarButton;
+    private javax.swing.JPanel background;
+    private javax.swing.JButton editarButton;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JList<String> listaCategorias;
+    private javax.swing.JTextField nomeNovaCategoria;
+    private javax.swing.JCheckBox recorrente;
+    private javax.swing.JButton removerButton;
+    private javax.swing.JLabel textoNovaCategoria;
     // End of variables declaration//GEN-END:variables
 }

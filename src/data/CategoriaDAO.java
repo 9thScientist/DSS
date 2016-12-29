@@ -62,7 +62,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
             if(rs.next()) {
                 int id = rs.getInt("Id");
                 String nome = rs.getString("Categoria");
-                boolean recorrente = rs.getBoolean("Regular");
+                boolean recorrente = rs.getBoolean("Recorrente");
                 c = new Categoria(id, nome, recorrente);
             }
 	} catch (Exception e) {
@@ -72,6 +72,35 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
         }
         return c;
     }
+    
+    
+        
+    public Categoria getByNome(String key) {
+        Categoria c = null;
+        try {
+            conn = Connect.connect();
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM mydb.Categoria WHERE Categoria = ?");
+            ResultSet rs = stm.executeQuery();
+            System.out.println("rs:" + rs.next());
+            if(rs.next()) {
+                int id = rs.getInt("Id");
+                String nome = rs.getString("Categoria");
+                boolean recorrente = rs.getBoolean("Recorrente");
+                c = new Categoria(id, nome, recorrente);
+            
+            System.out.println("c: "+c + id + nome + recorrente);
+            }
+        } catch (Exception e) {
+             e.printStackTrace();
+        } finally {
+            Connect.close(conn);
+        }
+        return c;
+    }
+    
+    
+    
+    
 
     @Override
     public boolean isEmpty() {
@@ -86,7 +115,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
             conn = Connect.connect();
             PreparedStatement stm = conn.prepareStatement(
 				"INSERT INTO Categoria VALUES (?,?,?)\n" +
-				"ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Regular=VALUES(Regular)", Statement.RETURN_GENERATED_KEYS);
+				"ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Recorrente=VALUES(Recorrente)", Statement.RETURN_GENERATED_KEYS);
 
             stm.setInt(1, cat.getId());
             stm.setString(2, cat.getDescricao());

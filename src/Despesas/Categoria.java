@@ -1,20 +1,26 @@
 package Despesas;
 
+import data.CategoriaDAO;
+
 public class Categoria {
 	private int id;
 	private String descricao;
 	private boolean recorrente;
 
 	public Categoria(int id, String d, boolean r) {
-		this.id = id;
+		CategoriaDAO dao = new CategoriaDAO();
+                this.id = id;
 		descricao = d;
 		recorrente = r;
+                dao.put(id,this);
 	}
 
 	public Categoria(Categoria c){
-		descricao = c.getDescricao();
+		CategoriaDAO dao = new CategoriaDAO();
+                descricao = c.getDescricao();
 		recorrente = c.isRecorrente();
-	}
+                dao.put(id,this);
+        }
 
 	public int getId() {
 		return id;

@@ -93,6 +93,10 @@ public class SplitExpense {
 	public Set<Movimento> getHistorico() {
 		return historico.getMovimentos();
 	}
+        
+        public Historico getFullHistorico(){
+            return historico;
+        }
 
 	public Set<Movimento> getHistorico(Date from, Date to) {
 		return historico.getMovimentos(from, to);
@@ -105,17 +109,15 @@ public class SplitExpense {
 	public Categoria criarCategoria(String descricao, boolean recorrente) {
 		int id = historico.genCategoriaId();
 		Categoria categoria = new Categoria(id, descricao, recorrente);
-
-		historico.addCategoria(categoria);
-
-		return categoria;
+                historico.addCategoria(categoria);
+                return categoria;
 	}
 
 	public void editarCategoria(int id, String d, boolean r) {
 		historico.editCategoria(id, d, r);
 	}
 
-	public void removerCategoria(Categoria c) {
-		historico.removerCategoria(c);
+	public void removerCategoria(String nome) {
+                historico.removerCategoria(historico.getCategoriaNome(nome));
 	}
 }
