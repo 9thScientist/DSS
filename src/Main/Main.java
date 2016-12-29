@@ -19,14 +19,14 @@ import java.sql.SQLException;
 public class Main {
     
     public static void main(String[] args) throws SQLException, ClassNotFoundException{
-        
-            Connection con= Connect.connect();
+                
+        Connection con = Connect.connect();
             
             SplitExpenseUI frame = new SplitExpenseUI();
             frame.pack();
             frame.setVisible(true);
             
-            Connect.close(con);
+        Connect.close(con);
         }
     
     

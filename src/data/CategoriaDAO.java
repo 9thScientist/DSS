@@ -19,7 +19,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
         try {
             conn = Connect.connect();
             Statement stm = conn.createStatement();
-            stm.executeUpdate("DELETE FROM categoria");
+            stm.executeUpdate("DELETE FROM Categoria");
         } catch (Exception e) {
             throw new NullPointerException(e.getMessage());
         } finally {
@@ -33,7 +33,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
         try {
             conn = Connect.connect();
             Statement stm = conn.createStatement();
-            String sql = "select id from mydb.categoria where Id ='"+(int)key+"'";
+            String sql = "select id from mydb.Categoria where Id ='"+(int)key+"'";
             ResultSet rs = stm.executeQuery(sql);
             r = rs.next();
         } catch (Exception e) {
@@ -55,7 +55,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
         Categoria c = null;
         try {
             conn = Connect.connect();
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM categoria WHERE ID = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Categoria WHERE ID = ?");
             stm.setInt(1, (Integer) key);
             ResultSet rs = stm.executeQuery();
 
@@ -85,7 +85,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
         try {
             conn = Connect.connect();
             PreparedStatement stm = conn.prepareStatement(
-				"INSERT INTO categoria VALUES (?,?,?)\n" +
+				"INSERT INTO Categoria VALUES (?,?,?)\n" +
 				"ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Regular=VALUES(Regular)", Statement.RETURN_GENERATED_KEYS);
 
             stm.setInt(1, cat.getId());
@@ -113,7 +113,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
         Categoria c = get(key);
         try {
             conn = Connect.connect();
-            PreparedStatement stm = conn.prepareStatement("DELETE FROM categoria WHERE Id = ?");
+            PreparedStatement stm = conn.prepareStatement("DELETE FROM Categoria WHERE Id = ?");
             stm.setInt(1, (int) key);
             stm.executeUpdate();
         } catch (Exception e){
@@ -130,7 +130,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
         try {
             conn = Connect.connect();
             Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery("SELECT * FROM categoria");
+            ResultSet rs = stm.executeQuery("SELECT * FROM Categoria");
             while(rs.next())
                 counter += 1;
         } catch (Exception e){
@@ -147,7 +147,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
         try {
             conn = Connect.connect();
             Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery("SELECT * FROM categoria");
+            ResultSet rs = stm.executeQuery("SELECT * FROM Categoria");
         while(rs.next()){
             int id = rs.getInt("Id");
             String nome = rs.getString("Categoria");

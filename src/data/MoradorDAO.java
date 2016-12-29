@@ -20,7 +20,7 @@ public class MoradorDAO implements Map<Integer,Morador> {
         try {
             conn = Connect.connect();
             Statement stm = conn.createStatement();
-            stm.executeUpdate("DELETE FROM morador");
+            stm.executeUpdate("DELETE FROM Morador");
         } catch (Exception e) {
             throw new NullPointerException(e.getMessage());
         } finally {
@@ -34,7 +34,7 @@ public class MoradorDAO implements Map<Integer,Morador> {
         try {
             conn = Connect.connect();
             Statement stm = conn.createStatement();
-            String sql = "select id from mydb.morador where Id ='"+(Integer)key+"'";
+            String sql = "select id from mydb.Morador where Id ='"+(Integer)key+"'";
             ResultSet rs = stm.executeQuery(sql);
             r = rs.next();
         } catch (Exception e) {
@@ -56,7 +56,7 @@ public class MoradorDAO implements Map<Integer,Morador> {
         Morador m = null;
         try {
             conn = Connect.connect();
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM morador WHERE Id = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Morador WHERE Id = ?");
             stm.setInt(1, (Integer) key);
             ResultSet rs = stm.executeQuery();
 
@@ -84,7 +84,7 @@ public class MoradorDAO implements Map<Integer,Morador> {
         Morador m = null;
         try {
             conn = Connect.connect();
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM morador WHERE Nome = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Morador WHERE Nome = ?");
             stm.setString(1, n);
             ResultSet rs = stm.executeQuery();
 
@@ -118,7 +118,7 @@ public class MoradorDAO implements Map<Integer,Morador> {
         try {
             conn = Connect.connect();
             PreparedStatement stm = conn.prepareStatement(
-				"INSERT INTO morador VALUES (?,?,?,?,?,?)\n" +
+				"INSERT INTO Morador VALUES (?,?,?,?,?,?)\n" +
 				"ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Nome=VALUES(Nome), Contacto=VALUES(Contacto), Saldo=VALUES(Saldo), Imagem=VALUES(Imagem)", Statement.RETURN_GENERATED_KEYS);
 
             stm.setInt(1, morador.getId());
@@ -149,7 +149,7 @@ public class MoradorDAO implements Map<Integer,Morador> {
         Morador m = get(key);
         try{
             conn = Connect.connect();
-            PreparedStatement stm = conn.prepareStatement("DELETE FROM morador WHERE Id = ?");
+            PreparedStatement stm = conn.prepareStatement("DELETE FROM Morador WHERE Id = ?");
             stm.setInt(1, (Integer) key);
             stm.executeUpdate();
         } catch (Exception e){
@@ -166,7 +166,7 @@ public class MoradorDAO implements Map<Integer,Morador> {
         try {
             conn = Connect.connect();
             Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery("SELECT * FROM morador");
+            ResultSet rs = stm.executeQuery("SELECT * FROM Morador");
         while(rs.next())
                 counter += 1;
         } catch (Exception e) {
@@ -183,7 +183,7 @@ public class MoradorDAO implements Map<Integer,Morador> {
         try{
             conn = Connect.connect();
             Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery("SELECT * FROM morador");
+            ResultSet rs = stm.executeQuery("SELECT * FROM Morador");
             while(rs.next()){
                 ApartamentoDAO apDAO = new ApartamentoDAO();
                 int id = rs.getInt("Id");

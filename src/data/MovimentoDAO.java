@@ -21,9 +21,9 @@ public class MovimentoDAO implements Map<Integer,Movimento> {
         try{
             con = Connect.connect();
             Statement stm = con.createStatement();
-            stm.executeUpdate("delete from mydb.movimento");
-            stm.executeUpdate("delete from mydb.despesa");
-            stm.executeUpdate("delete from mydb.racio");
+            stm.executeUpdate("delete from mydb.Movimento");
+            stm.executeUpdate("delete from mydb.Despesa");
+            stm.executeUpdate("delete from mydb.Racio");
         }catch (ClassNotFoundException | SQLException e) {
             throw new NullPointerException(e.getMessage()); 
         } finally {
@@ -37,7 +37,7 @@ public class MovimentoDAO implements Map<Integer,Movimento> {
         try{
             con = Connect.connect();
             Statement stm = con.createStatement();
-            String sql = "select id from mydb.movimento where Id ='"+(Integer)key+"'";
+            String sql = "select id from mydb.Movimento where Id ='"+(Integer)key+"'";
             ResultSet rs = stm.executeQuery(sql);
             r=rs.next();
         } catch (ClassNotFoundException | SQLException e) {
@@ -58,7 +58,7 @@ public class MovimentoDAO implements Map<Integer,Movimento> {
         Movimento a = null;
         try{
             con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("select * from mydb.movimento where id=?");
+            PreparedStatement pStm = con.prepareStatement("select * from mydb.Movimento where id=?");
             pStm.setInt(1, (Integer)key);
             ResultSet rs = pStm.executeQuery();
             if(rs.next()){
@@ -92,7 +92,7 @@ public class MovimentoDAO implements Map<Integer,Movimento> {
         try{
             if(!movimento.isTransacao()){
                 con = Connect.connect();
-                PreparedStatement pStm = con.prepareStatement("insert into mydb.movimento values (?,?,?,?,?,?)\n" +
+                PreparedStatement pStm = con.prepareStatement("insert into mydb.Movimento values (?,?,?,?,?,?)\n" +
                 "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Morador=VALUES(Morador), Valor=VALUES(Valor), Data=VALUES(Data), Transacao=VALUES(Transacao), Apartamento=VALUES(Apartamento)", Statement.RETURN_GENERATED_KEYS);
                 pStm.setInt(1,movimento.getId());
                 pStm.setInt(2,movimento.getApartamento().getId());
@@ -127,7 +127,7 @@ public class MovimentoDAO implements Map<Integer,Movimento> {
         Movimento a = this.get(key);
         try{
             con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("delete from mydb.movimento where Id = ? ; ");
+            PreparedStatement pStm = con.prepareStatement("delete from mydb.Movimento where Id = ? ; ");
             pStm.setInt(1,(Integer)key);
             pStm.executeUpdate();
             

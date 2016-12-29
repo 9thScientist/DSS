@@ -17,7 +17,7 @@ public class ApartamentoDAO {
         try{
             con = Connect.connect();
             Statement stm = con.createStatement();
-            stm.executeUpdate("delete from mydb.apartamento");
+            stm.executeUpdate("delete from mydb.Apartamento");
         }catch (ClassNotFoundException | SQLException e) {
             throw new NullPointerException(e.getMessage()); 
         } finally {
@@ -31,7 +31,7 @@ public class ApartamentoDAO {
         try{
             con = Connect.connect();
             Statement stm = con.createStatement();
-            String sql = "select id from mydb.apartamento where Id ='"+(int)key+"'";
+            String sql = "select id from mydb.Apartamento where Id ='"+(int)key+"'";
             ResultSet rs = stm.executeQuery(sql);
             r=rs.next();
         } catch (ClassNotFoundException | SQLException e) {
@@ -46,7 +46,7 @@ public class ApartamentoDAO {
         Apartamento a = null;
         try{
             con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("select * from mydb.apartamento where id=?");
+            PreparedStatement pStm = con.prepareStatement("select * from mydb.Apartamento where id=?");
             pStm.setInt(1, (Integer)key);
             ResultSet rs = pStm.executeQuery();
             if(rs.next()){
@@ -69,7 +69,7 @@ public class ApartamentoDAO {
         Apartamento a = null;
         try{
             con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("insert into mydb.apartamento values (?,?)\n" +
+            PreparedStatement pStm = con.prepareStatement("insert into mydb.Apartamento values (?,?)\n" +
             "ON DUPLICATE KEY UPDATE Id=VALUES(Id),  Saldo=VALUES(Saldo)", Statement.RETURN_GENERATED_KEYS);
 
             pStm.setInt(1,apartamento.getId());
@@ -89,7 +89,7 @@ public class ApartamentoDAO {
         Apartamento a = this.get(key);
         try{
             con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("delete from mydb.apartamento where Id = ? ; ");
+            PreparedStatement pStm = con.prepareStatement("delete from mydb.Apartamento where Id = ? ; ");
             pStm.setInt(1,(int)key);
             pStm.executeUpdate();
         }catch (ClassNotFoundException | SQLException e){
@@ -105,7 +105,7 @@ public class ApartamentoDAO {
         try{
             con= Connect.connect();
             Statement stm = con.createStatement();
-            ResultSet rs = stm.executeQuery("select * from mydb.apartamento");
+            ResultSet rs = stm.executeQuery("select * from mydb.Apartamento");
     
         while(rs.next()){
                 i++;
@@ -123,7 +123,7 @@ public class ApartamentoDAO {
         try{
             con = Connect.connect();
             Statement stm = con.createStatement();
-            ResultSet rs = stm.executeQuery("select * from mydb.apartamento");
+            ResultSet rs = stm.executeQuery("select * from mydb.Apartamento");
             while(rs.next()){
                 cat.add(new Apartamento(rs.getInt("Id"),rs.getFloat("Saldo")));
             }

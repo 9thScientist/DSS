@@ -22,18 +22,18 @@ public class DespesaDAO implements Map<Integer,Despesa> {
         try{
             con = Connect.connect();
             Statement stm = con.createStatement();
-            ResultSet rs = stm.executeQuery("select id from mydb.despesa");
+            ResultSet rs = stm.executeQuery("select id from mydb.Despesa");
             
             while(rs.next()){
-                PreparedStatement pStm = con.prepareStatement("delete from mydb.despesa where Id = ? ; ");
+                PreparedStatement pStm = con.prepareStatement("delete from mydb.Despesa where Id = ? ; ");
                 pStm.setInt(1,(int)rs.getInt("Id"));
                 pStm.executeUpdate();
                 
-                pStm = con.prepareStatement("delete from mydb.movimento where Id = ? ; ");
+                pStm = con.prepareStatement("delete from mydb.Movimento where Id = ? ; ");
                 pStm.setInt(1,(int)rs.getInt("Id"));
                 pStm.executeUpdate();
                 
-                pStm = con.prepareStatement("delete from mydb.racio where Despesa = ? ; ");
+                pStm = con.prepareStatement("delete from mydb.Racio where Despesa = ? ; ");
                 pStm.setInt(1,(int)rs.getInt("Id"));
                 pStm.executeUpdate();
             }
@@ -51,7 +51,7 @@ public class DespesaDAO implements Map<Integer,Despesa> {
         try{
             con = Connect.connect();
             Statement stm = con.createStatement();
-            String sql = "select id from mydb.despesa where Id ='"+(Integer)key+"'";
+            String sql = "select id from mydb.Despesa where Id ='"+(Integer)key+"'";
             ResultSet rs = stm.executeQuery(sql);
             r=rs.next();
         } catch (ClassNotFoundException | SQLException e) {
@@ -72,19 +72,19 @@ public class DespesaDAO implements Map<Integer,Despesa> {
         Despesa a = null;
         try{
             con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("select * from mydb.despesa where id=?");
+            PreparedStatement pStm = con.prepareStatement("select * from mydb.Despesa where id=?");
             pStm.setInt(1, (Integer)key);
             ResultSet rs = pStm.executeQuery();
             
-            PreparedStatement pStmM = con.prepareStatement("select * from mydb.movimento where id=?");
+            PreparedStatement pStmM = con.prepareStatement("select * from mydb.Movimento where id=?");
             pStmM.setInt(1, (Integer)key);
             ResultSet rsM = pStmM.executeQuery();
             
-            PreparedStatement pStmR = con.prepareStatement("select * from mydb.racio where Despesa=?");
+            PreparedStatement pStmR = con.prepareStatement("select * from mydb.Racio where Despesa=?");
             pStmR.setInt(1, (Integer)key);
             ResultSet rsR = pStmR.executeQuery();
             
-            PreparedStatement pStmC = con.prepareStatement("select * from mydb.categoria where Id=?");
+            PreparedStatement pStmC = con.prepareStatement("select * from mydb.Categoria where Id=?");
             pStmR.setInt(1, rs.getInt("Categoria"));
             
             if(rs.next()){
@@ -116,7 +116,7 @@ public class DespesaDAO implements Map<Integer,Despesa> {
         Despesa a = null;
         try{
             con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("insert into mydb.despesa values (?,?,?,?)\n" +
+            PreparedStatement pStm = con.prepareStatement("insert into mydb.Despesa values (?,?,?,?)\n" +
             "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Descrição= VALUES(Descrição),Pago= VALUES(Pago)", Statement.RETURN_GENERATED_KEYS);
 
             pStm.setInt(1,despesa.getId());
@@ -125,7 +125,7 @@ public class DespesaDAO implements Map<Integer,Despesa> {
             pStm.setBoolean(4,despesa.pago());
             pStm.executeUpdate();
             
-            pStm = con.prepareStatement("insert into mydb.movimento values (?,?,?,?,?,?)\n" +
+            pStm = con.prepareStatement("insert into mydb.Movimento values (?,?,?,?,?,?)\n" +
             "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Morador=VALUES(Morador), Valor=VALUES(Valor), Data=VALUES(Data), Transacao=VALUES(Transacao)", Statement.RETURN_GENERATED_KEYS);
 
             pStm.setInt(1,despesa.getId());
@@ -136,7 +136,7 @@ public class DespesaDAO implements Map<Integer,Despesa> {
             pStm.setBoolean(6,despesa.isTransacao());
             pStm.executeUpdate();
             for(Map.Entry<Morador,Float> r : despesa.getRacios().entrySet()) {
-                PreparedStatement pStmR = con.prepareStatement("insert into mydb.racio values (?,?,?)\n" +
+                PreparedStatement pStmR = con.prepareStatement("insert into mydb.Racio values (?,?,?)\n" +
                 "ON DUPLICATE KEY UPDATE Morador=VALUES(Morador), Despesa=VALUES(Despesa), Racio=VALUES(Racio)", Statement.RETURN_GENERATED_KEYS);
 
                 pStmR.setInt(1,r.getKey().getId());
@@ -165,13 +165,13 @@ public class DespesaDAO implements Map<Integer,Despesa> {
         Despesa a = this.get(key);
         try{
             con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("delete from mydb.despesa where Id = ? ; ");
+            PreparedStatement pStm = con.prepareStatement("delete from mydb.Despesa where Id = ? ; ");
             pStm.setInt(1,(Integer)key);
             pStm.executeUpdate();
-            pStm = con.prepareStatement("delete from mydb.movimento where Id = ? ; ");
+            pStm = con.prepareStatement("delete from mydb.Movimento where Id = ? ; ");
             pStm.setInt(1,(Integer)key);
             pStm.executeUpdate();
-            pStm = con.prepareStatement("delete from mydb.racio where Despesa = ? ; ");
+            pStm = con.prepareStatement("delete from mydb.Racio where Despesa = ? ; ");
             pStm.setInt(1,(Integer)key);
             pStm.executeUpdate();
         }catch (ClassNotFoundException | SQLException e){
@@ -188,7 +188,7 @@ public class DespesaDAO implements Map<Integer,Despesa> {
         try{
             con= Connect.connect();
             Statement stm = con.createStatement();
-            ResultSet rs = stm.executeQuery("select * from mydb.despesa");
+            ResultSet rs = stm.executeQuery("select * from mydb.Despesa");
 
             while(rs.next()){
                 i++;
@@ -207,17 +207,17 @@ public class DespesaDAO implements Map<Integer,Despesa> {
         try{
             con = Connect.connect();
             Statement stm = con.createStatement();
-            ResultSet rs = stm.executeQuery("select * from mydb.despesa");
+            ResultSet rs = stm.executeQuery("select * from mydb.Despesa");
             while(rs.next()){
-                PreparedStatement pStmM = con.prepareStatement("select * from mydb.movimento where id=?");
+                PreparedStatement pStmM = con.prepareStatement("select * from mydb.Movimento where id=?");
                 pStmM.setInt(1,rs.getInt("Id")); 
                 ResultSet rsM = pStmM.executeQuery();
             
-                PreparedStatement pStmR = con.prepareStatement("select * from mydb.racio where Despesa=?");
+                PreparedStatement pStmR = con.prepareStatement("select * from mydb.Racio where Despesa=?");
                 pStmR.setInt(1,rs.getInt("Id"));
                 ResultSet rsR = pStmR.executeQuery();
 
-                PreparedStatement pStmC = con.prepareStatement("select * from mydb.categoria where Id=?");
+                PreparedStatement pStmC = con.prepareStatement("select * from mydb.Categoria where Id=?");
                 pStmR.setInt(1, rs.getInt("Categoria"));
                 ResultSet rsC = pStmC.executeQuery();
 
