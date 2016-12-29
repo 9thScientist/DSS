@@ -28,6 +28,7 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
      * Creates new form EditarCategoriasUI
      */
     public EditarCategoriasUI() {
+        
         initComponents();
         SplitExpense s = new SplitExpense();
         model = new DefaultListModel();
@@ -37,6 +38,7 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
             model.add(model.getSize(),c);
         
         listaCategorias.setModel(model);
+        
     }
 
     /**
@@ -53,12 +55,9 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
         Title = new java.awt.Label();
         jScrollPane1 = new javax.swing.JScrollPane();
         listaCategorias = new javax.swing.JList<>();
-        nomeNovaCategoria = new javax.swing.JTextField();
-        textoNovaCategoria = new javax.swing.JLabel();
         editarButton = new javax.swing.JButton();
         adiconarButton = new javax.swing.JButton();
         removerButton = new javax.swing.JButton();
-        recorrente = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,8 +74,6 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
         Title.setText("SplitExpense");
 
         jScrollPane1.setViewportView(listaCategorias);
-
-        textoNovaCategoria.setText("Nova Categoria");
 
         editarButton.setText("Editar Categoria");
         editarButton.addActionListener(new java.awt.event.ActionListener() {
@@ -99,8 +96,6 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
             }
         });
 
-        recorrente.setText("Recorrente");
-
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
@@ -108,27 +103,18 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(backgroundLayout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(adiconarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                            .addComponent(editarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(removerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(backgroundLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(BackButton)
                         .addGap(82, 82, 82)
-                        .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(backgroundLayout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(142, 142, 142)
-                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(backgroundLayout.createSequentialGroup()
-                                .addComponent(editarButton)
-                                .addGap(3, 3, 3)
-                                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(removerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(adiconarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(backgroundLayout.createSequentialGroup()
-                                .addComponent(textoNovaCategoria)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(recorrente)
-                                    .addComponent(nomeNovaCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         backgroundLayout.setVerticalGroup(
@@ -138,24 +124,16 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BackButton))
-                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(22, 22, 22)
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(backgroundLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(backgroundLayout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(nomeNovaCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textoNovaCategoria))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(recorrente)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(adiconarButton)
-                        .addGap(18, 18, 18)
-                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(editarButton)
-                            .addComponent(removerButton))))
-                .addContainerGap(43, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editarButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(removerButton)))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -164,8 +142,8 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,8 +154,8 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarButtonActionPerformed
-        SplitExpense s = new SplitExpense();
-        s.editarCategoria(s.getFullHistorico().getIdCategoria(listaCategorias.getSelectedValue()),nomeNovaCategoria.getText(),recorrente.isSelected());
+    /*    SplitExpense s = new SplitExpense();
+        s.editarCategoria(s.getFullHistorico().getIdCategoria(listaCategorias.getSelectedValue()),nomeNovaCategoria.getText(),recorrente.isSelected()); */
     }//GEN-LAST:event_editarButtonActionPerformed
 
     private void removerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerButtonActionPerformed
@@ -193,11 +171,13 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_BackButtonActionPerformed
 
     private void adiconarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adiconarButtonActionPerformed
-        SplitExpense s = new SplitExpense();
+    /*    SplitExpense s = new SplitExpense();
         String nome = nomeNovaCategoria.getText();
         model.add(model.getSize(),nome);
         listaCategorias.setModel(model);
-        s.criarCategoria(nome,recorrente.isSelected());
+        s.criarCategoria(nome,recorrente.isSelected()); */
+        this.setVisible(false);
+        new AdicionarCategoriaUI().setVisible(true);
     }//GEN-LAST:event_adiconarButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -208,9 +188,6 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
     private javax.swing.JButton editarButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> listaCategorias;
-    private javax.swing.JTextField nomeNovaCategoria;
-    private javax.swing.JCheckBox recorrente;
     private javax.swing.JButton removerButton;
-    private javax.swing.JLabel textoNovaCategoria;
     // End of variables declaration//GEN-END:variables
 }
