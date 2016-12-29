@@ -1,4 +1,6 @@
 package Moradores;
+import Despesas.MontanteInvalidoException;
+import Despesas.MovimentoNaoExisteException;
 
 public class Morador {
 	private int id;

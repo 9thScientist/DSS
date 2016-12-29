@@ -1,6 +1,8 @@
 package Main;
 
 import java.util.*;
+import Moradores.*;
+import Despesas.*;
 
 public class SplitExpense {
 
@@ -60,7 +62,8 @@ public class SplitExpense {
 		apartamento.decSaldo(valor);
 
 		int id = historico.genMovimentoId();
-		Movimento levantamento = new Movimento(id, apartamento, m, valor, new Date(), true);
+                java.sql.Date hoje = new java.sql.Date((new Date()).getTime());
+		Movimento levantamento = new Movimento(id, apartamento, m, valor, hoje, true);
 		historico.addMovimento(levantamento);
 	}
 
@@ -69,7 +72,8 @@ public class SplitExpense {
 		apartamento.addSaldo(valor);
 
 		int id = historico.genMovimentoId();
-		Movimento deposito = new Movimento(id, apartamento, m, valor, new Date(), true);
+                java.sql.Date hoje = new java.sql.Date((new Date()).getTime());
+		Movimento deposito = new Movimento(id, apartamento, m, valor, hoje, true);
 		historico.addMovimento(deposito);
 	}
 
@@ -77,11 +81,11 @@ public class SplitExpense {
 		return historico.getMovimentos();
 	}
 
-	public Set<Movimento> getHistorico(GregorianCalendar from, GregorianCalendar to) {
+	public Set<Movimento> getHistorico(Date from, Date to) {
 		return historico.getMovimentos(from, to);
 	}
 
-	public Set<Movimento> getHistorico(GregorianCalendar from, GregorianCalendar to, Categoria categoria) {
+	public Set<Movimento> getHistorico(Date from, Date to, Categoria categoria) {
 		return historico.getMovimentos(from, to, categoria);
 	}
 

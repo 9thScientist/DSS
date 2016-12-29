@@ -1,7 +1,7 @@
 package Despesas;
 
 public class MovimentoNaoExisteException extends Exception {
-	MovimentoNaoExisteException(String message) {
+	public MovimentoNaoExisteException(String message) {
 				super(message);
 	}
 }

@@ -11,7 +11,7 @@ public class Apartamento {
 	public Apartamento(int id, float s) {
 		this.id = id;
 		saldo = s;
-		moradores = new HashMap<>();
+		moradores = new MoradorDAO();
 	}
 
 	public int getId() {

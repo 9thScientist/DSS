@@ -11,8 +11,9 @@ public class Historico {
 	private CategoriaDAO categorias;
 
 	public Historico() {
-		historico = new TreeMap<>();
-		categorias = new HashMap<>();
+		historico = new MovimentoDAO();
+                despesas = new DespesaDAO();
+		categorias = new CategoriaDAO();
 	}
 
 	public void addCategoria(Categoria c) {
@@ -45,7 +46,7 @@ public class Historico {
 		return ret;
 	}
 
-	public Set<Movimento> getMovimentos(GregorianCalendar from, GregorianCalendar to) {
+	public Set<Movimento> getMovimentos(Date from, Date to) {
 		Set<Movimento> ret = new TreeSet<>();
 
 		for (Movimento m : historico.values())
@@ -55,7 +56,7 @@ public class Historico {
 		return ret;
 	}
 
-	public Set<Movimento> getMovimentos(GregorianCalendar from, GregorianCalendar to, Categoria categoria) {
+	public Set<Movimento> getMovimentos(Date from, Date to, Categoria categoria) {
 		Set<Movimento> ret = new TreeSet<>();
 
 		for (Movimento m : historico.values())
@@ -69,8 +70,11 @@ public class Historico {
 	}
 
 	public void addMovimento(Movimento m) {
-		if (m.getClass().getSimpleName().equals("Despesa"))
-			despesas.put(m.getId(), m);
+		if (m.getClass().getSimpleName().equals("Despesa")) {
+                    Despesa d = (Despesa) m;
+                    despesas.put(d.getId(), d);
+                }
+		
 		else historico.put(m.getId(), m);
 	}
 

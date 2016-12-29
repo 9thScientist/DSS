@@ -18,8 +18,7 @@ public class Movimento implements Comparable<Movimento> {
 		apartamento = a;
 		morador = m;
 		valor = v;
-		data = new Date();
-		data.setTime(d);
+		data = d;
 		transacao = t;
 	}
 
@@ -77,8 +76,8 @@ public class Movimento implements Comparable<Movimento> {
 		morador = n_morador;
 	}
 
-	public void setData(GregorianCalendar d) {
-		data = (GregorianCalendar) d.clone();
+	public void setData(Date d) {
+		data = d;
 	}
 
 	public void setValor(float v) {

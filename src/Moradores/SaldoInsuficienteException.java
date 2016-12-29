@@ -1,7 +1,7 @@
 package Moradores;
 
 public class SaldoInsuficienteException extends Exception {
-	SaldoInsuficienteException(String message) {
+	public SaldoInsuficienteException(String message) {
 				super(message);
 	}
 }
