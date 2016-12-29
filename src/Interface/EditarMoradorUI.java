@@ -167,9 +167,8 @@ public class EditarMoradorUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos.",  "Erro", JOptionPane.ERROR_MESSAGE);
         else {
             SplitExpense se = new SplitExpense();
-            String oldname = moradores[oldUsername.getSelectedIndex()];
             
-            se.editarMorador(oldname, newUsername.getText(), newContacto.getText(), "");
+            se.editarMorador(moradorSelec.getNome(), newUsername.getText(), newContacto.getText(), "");
                        
             this.setVisible(false);
             new MoradoresUI().setVisible(true);

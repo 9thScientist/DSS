@@ -5,16 +5,40 @@
  */
 package Interface;
 
+import Despesas.MontanteInvalidoException;
+import Main.SplitExpense;
+import Moradores.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author zesilva63
  */
 public class DepositoUI extends javax.swing.JFrame {
 
+    String[] moradores;
+    Morador moradorSelec;
     /**
      * Creates new form DepositoUI
      */
     public DepositoUI() {
+        SplitExpense se = new SplitExpense();
+        Set<Morador> ms = new HashSet<>(se.getApartamento().getMoradores().values());
+        List<String> tmp = new ArrayList<>();
+        
+        for (Morador m : ms)
+            if (m.ativo())
+                tmp.add(m.getNome());
+        moradores = new String[tmp.size()];
+        moradores = tmp.toArray(moradores);
+        
+        if (moradores.length > 0)
+            moradorSelec = se.getApartamento().getMoradorNome(moradores[0]);
+        
         initComponents();
     }
 
@@ -30,11 +54,10 @@ public class DepositoUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         BackButton = new javax.swing.JButton();
         Title = new java.awt.Label();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        MoradoresList = new javax.swing.JList<>();
-        labelValor = new javax.swing.JLabel();
-        txtValor = new javax.swing.JTextField();
         DepositarButton = new javax.swing.JButton();
+        username = new javax.swing.JComboBox<>(moradores);
+        valorTextField = new javax.swing.JTextField();
+        labelUsername = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,21 +72,27 @@ public class DepositoUI extends javax.swing.JFrame {
         Title.setFont(new java.awt.Font("Gargi-1.2b", 1, 24)); // NOI18N
         Title.setText("SplitExpense");
 
-        MoradoresList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(MoradoresList);
-
-        labelValor.setText("Valor a Depositar:");
-
         DepositarButton.setText("Depositar");
         DepositarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DepositarButtonActionPerformed(evt);
             }
         });
+
+        username.setName(""); // NOI18N
+        username.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameActionPerformed(evt);
+            }
+        });
+
+        valorTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                valorTextFieldActionPerformed(evt);
+            }
+        });
+
+        labelUsername.setText("Valor");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -77,16 +106,16 @@ public class DepositoUI extends javax.swing.JFrame {
                         .addGap(77, 77, 77)
                         .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(61, 61, 61)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(DepositarButton)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(labelValor)
-                                .addGap(34, 34, 34)
-                                .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(79, Short.MAX_VALUE))
+                                .addComponent(labelUsername)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(username, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(valorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(125, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,17 +124,15 @@ public class DepositoUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BackButton))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelValor)
-                            .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                        .addComponent(DepositarButton)))
-                .addGap(59, 59, 59))
+                .addGap(39, 39, 39)
+                .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelUsername)
+                    .addComponent(valorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addComponent(DepositarButton)
+                .addGap(57, 57, 57))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -123,7 +150,25 @@ public class DepositoUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void DepositarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DepositarButtonActionPerformed
-        // TODO add your handling code here:
+        
+        if (username.getSelectedIndex() == -1 || valorTextField.getText().equals(""))
+            JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos.",  "Erro", JOptionPane.ERROR_MESSAGE);
+        else {
+            SplitExpense se = new SplitExpense();
+            
+            System.out.println(moradorSelec.getNome() + ": " + Float.toString(moradorSelec.getSaldo()));
+            
+            try {
+                float valor = Float.parseFloat(valorTextField.getText());
+                se.depositar(moradorSelec, valor);
+                this.setVisible(false);
+                new MoradoresUI().setVisible(true);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "O valor deve ser válido.\nEx.: 25.9 Corresponde a 25,09€",  "Erro", JOptionPane.ERROR_MESSAGE);
+            } catch (MontanteInvalidoException e) {
+                JOptionPane.showMessageDialog(null, "O valor deve ser positivo.",  "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_DepositarButtonActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
@@ -131,14 +176,23 @@ public class DepositoUI extends javax.swing.JFrame {
         new MoradoresUI().setVisible(true);
     }//GEN-LAST:event_BackButtonActionPerformed
 
+    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+        SplitExpense se = new SplitExpense();
+        String nome = moradores[username.getSelectedIndex()];
+        moradorSelec = se.getApartamento().getMoradorNome(nome);
+    }//GEN-LAST:event_usernameActionPerformed
+
+    private void valorTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valorTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_valorTextFieldActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
     private javax.swing.JButton DepositarButton;
-    private javax.swing.JList<String> MoradoresList;
     private java.awt.Label Title;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel labelValor;
-    private javax.swing.JTextField txtValor;
+    private javax.swing.JLabel labelUsername;
+    private javax.swing.JComboBox<String> username;
+    private javax.swing.JTextField valorTextField;
     // End of variables declaration//GEN-END:variables
 }
