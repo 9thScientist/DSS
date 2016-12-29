@@ -40,7 +40,7 @@ public class Historico {
         
         public Set<String> getCategorias() {
 		Set<String> ret = new TreeSet<>();
-                for (Categoria cat : categorias.values())
+                for (Categoria cat : categorias.values()) 
                     ret.add(cat.getDescricao());
                 return ret;
 	}
@@ -77,7 +77,7 @@ public class Historico {
 
 		return ret;
 	}
-
+        
 	public void addMovimento(Movimento m) {
             historico.put(m.getId(), m);
 	}

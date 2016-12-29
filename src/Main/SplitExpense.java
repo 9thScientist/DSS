@@ -113,6 +113,10 @@ public class SplitExpense {
 		return historico.getMovimentos(from, to, categoria);
 	}
 
+        public Set<String> getCategorias() {
+            return historico.getCategorias();
+        }
+        
 	public Categoria criarCategoria(String descricao, boolean recorrente) {
 		int id = historico.genCategoriaId();
 		Categoria categoria = new Categoria(id, descricao, recorrente);

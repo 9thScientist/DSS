@@ -33,10 +33,10 @@ public class AdicionarCategoriaUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         BackButton = new javax.swing.JButton();
         Title = new java.awt.Label();
-        txtUsername = new javax.swing.JTextField();
+        novaCategoria = new javax.swing.JTextField();
         labelUsername = new javax.swing.JLabel();
         ButtonAdicionar = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        isRecorrente = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,9 +52,9 @@ public class AdicionarCategoriaUI extends javax.swing.JFrame {
         Title.setFont(new java.awt.Font("Gargi-1.2b", 1, 24)); // NOI18N
         Title.setText("SplitExpense");
 
-        txtUsername.addActionListener(new java.awt.event.ActionListener() {
+        novaCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUsernameActionPerformed(evt);
+                novaCategoriaActionPerformed(evt);
             }
         });
 
@@ -67,10 +67,10 @@ public class AdicionarCategoriaUI extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox1.setText("Recorrente");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        isRecorrente.setText("Recorrente");
+        isRecorrente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                isRecorrenteActionPerformed(evt);
             }
         });
 
@@ -93,8 +93,8 @@ public class AdicionarCategoriaUI extends javax.swing.JFrame {
                                 .addComponent(labelUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jCheckBox1)
-                                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(isRecorrente)
+                                    .addComponent(novaCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(126, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -106,10 +106,10 @@ public class AdicionarCategoriaUI extends javax.swing.JFrame {
                     .addComponent(BackButton))
                 .addGap(43, 43, 43)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(novaCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelUsername))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox1)
+                .addComponent(isRecorrente)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ButtonAdicionar)
                 .addContainerGap(104, Short.MAX_VALUE))
@@ -131,29 +131,39 @@ public class AdicionarCategoriaUI extends javax.swing.JFrame {
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
         this.setVisible(false);
-        new DespesasUI().setVisible(true);
+        new EditarCategoriasUI().setVisible(true);
     }//GEN-LAST:event_BackButtonActionPerformed
 
-    private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
+    private void novaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novaCategoriaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtUsernameActionPerformed
+    }//GEN-LAST:event_novaCategoriaActionPerformed
 
     private void ButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAdicionarActionPerformed
-      
+
+        SplitExpense s = new SplitExpense();
+        
+        if (novaCategoria.getText().equals(""))
+            JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos.",  "Erro",JOptionPane.ERROR_MESSAGE);
+        else {
+            s.criarCategoria(novaCategoria.getText(),isRecorrente.isEnabled());
+            
+            this.setVisible(false);
+            new EditarCategoriasUI().setVisible(true);
+        }      
     }//GEN-LAST:event_ButtonAdicionarActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void isRecorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isRecorrenteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_isRecorrenteActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
     private javax.swing.JButton ButtonAdicionar;
     private java.awt.Label Title;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox isRecorrente;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelUsername;
-    private javax.swing.JTextField txtUsername;
+    private javax.swing.JTextField novaCategoria;
     // End of variables declaration//GEN-END:variables
 }

@@ -29,15 +29,8 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
      */
     public EditarCategoriasUI() {
         
+        listFiller();
         initComponents();
-        SplitExpense s = new SplitExpense();
-        model = new DefaultListModel();
-        Set<String> cat = s.getFullHistorico().getCategorias();
-        
-        for(String c : cat)
-            model.add(model.getSize(),c);
-        
-        listaCategorias.setModel(model);
         
     }
 
@@ -73,6 +66,7 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
         Title.setFont(new java.awt.Font("Gargi-1.2b", 1, 24)); // NOI18N
         Title.setText("SplitExpense");
 
+        listaCategorias.setModel(model);
         jScrollPane1.setViewportView(listaCategorias);
 
         editarButton.setText("Editar Categoria");
@@ -180,6 +174,16 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
         new AdicionarCategoriaUI().setVisible(true);
     }//GEN-LAST:event_adiconarButtonActionPerformed
 
+    public void listFiller() {
+        model = new DefaultListModel<String>();
+        
+        SplitExpense se = new SplitExpense();
+        Set<String> cats = se.getCategorias();
+        for(String c : cats)
+            model.addElement(c);
+        
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
     private java.awt.Label Title;

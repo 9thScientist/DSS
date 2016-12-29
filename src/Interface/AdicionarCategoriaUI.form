@@ -54,8 +54,8 @@
                                   <Component id="labelUsername" min="-2" pref="48" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txtUsername" alignment="1" min="-2" pref="160" max="-2" attributes="0"/>
+                                      <Component id="isRecorrente" min="-2" max="-2" attributes="0"/>
+                                      <Component id="novaCategoria" alignment="1" min="-2" pref="160" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -75,11 +75,11 @@
                   </Group>
                   <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="txtUsername" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="novaCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="labelUsername" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                  <Component id="isRecorrente" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="ButtonAdicionar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="104" max="32767" attributes="0"/>
@@ -108,9 +108,9 @@
             <Property name="text" type="java.lang.String" value="SplitExpense"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtUsername">
+        <Component class="javax.swing.JTextField" name="novaCategoria">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtUsernameActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="novaCategoriaActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="labelUsername">
@@ -126,12 +126,12 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonAdicionarActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+        <Component class="javax.swing.JCheckBox" name="isRecorrente">
           <Properties>
             <Property name="text" type="java.lang.String" value="Recorrente"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="isRecorrenteActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
