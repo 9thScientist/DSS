@@ -70,13 +70,12 @@ public class Historico {
 	}
 
 	public void addMovimento(Movimento m) {
-		if (m.getClass().getSimpleName().equals("Despesa")) {
-                    Despesa d = (Despesa) m;
-                    despesas.put(d.getId(), d);
-                }
-		
-		else historico.put(m.getId(), m);
+            historico.put(m.getId(), m);
 	}
+        
+        public void addDespesa(Despesa d) {
+            despesas.put(d.getId(), d);
+        }
 
 	public void editMovimento(int movimento, Movimento n_movimento) {
 		historico.get(movimento).update(n_movimento);
