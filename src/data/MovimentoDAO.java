@@ -152,7 +152,7 @@ public class MovimentoDAO implements Map<Integer,Movimento> {
         try{
             con= Connect.connect();
             Statement stm = con.createStatement();
-            ResultSet rs = stm.executeQuery("select * form mydb.Movimento");
+            ResultSet rs = stm.executeQuery("select * from mydb.Movimento");
             while(rs.next()){
                 i++;
             }

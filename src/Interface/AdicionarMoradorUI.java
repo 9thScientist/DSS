@@ -149,7 +149,9 @@ public class AdicionarMoradorUI extends javax.swing.JFrame {
 
     private void ButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAdicionarActionPerformed
         SplitExpense s = new SplitExpense();
-        s.registarMorador(txtUsername.getSelectedText(),"","");
+        
+        System.out.println("us:"+txtUsername.getText());
+        s.registarMorador(txtUsername.getText(),"","");
     }//GEN-LAST:event_ButtonAdicionarActionPerformed
 
     

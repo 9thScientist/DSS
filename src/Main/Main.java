@@ -21,15 +21,10 @@ public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException{
         
             Connection con= Connect.connect();
-            ApartamentoDAO a = new ApartamentoDAO();
             
-            Apartamento apa = new Apartamento(2,10);
-            
-            a.put(apa);
-
-            //SplitExpenseUI frame = new SplitExpenseUI();
-            //frame.pack();
-            //frame.setVisible(true);
+            SplitExpenseUI frame = new SplitExpenseUI();
+            frame.pack();
+            frame.setVisible(true);
             
             Connect.close(con);
         }

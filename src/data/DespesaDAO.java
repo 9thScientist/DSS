@@ -188,7 +188,7 @@ public class DespesaDAO implements Map<Integer,Despesa> {
         try{
             con= Connect.connect();
             Statement stm = con.createStatement();
-            ResultSet rs = stm.executeQuery("select * form mydb.despesa");
+            ResultSet rs = stm.executeQuery("select * from mydb.despesa");
 
             while(rs.next()){
                 i++;

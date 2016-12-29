@@ -19,12 +19,10 @@ public class Apartamento {
         
         public Apartamento() {
 		ApartamentoDAO dao = new ApartamentoDAO();
-                System.out.println("Got here");
                 if(dao.isEmpty()){
                     dao.put(new Apartamento(1,0));
                 }
                 Apartamento a = dao.get(1);
-                System.out.println("Got here twice");
                 this.id = a.getId();
 		this.saldo = a.getSaldo();
 		moradores = new MoradorDAO();

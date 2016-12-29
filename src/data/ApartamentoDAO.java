@@ -105,7 +105,7 @@ public class ApartamentoDAO {
         try{
             con= Connect.connect();
             Statement stm = con.createStatement();
-            ResultSet rs = stm.executeQuery("select * form mydb.apartamento");
+            ResultSet rs = stm.executeQuery("select * from mydb.apartamento");
     
         while(rs.next()){
                 i++;
