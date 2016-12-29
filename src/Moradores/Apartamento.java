@@ -66,6 +66,8 @@ public class Apartamento {
 		morador.setNome(nome);
 		morador.setContacto(contacto);
 		morador.setImagem(img);
+                
+                moradores.put(morador.getId(), morador);
 	}
 
 	public void removerMorador(Morador m) {

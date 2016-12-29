@@ -49,16 +49,17 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="labelSaldo" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                                  <Component id="txtSaldoInicial" min="-2" pref="61" max="-2" attributes="0"/>
-                              </Group>
                               <Component id="ButtonAdicionar" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="labelUsername" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
-                                  <Component id="txtUsername" min="-2" pref="93" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="labelUsername" min="-2" max="-2" attributes="0"/>
+                                      <Component id="labelSaldo" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="txtContacto" pref="160" max="32767" attributes="0"/>
+                                      <Component id="txtUsername" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
@@ -80,12 +81,12 @@
                       <Component id="txtUsername" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="labelUsername" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="labelSaldo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtSaldoInicial" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtContacto" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                   <Component id="ButtonAdicionar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="49" max="32767" attributes="0"/>
               </Group>
@@ -125,12 +126,12 @@
         </Component>
         <Component class="javax.swing.JLabel" name="labelSaldo">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Saldo Inicial:"/>
+            <Property name="text" type="java.lang.String" value="Contacto"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtSaldoInicial">
+        <Component class="javax.swing.JTextField" name="txtContacto">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSaldoInicialActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtContactoActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="ButtonAdicionar">
