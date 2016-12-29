@@ -1,6 +1,7 @@
 package data;
 
-import Main.Morador;
+import Moradores.Morador;
+import Moradores.Apartamento;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ public class MoradorDAO implements Map<Integer,Morador> {
     public void clear() {
         try {
             conn = Connect.connect();
-            Statement stm = con.createStatement();
+            Statement stm = conn.createStatement();
             stm.executeUpdate("DELETE FROM morador");
         } catch (Exception e) {
             throw new NullPointerException(e.getMessage());
@@ -66,8 +67,8 @@ public class MoradorDAO implements Map<Integer,Morador> {
                 String nome = rs.getString("Nome");
                 String contacto = rs.getString("Contacto");
                 String imagem = rs.getString("Imagem");
-                float saldo = rs.getSaldo("Saldo");
-                a = new Morador(id, ap, nome, contacto, saldo, imagem);
+                float saldo = rs.getFloat("Saldo");
+                m = new Morador(id, ap, nome, contacto, saldo, imagem);
             }
         } catch (Exception e) {
              e.printStackTrace();
@@ -135,7 +136,7 @@ public class MoradorDAO implements Map<Integer,Morador> {
         int counter = 0;
         try {
             conn = Connect.connect();
-            Statement stm = con.createStatement();
+            Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery("SELECT * FROM morador");
         while(rs.next())
                 counter += 1;
@@ -152,7 +153,7 @@ public class MoradorDAO implements Map<Integer,Morador> {
         Collection<Morador> cat = new HashSet<>();
         try{
             conn = Connect.connect();
-            Statement stm = con.createStatement();
+            Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery("SELECT * FROM morador");
             while(rs.next()){
                 ApartamentoDAO apDAO = new ApartamentoDAO();
@@ -162,7 +163,7 @@ public class MoradorDAO implements Map<Integer,Morador> {
                 String contacto = rs.getString("Contacto");
                 String imagem = rs.getString("Imagem");
                 float saldo = rs.getFloat("Saldo");
-                cat.add(new Morador(id, ap, nome, contacto, saldo, imagem);
+                cat.add(new Morador(id, ap, nome, contacto, saldo, imagem));
             }
         } catch (Exception e) {
             e.printStackTrace();

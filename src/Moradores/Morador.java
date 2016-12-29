@@ -1,3 +1,5 @@
+package Moradores;
+
 public class Morador {
 	private int id;
 	private String nome;

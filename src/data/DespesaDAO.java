@@ -1,7 +1,7 @@
 package data;
 
-import Main.Despesa;
-import Main.Morador;
+import Despesas.Despesa;
+import Moradores.Morador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -121,9 +121,9 @@ public class DespesaDAO implements Map<Integer,Despesa> {
             "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Descrição= VALUES(Descrição),Pago= VALUES(Pago)", Statement.RETURN_GENERATED_KEYS);
 
             pStm.setInt(1,despesa.getId());
-            pStm.setInt(2,despesa.getCategoria());
+            pStm.setInt(2,despesa.getCategoria().getId());
             pStm.setString(3,despesa.getDescricao());
-            pStm.setBoolean(4,despesa.getPago());
+            pStm.setBoolean(4,despesa.pago());
             pStm.executeUpdate();
             
             pStm = con.prepareStatement("insert into mydb.movimento values (?,?,?,?,?,?)\n" +
@@ -134,7 +134,7 @@ public class DespesaDAO implements Map<Integer,Despesa> {
             pStm.setInt(3,despesa.getMorador().getId());
             pStm.setFloat(4,despesa.getValor());
             pStm.setDate(5,despesa.getData());
-            pStm.setBoolean(6,despesa.getTransacao());
+            pStm.setBoolean(6,despesa.isTransacao());
             pStm.executeUpdate();
             for(Map.Entry<Morador,Float> r : despesa.getRacios().entrySet()) {
                 PreparedStatement pStmR = con.prepareStatement("insert into mydb.racio values (?,?,?)\n" +
@@ -145,7 +145,6 @@ public class DespesaDAO implements Map<Integer,Despesa> {
                 pStmR.setFloat(3,r.getValue());
                 pStmR.executeUpdate();
             }
-            ResultSet rs = pStm.getGeneratedKeys();
             a = despesa;
         }catch(ClassNotFoundException | SQLException e){
             e.printStackTrace();

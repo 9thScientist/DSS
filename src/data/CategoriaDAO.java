@@ -1,6 +1,6 @@
 package data;
 
-import Main.Categoria;
+import Despesas.Categoria;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,7 +61,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
 
             if(rs.next()) {
                 int id = rs.getInt("Id");
-                Sting nome = rs.getString("Categoria");
+                String nome = rs.getString("Categoria");
                 boolean recorrente = rs.getBoolean("Regular");
                 c = new Categoria(id, nome, recorrente);
             }
@@ -150,9 +150,9 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
             ResultSet rs = stm.executeQuery("SELECT * FROM categoria");
         while(rs.next()){
             int id = rs.getInt("Id");
-            String nome = rs.getNome("Categoria");
+            String nome = rs.getString("Categoria");
             boolean recorrente = rs.getBoolean("Recorrente");
-            cat.add(new Categoria(id, nome, recorrente);
+            cat.add(new Categoria(id, nome, recorrente));
             }
         } catch (Exception e) {
             e.printStackTrace();

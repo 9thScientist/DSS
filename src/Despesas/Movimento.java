@@ -1,10 +1,15 @@
+package Despesas;
+
 import java.util.*;
+import Moradores.Apartamento;
+import Moradores.Morador;
+import java.sql.Date;
 
 public class Movimento implements Comparable<Movimento> {
 	private int id;
 	private Apartamento apartamento;
 	private Morador morador;
-	private GregorianCalendar data;
+	private Date data;
 	private float valor;
 	private boolean transacao;
 
@@ -13,17 +18,17 @@ public class Movimento implements Comparable<Movimento> {
 		apartamento = a;
 		morador = m;
 		valor = v;
-		data = new GregorianCalendar();
+		data = new Date();
 		data.setTime(d);
 		transacao = t;
 	}
 
-	public Movimento(int id, Apartamento a, Morador m, GregorianCalendar d, float v, boolean t) {
+	public Movimento(int id, Apartamento a, Morador m, float v, GregorianCalendar d, boolean t) {
 		this.id = id;
 		apartamento = a;
 		morador = m;
 		valor = v;
-		data = (GregorianCalendar) d.clone();
+		data = (Date) d.clone();
 		transacao = t;
 	}
 
@@ -48,8 +53,8 @@ public class Movimento implements Comparable<Movimento> {
 		return morador;
 	}
 
-	public GregorianCalendar getData() {
-		return (GregorianCalendar) data.clone();
+	public Date getData() {
+		return (Date) data.clone();
 	}
 
 	public float getValor() {

@@ -1,15 +1,19 @@
+package Despesas;
+
 import java.util.*;
 import java.sql.Date;
+import Moradores.Morador;
+import Moradores.Apartamento;
 
 public class Despesa extends Movimento {
 	private int id;
 	private boolean pago;
 	private String descricao;
 	private Map<Morador, Float> racios;
-	private Categoria categoria;
+        private Categoria categoria;
 
-	public Despesa(int id, Apartamento a, Morador m, String d, float valor, Date date,
-			boolean tr, Categoria c, Map<Morador, Float> rcs) {
+	public Despesa(int id, Apartamento a, Morador m, float valor, Date date,
+			boolean tr,boolean pago, String d, Categoria c, Map<Morador, Float> rcs) {
 		super(id, a, m, valor, date, tr);
 		this.id = id;
 		descricao = d;
@@ -22,7 +26,7 @@ public class Despesa extends Movimento {
 
 	public Despesa(int id, Apartamento a, Morador m, String d, float valor,
 			GregorianCalendar date, boolean tr, Categoria c, Map<Morador, Float> rcs) {
-		super(id, a, m, date, valor, tr);
+		super(id, a, m,valor,date, tr);
 		this.id = id;
 		descricao = d;
 		racios = new HashMap<>();
