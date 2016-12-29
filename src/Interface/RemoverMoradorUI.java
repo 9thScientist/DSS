@@ -6,6 +6,11 @@
 
 package Interface;
 import Main.SplitExpense;
+import Moradores.Morador;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -13,8 +18,20 @@ import Main.SplitExpense;
  */
 public class RemoverMoradorUI extends javax.swing.JFrame {
 
+    private String[] moradores;
     /** Creates new form RemoverMoradorUI */
     public RemoverMoradorUI() {
+        
+        SplitExpense se = new SplitExpense();
+        Set<Morador> ms = new HashSet<>(se.getApartamento().getMoradores().values());
+        List<String> tmp = new ArrayList<>();
+        
+        for (Morador m : ms)
+            if (m.ativo())
+                tmp.add(m.getNome());
+        moradores = new String[tmp.size()];
+        moradores = tmp.toArray(moradores);
+        
         initComponents();
     }
 
@@ -30,9 +47,8 @@ public class RemoverMoradorUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         BackButton = new javax.swing.JButton();
         Title = new java.awt.Label();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        MoradoresList = new javax.swing.JList<>();
         RemoverButton = new javax.swing.JButton();
+        userComboBox = new javax.swing.JComboBox<>(moradores);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -46,13 +62,6 @@ public class RemoverMoradorUI extends javax.swing.JFrame {
         Title.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Title.setFont(new java.awt.Font("Gargi-1.2b", 1, 24)); // NOI18N
         Title.setText("SplitExpense");
-
-        MoradoresList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(MoradoresList);
 
         RemoverButton.setText("Remover");
         RemoverButton.addActionListener(new java.awt.event.ActionListener() {
@@ -73,11 +82,11 @@ public class RemoverMoradorUI extends javax.swing.JFrame {
                         .addGap(83, 83, 83)
                         .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
+                        .addGap(81, 81, 81)
+                        .addComponent(userComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(RemoverButton)))
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -86,13 +95,11 @@ public class RemoverMoradorUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BackButton))
-                .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(127, 127, 127)
-                        .addComponent(RemoverButton)))
-                .addGap(65, 65, 65))
+                .addGap(43, 43, 43)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(userComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RemoverButton))
+                .addContainerGap(171, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -116,16 +123,18 @@ public class RemoverMoradorUI extends javax.swing.JFrame {
 
     private void RemoverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoverButtonActionPerformed
         SplitExpense s = new SplitExpense();
-        s.removerMorador(MoradoresList.getSelectedValue());
+        s.removerMorador((String) userComboBox.getSelectedItem());
+        
+        this.setVisible(false);
+        new MoradoresUI().setVisible(true);
     }//GEN-LAST:event_RemoverButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
-    private javax.swing.JList<String> MoradoresList;
     private javax.swing.JButton RemoverButton;
     private java.awt.Label Title;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> userComboBox;
     // End of variables declaration//GEN-END:variables
 
 }

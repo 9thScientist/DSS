@@ -27,7 +27,8 @@ public class EditarMoradorUI extends javax.swing.JFrame {
         List<String> tmp = new ArrayList<>();
         
         for (Morador m : ms)
-            tmp.add(m.getNome());
+            if (m.ativo())
+                tmp.add(m.getNome());
         moradores = new String[tmp.size()];
         moradores = tmp.toArray(moradores);
         
