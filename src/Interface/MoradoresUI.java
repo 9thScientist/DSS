@@ -5,16 +5,22 @@
  */
 package Interface;
 import Main.SplitExpense;
+import Moradores.*;
+import java.util.HashSet;
+import java.util.Set;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author zesilva63
  */
 public class MoradoresUI extends javax.swing.JFrame {
 
+    private DefaultTableModel tb;
     /**
      * Creates new form MoradoresUI
      */
     public MoradoresUI() {
+        tableFiller();
         initComponents();
     }
 
@@ -84,27 +90,7 @@ public class MoradoresUI extends javax.swing.JFrame {
         Title.setFont(new java.awt.Font("Gargi-1.2b", 1, 24)); // NOI18N
         Title.setText("SplitExpense");
 
-        TableMoradores.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"", null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Morador", "Saldo"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        TableMoradores.setModel(tb);
         jScrollPane2.setViewportView(TableMoradores);
 
         BackButton.setText("<");
@@ -125,10 +111,10 @@ public class MoradoresUI extends javax.swing.JFrame {
                         .addComponent(BackButton)
                         .addGap(190, 190, 190)
                         .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(219, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(Levantamento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(EditMorador, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -145,19 +131,19 @@ public class MoradoresUI extends javax.swing.JFrame {
                     .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BackButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(Deposito)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Levantamento)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(AddMorador))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(EditMorador)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(RemoveMorador)
-                .addGap(26, 26, 26))
+                        .addGap(43, 43, 43)
+                        .addComponent(AddMorador)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(EditMorador)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(RemoveMorador))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -170,7 +156,7 @@ public class MoradoresUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 39, Short.MAX_VALUE))
+                .addGap(0, 3, Short.MAX_VALUE))
         );
 
         pack();
@@ -206,6 +192,22 @@ public class MoradoresUI extends javax.swing.JFrame {
         new EditarMoradorUI().setVisible(true);
     }//GEN-LAST:event_EditMoradorActionPerformed
 
+    private void tableFiller() {
+        SplitExpense se = new SplitExpense();
+        String cols[] = {"Nome", "Contacto", "Saldo"};
+        tb = new DefaultTableModel(cols, 0);
+        
+        Set<Morador> ms = new HashSet(se.getApartamento().getMoradores().values());
+        
+        for (Morador m : ms) {
+            String nome = m.getNome();
+            String contacto = m.getContacto();
+            float saldo = m.getSaldo();
+            Object[] ln = {nome, contacto, saldo};
+            tb.addRow(ln);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddMorador;
     private javax.swing.JButton BackButton;
