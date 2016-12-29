@@ -227,7 +227,7 @@ public class DespesasUI extends javax.swing.JFrame {
 
     private void EditarCategoriasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarCategoriasButtonActionPerformed
         this.setVisible(false);
-        new EditarCategoriasUI().setVisible(true);
+        new CategoriasUI().setVisible(true);
     }//GEN-LAST:event_EditarCategoriasButtonActionPerformed
 
     private void RegistarDespesaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistarDespesaButtonActionPerformed

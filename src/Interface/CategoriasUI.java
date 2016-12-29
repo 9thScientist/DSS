@@ -19,7 +19,7 @@ import javax.swing.JScrollPane;
  *
  * @author zesilva63
  */
-public class EditarCategoriasUI extends javax.swing.JFrame {
+public class CategoriasUI extends javax.swing.JFrame {
     
     
     DefaultListModel<String> model;
@@ -27,7 +27,7 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
     /**
      * Creates new form EditarCategoriasUI
      */
-    public EditarCategoriasUI() {
+    public CategoriasUI() {
         
         listFiller();
         initComponents();
@@ -67,9 +67,20 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
         Title.setText("SplitExpense");
 
         listaCategorias.setModel(model);
+        listaCategorias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listaCategoriasMouseClicked(evt);
+            }
+        });
+        listaCategorias.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaCategoriasValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(listaCategorias);
 
         editarButton.setText("Editar Categoria");
+        editarButton.setEnabled(false);
         editarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editarButtonActionPerformed(evt);
@@ -84,6 +95,7 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
         });
 
         removerButton.setText("Remover Categoria");
+        removerButton.setEnabled(false);
         removerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removerButtonActionPerformed(evt);
@@ -148,15 +160,25 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarButtonActionPerformed
-    /*    SplitExpense s = new SplitExpense();
+        SplitExpense se = new SplitExpense();
+        
+        Categoria c = se.getCategoria(listaCategorias.getSelectedValue());
+        
+        this.setVisible(false);
+        new EditarCategoriaUI(c).setVisible(true);
+        /*    SplitExpense s = new SplitExpense();
         s.editarCategoria(s.getFullHistorico().getIdCategoria(listaCategorias.getSelectedValue()),nomeNovaCategoria.getText(),recorrente.isSelected()); */
     }//GEN-LAST:event_editarButtonActionPerformed
 
     private void removerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerButtonActionPerformed
         SplitExpense s = new SplitExpense();
         s.removerCategoria(listaCategorias.getSelectedValue());
-        model.remove(listaCategorias.getSelectedIndex());
+        
+        listFiller();
         listaCategorias.setModel(model);
+        
+        removerButton.setEnabled(false);
+        editarButton.setEnabled(false);
     }//GEN-LAST:event_removerButtonActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
@@ -173,6 +195,15 @@ public class EditarCategoriasUI extends javax.swing.JFrame {
         this.setVisible(false);
         new AdicionarCategoriaUI().setVisible(true);
     }//GEN-LAST:event_adiconarButtonActionPerformed
+
+    private void listaCategoriasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaCategoriasValueChanged
+        editarButton.setEnabled(true);
+        removerButton.setEnabled(true);
+    }//GEN-LAST:event_listaCategoriasValueChanged
+
+    private void listaCategoriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaCategoriasMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_listaCategoriasMouseClicked
 
     public void listFiller() {
         model = new DefaultListModel<String>();

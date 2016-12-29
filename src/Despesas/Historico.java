@@ -34,7 +34,6 @@ public class Historico {
 	}
 
 	public void removerCategoria(Categoria c) {
-            System.out.println("got here"+ c.getId());
             categorias.remove(c.getId());
 	}
         
@@ -112,8 +111,11 @@ public class Historico {
 	}
         
         public Categoria getCategoriaNome(String nome){
-            CategoriaDAO dao = new CategoriaDAO();
-            return dao.getByNome(nome);
+            for (Categoria c : categorias.values())
+                if(c.getDescricao().equals(nome))
+                    return c;
+            
+            return null;
         }
         
         public int getIdCategoria(String nome){

@@ -6,18 +6,21 @@
 package Interface;
 
 import Main.SplitExpense;
+import Despesas.*;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author zesilva63
  */
-public class AdicionarCategoriaUI extends javax.swing.JFrame {
+public class EditarCategoriaUI extends javax.swing.JFrame {
 
+    private Categoria categoria;
     /**
      * Creates new form AdicionarMoradorUI
      */
-    public AdicionarCategoriaUI() {
+    public EditarCategoriaUI(Categoria c) {
+        categoria = c;
         initComponents();
     }
 
@@ -35,7 +38,7 @@ public class AdicionarCategoriaUI extends javax.swing.JFrame {
         Title = new java.awt.Label();
         novaCategoria = new javax.swing.JTextField();
         labelUsername = new javax.swing.JLabel();
-        ButtonAdicionar = new javax.swing.JButton();
+        ButtonEditar = new javax.swing.JButton();
         isRecorrente = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -52,6 +55,7 @@ public class AdicionarCategoriaUI extends javax.swing.JFrame {
         Title.setFont(new java.awt.Font("Gargi-1.2b", 1, 24)); // NOI18N
         Title.setText("SplitExpense");
 
+        novaCategoria.setText(categoria.getDescricao());
         novaCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 novaCategoriaActionPerformed(evt);
@@ -60,14 +64,15 @@ public class AdicionarCategoriaUI extends javax.swing.JFrame {
 
         labelUsername.setText("Nome");
 
-        ButtonAdicionar.setText("Adicionar Categoria");
-        ButtonAdicionar.addActionListener(new java.awt.event.ActionListener() {
+        ButtonEditar.setText("Editar Categoria");
+        ButtonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonAdicionarActionPerformed(evt);
+                ButtonEditarActionPerformed(evt);
             }
         });
 
         isRecorrente.setText("Recorrente");
+        isRecorrente.setSelected(categoria.isRecorrente());
         isRecorrente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 isRecorrenteActionPerformed(evt);
@@ -88,7 +93,7 @@ public class AdicionarCategoriaUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ButtonAdicionar)
+                            .addComponent(ButtonEditar)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(labelUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -111,7 +116,7 @@ public class AdicionarCategoriaUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(isRecorrente)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ButtonAdicionar)
+                .addComponent(ButtonEditar)
                 .addContainerGap(104, Short.MAX_VALUE))
         );
 
@@ -138,19 +143,19 @@ public class AdicionarCategoriaUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_novaCategoriaActionPerformed
 
-    private void ButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAdicionarActionPerformed
+    private void ButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonEditarActionPerformed
 
         SplitExpense s = new SplitExpense();
         
         if (novaCategoria.getText().equals(""))
             JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos.",  "Erro",JOptionPane.ERROR_MESSAGE);
         else {
-            s.criarCategoria(novaCategoria.getText(), isRecorrente.isSelected());
+            s.editarCategoria(categoria.getId(), novaCategoria.getText(), isRecorrente.isSelected());
             
             this.setVisible(false);
             new CategoriasUI().setVisible(true);
         }      
-    }//GEN-LAST:event_ButtonAdicionarActionPerformed
+    }//GEN-LAST:event_ButtonEditarActionPerformed
 
     private void isRecorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isRecorrenteActionPerformed
         // TODO add your handling code here:
@@ -159,7 +164,7 @@ public class AdicionarCategoriaUI extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
-    private javax.swing.JButton ButtonAdicionar;
+    private javax.swing.JButton ButtonEditar;
     private java.awt.Label Title;
     private javax.swing.JCheckBox isRecorrente;
     private javax.swing.JPanel jPanel1;
