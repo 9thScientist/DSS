@@ -65,7 +65,7 @@ public class ApartamentoDAO {
     }
 
     
-    public Apartamento put(Integer id,Apartamento apartamento) {
+    public Apartamento put(Apartamento apartamento) {
         Apartamento a = null;
         try{
             con = Connect.connect();

@@ -77,6 +77,35 @@ public class MoradorDAO implements Map<Integer,Morador> {
         }
         return m;
     }
+    
+    
+    
+    public Morador get(String n) {
+        Morador m = null;
+        try {
+            conn = Connect.connect();
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM morador WHERE Nome = ?");
+            stm.setString(1, n);
+            ResultSet rs = stm.executeQuery();
+
+            if (rs.next()){
+                ApartamentoDAO apDAO = new ApartamentoDAO();
+                int id = rs.getInt("Id");
+                Apartamento ap = apDAO.get(rs.getInt("Apartamento"));
+                String nome = rs.getString("Nome");
+                String contacto = rs.getString("Contacto");
+                String imagem = rs.getString("Imagem");
+                float saldo = rs.getFloat("Saldo");
+                m = new Morador(id, ap, nome, contacto, saldo, imagem);
+            }
+        } catch (Exception e) {
+             e.printStackTrace();
+        } finally {
+            Connect.close(conn);
+        }
+        return m;
+    }
+    
 
     @Override
     public boolean isEmpty() {

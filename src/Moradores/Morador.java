@@ -1,6 +1,6 @@
 package Moradores;
 import Despesas.MontanteInvalidoException;
-import Despesas.MovimentoNaoExisteException;
+
 
 public class Morador {
 	private int id;
@@ -29,6 +29,16 @@ public class Morador {
 		saldo = m.getSaldo();
 		ativo = m.ativo();
 		apartamento = m.getApartamento();
+	}
+        
+        public Morador() {
+		id = 0;
+		nome ="";
+		contacto = "";
+		imagem = "";
+		saldo = 0;
+		ativo = false;
+		apartamento = null;
 	}
 
 	public int getId() {
@@ -115,4 +125,5 @@ public class Morador {
 		ativo = m.ativo();
 		apartamento = m.getApartamento();
 	}
+        
 }

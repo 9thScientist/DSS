@@ -8,9 +8,21 @@ public class SplitExpense {
 
 	private Apartamento apartamento;
 	private Historico historico;
-
-	public void registarDespesa(boolean tr, String d, Categoria c, float valor,
-			GregorianCalendar data, Map<Morador, Float> racios, Morador morador) {
+        
+        
+        public SplitExpense(){
+            apartamento = new Apartamento();
+            historico = new Historico();
+        }
+        
+        public Apartamento getApartamento(){
+            return apartamento;
+        }
+        
+        
+        
+        public void registarDespesa(boolean tr, String d, Categoria c, float valor,
+		GregorianCalendar data, Map<Morador, Float> racios, Morador morador) {
 		int id = historico.genMovimentoId();
 		Despesa despesa = new Despesa(id, apartamento, morador, d, valor, data, tr, c, racios);
 		historico.addMovimento(despesa);
@@ -45,13 +57,14 @@ public class SplitExpense {
 		apartamento.addMorador(morador);
 	}
 
-	public void editarMorador(int id, Morador m) {
-		Morador morador = apartamento.getMorador(id);
+	public void editarMorador(String nome, Morador m) {
+		Morador morador = apartamento.getMoradorNome(nome);
 		morador.update(m);
 	}
 
-	public void removerMorador(Morador m) {
-		apartamento.removerMorador(m);
+	public void removerMorador(String morador) {
+            Apartamento a = new Apartamento();
+            a.removerMorador(a.getMoradorNome(morador));
 	}
 
 	public void levantar(Morador m, float valor) throws MontanteInvalidoException, SaldoInsuficienteException {

@@ -1,5 +1,6 @@
 package Moradores;
 
+import data.ApartamentoDAO;
 import java.util.*;
 import data.MoradorDAO;
 
@@ -9,10 +10,27 @@ public class Apartamento {
 	private MoradorDAO moradores;
 
 	public Apartamento(int id, float s) {
-		this.id = id;
+		ApartamentoDAO dao = new ApartamentoDAO();
+                this.id = id;
 		saldo = s;
 		moradores = new MoradorDAO();
+                dao.put(this);
+        }
+        
+        public Apartamento() {
+		ApartamentoDAO dao = new ApartamentoDAO();
+                System.out.println("Got here");
+                if(dao.isEmpty()){
+                    dao.put(new Apartamento(1,0));
+                }
+                Apartamento a = dao.get(1);
+                System.out.println("Got here twice");
+                this.id = a.getId();
+		this.saldo = a.getSaldo();
+		moradores = new MoradorDAO();
+                dao.put(this);
 	}
+        
 
 	public int getId() {
 		return id;
@@ -73,4 +91,10 @@ public class Apartamento {
 	public int genMoradorId() {
 		return moradores.size();
 	}
+        
+        public Morador getMoradorNome(String morador){
+            MoradorDAO dao = new MoradorDAO();
+            return dao.get(morador);
+        }
+        
 }
