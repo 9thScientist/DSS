@@ -86,7 +86,6 @@ public class DespesaDAO implements Map<Integer,Despesa> {
             
             PreparedStatement pStmC = con.prepareStatement("select * from mydb.categoria where Id=?");
             pStmR.setInt(1, rs.getInt("Categoria"));
-            ResultSet rsC = pStmC.executeQuery();
             
             if(rs.next()){
                 HashMap<Morador, Float> racios = new HashMap<>();
