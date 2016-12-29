@@ -40,58 +40,49 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="BackButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
+                          <Component id="Title" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="Title" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="LevantarButton" min="-2" max="-2" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <Component id="labelValor" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                  <Component id="txtValor" min="-2" pref="49" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="DepositarButton" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="labelUsername" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="username" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="valorTextField" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="85" max="32767" attributes="0"/>
+                  <EmptySpace pref="126" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="Title" min="-2" max="-2" attributes="0"/>
-                              <Component id="BackButton" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="labelValor" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtValor" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="66" max="32767" attributes="0"/>
-                          <Component id="LevantarButton" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="Title" min="-2" max="-2" attributes="0"/>
+                      <Component id="BackButton" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                  <Component id="username" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelUsername" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="valorTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="61" max="32767" attributes="0"/>
+                  <Component id="DepositarButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -117,44 +108,37 @@
             <Property name="text" type="java.lang.String" value="SplitExpense"/>
           </Properties>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
-          <AuxValues>
-            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-          </AuxValues>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-          <SubComponents>
-            <Component class="javax.swing.JList" name="MoradoresList">
-              <Properties>
-                <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-                  <StringArray count="5">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
-                    <StringItem index="4" value="Item 5"/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-          </SubComponents>
-        </Container>
-        <Component class="javax.swing.JLabel" name="labelValor">
+        <Component class="javax.swing.JComboBox" name="username">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Valor a Levantar:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtValor">
-        </Component>
-        <Component class="javax.swing.JButton" name="LevantarButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Levantar"/>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="" noResource="true"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LevantarButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="usernameActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JComboBox&lt;&gt;(moradores)"/>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JTextField" name="valorTextField">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="valorTextFieldActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelUsername">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Valor"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="DepositarButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Depositar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DepositarButtonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

@@ -53,6 +53,10 @@ public class Apartamento {
 	public void setSaldo(int n_saldo) {
 		saldo = n_saldo;
 	}
+        
+        public void setSaldoMorador(Morador morador){
+            moradores.put(morador.getId(), morador);
+        }
 
 	public void addMorador(Morador m) {
 		Morador morador = new Morador(m);

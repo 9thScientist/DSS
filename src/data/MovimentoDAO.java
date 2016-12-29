@@ -90,7 +90,7 @@ public class MovimentoDAO implements Map<Integer,Movimento> {
     public Movimento put(Integer key, Movimento movimento) {
         Movimento a = null;
         try{
-            if(!movimento.isTransacao()){
+            if(movimento.isTransacao()){
                 con = Connect.connect();
                 PreparedStatement pStm = con.prepareStatement("insert into mydb.Movimento values (?,?,?,?,?,?)\n" +
                 "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Morador=VALUES(Morador), Valor=VALUES(Valor), Data=VALUES(Data), Transacao=VALUES(Transacao), Apartamento=VALUES(Apartamento)", Statement.RETURN_GENERATED_KEYS);
@@ -99,7 +99,7 @@ public class MovimentoDAO implements Map<Integer,Movimento> {
                 pStm.setInt(3,movimento.getMorador().getId());
                 pStm.setFloat(4,movimento.getValor());
                 pStm.setDate(5,movimento.getData());
-                pStm.setBoolean(4,movimento.isTransacao());
+                pStm.setBoolean(6,movimento.isTransacao());
                 pStm.executeUpdate();
                 a = movimento;
             }

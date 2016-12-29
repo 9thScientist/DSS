@@ -25,7 +25,7 @@ public class SplitExpense {
 		GregorianCalendar data, Map<Morador, Float> racios, Morador morador) {
 		int id = historico.genMovimentoId();
 		Despesa despesa = new Despesa(id, apartamento, morador, d, valor, data, tr, c, racios);
-		historico.addMovimento(despesa);
+		historico.addDespesa(despesa);
 
 		apartamento.decSaldo(valor);
 		apartamento.updateSaldos(-valor, racios);
@@ -86,14 +86,16 @@ public class SplitExpense {
 	}
 
 	public void depositar(Morador m, float valor) throws MontanteInvalidoException {
-		m.addSaldo(valor);
+                if (valor < 0)
+                    throw new MontanteInvalidoException("Valor não pode ser inferior a 0.");
+                m.addSaldo(valor);
 		apartamento.addSaldo(valor);
-
-		int id = historico.genMovimentoId();
+                int id = historico.genMovimentoId();
                 java.sql.Date hoje = new java.sql.Date((new Date()).getTime());
 		Movimento deposito = new Movimento(id, apartamento, m, valor, hoje, true);
 		historico.addMovimento(deposito);
-	}
+                
+        }
 
 	public Set<Movimento> getHistorico() {
 		return historico.getMovimentos();
