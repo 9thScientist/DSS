@@ -132,14 +132,12 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="newUsername">
-          <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection component="oldUsername" name="name" type="property"/>
-            </Property>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newUsernameActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="newUsername.setText(moradorSelec.getNome());"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JComboBox" name="oldUsername">
           <Properties>
@@ -160,6 +158,10 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newContactoActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTextField()"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="newContacto.setText(moradorSelec.getContacto());"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="labelUsername1">
           <Properties>

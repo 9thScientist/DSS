@@ -32,6 +32,9 @@ public class EditarMoradorUI extends javax.swing.JFrame {
         moradores = new String[tmp.size()];
         moradores = tmp.toArray(moradores);
         
+        if (moradores.length > 0)
+            moradorSelec = se.getApartamento().getMoradorNome(moradores[0]);
+        
         initComponents();
     }
 
@@ -77,7 +80,7 @@ public class EditarMoradorUI extends javax.swing.JFrame {
 
         labelUsername.setText("Novo Username:");
 
-        newUsername.setText(oldUsername.getName());
+        newUsername.setText(moradorSelec.getNome());
         newUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newUsernameActionPerformed(evt);
@@ -91,6 +94,7 @@ public class EditarMoradorUI extends javax.swing.JFrame {
             }
         });
 
+        newContacto.setText(moradorSelec.getContacto());
         newContacto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newContactoActionPerformed(evt);
