@@ -98,19 +98,21 @@ public class Morador {
 	}
 
 	public float addSaldo(float m) throws MontanteInvalidoException {
-		if (m < 0)
+            if (m < 0)
                     throw new MontanteInvalidoException("O montante a adicionar deve ser positivo");
-
-		saldo += m;
+            
+                saldo += m;
+		apartamento.setSaldoMorador(this);
 		return saldo;
 	}
 
 	public float decSaldo(float m) throws MontanteInvalidoException {
 		if (m < 0)
 			throw new MontanteInvalidoException("O montante a decrementar deve ser positivo");
-
+                
 		saldo -= m;
-		return saldo;
+		apartamento.setSaldoMorador(this);
+                return saldo;
 	}
 
 	public float updateSaldo(float valor) {

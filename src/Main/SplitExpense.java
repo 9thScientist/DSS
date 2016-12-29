@@ -88,15 +88,14 @@ public class SplitExpense {
 	public void depositar(Morador m, float valor) throws MontanteInvalidoException {
                 if (valor < 0)
                     throw new MontanteInvalidoException("Valor não pode ser inferior a 0.");
-            
-		m.addSaldo(valor);
+                m.addSaldo(valor);
 		apartamento.addSaldo(valor);
-
-		int id = historico.genMovimentoId();
+                int id = historico.genMovimentoId();
                 java.sql.Date hoje = new java.sql.Date((new Date()).getTime());
 		Movimento deposito = new Movimento(id, apartamento, m, valor, hoje, true);
 		historico.addMovimento(deposito);
-	}
+                
+        }
 
 	public Set<Movimento> getHistorico() {
 		return historico.getMovimentos();
