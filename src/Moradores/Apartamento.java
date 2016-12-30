@@ -76,7 +76,7 @@ public class Apartamento {
 
 	public void removerMorador(Morador m) {
 		m.desativar();
-		moradores.remove(m.getId());
+		moradores.put(m.getId(),m);
 	}
 
 	public void updateSaldos(float valor, Map<Morador, Float> racios) {

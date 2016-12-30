@@ -63,7 +63,7 @@ public class Morador {
 
         public void desativar() {
 		ativo = false;
-	}
+        }
 
 	public void ativar() {
 		ativo = true;
@@ -105,7 +105,11 @@ public class Morador {
 	}
 
 	public float updateSaldo(float valor) {
-		return (saldo += valor);
+		saldo -= valor;
+                
+                apartamento.addMorador(this);
+                
+                return saldo;
 	}
 
 	public void update(Morador m) {
