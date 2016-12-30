@@ -9,31 +9,25 @@ public class Categoria {
         private boolean ativo;
 
 	public Categoria(int id, String d, boolean r) {
-		CategoriaDAO dao = new CategoriaDAO();
                 this.id = id;
 		descricao = d;
 		recorrente = r;
                 ativo = true;
-                dao.put(id,this);
                 
 	}
         	
         public Categoria(int id, String d, boolean r, boolean at) {
-		CategoriaDAO dao = new CategoriaDAO();
                 this.id = id;
 		descricao = d;
 		recorrente = r;
-                dao.put(id,this);
                 ativo = at;
 	}
 
 
 	public Categoria(Categoria c){
-		CategoriaDAO dao = new CategoriaDAO();
                 id = c.getId();
                 descricao = c.getDescricao();
 		recorrente = c.isRecorrente();
-                dao.put(id,this);
         }
 
         public boolean isAtivo() {
