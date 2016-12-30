@@ -8,10 +8,7 @@ import javax.swing.JOptionPane;
 import Main.SplitExpense;
 import Moradores.*;
 import java.util.*;
-/**
- *
- * @author zesilva63
- */
+
 public class EditarMoradorUI extends javax.swing.JFrame {
 
     String[] moradores;

@@ -172,9 +172,6 @@ public class LevantamentoUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos.",  "Erro", JOptionPane.ERROR_MESSAGE);
         else {
             SplitExpense se = new SplitExpense();
-
-            System.out.println(moradorSelec.getNome() + ": " + Float.toString(moradorSelec.getSaldo()));
-
             try {
                 float valor = Float.parseFloat(valorTextField.getText());
                 se.levantar(moradorSelec, valor);

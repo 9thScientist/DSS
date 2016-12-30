@@ -9,10 +9,6 @@ import Main.SplitExpense;
 import Despesas.*;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author zesilva63
- */
 public class EditarCategoriaUI extends javax.swing.JFrame {
 
     private Categoria categoria;

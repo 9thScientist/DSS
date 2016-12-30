@@ -9,10 +9,7 @@ import Moradores.*;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.table.DefaultTableModel;
-/**
- *
- * @author zesilva63
- */
+
 public class MoradoresUI extends javax.swing.JFrame {
 
     private DefaultTableModel tb;

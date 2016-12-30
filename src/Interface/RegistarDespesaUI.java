@@ -10,7 +10,6 @@ import Main.SplitExpense;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -236,7 +235,26 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
         java.sql.Date data = new Date(Calendar.getInstance().getTimeInMillis());
 
         try {
+            if((int)Nr_PrestacoesSpinner.getValue()==1){
             se.registarDespesa(false, descricaoTextField.getText(), categoria, Float.parseFloat(valorSpinner.getText()), data, racios, morador);
+        }
+            else{
+                int i;
+                float valor = Float.parseFloat(valorSpinner.getText())/ (int)Nr_PrestacoesSpinner.getValue();
+                for(i=1; i!=((int)Nr_PrestacoesSpinner.getValue()+1);i++){
+                    String descricao = descricaoTextField.getText().concat(" "+i+"/"+Nr_PrestacoesSpinner.getValue());
+                
+                    Calendar c = Calendar.getInstance(); 
+                    c.setTime(data); 
+                    c.add(Calendar.DATE, (int)freqSpinner.getValue());
+                    data = new java.sql.Date(c.getTimeInMillis());
+                    
+                    
+                    se.registarDespesa(false,descricao,categoria,valor,data,racios,morador);
+                }
+                
+            }
+        
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "O valor deve ser válido.\nEx.: 25.9 Corresponde a 25,09€",  "Erro", JOptionPane.ERROR_MESSAGE);
             return;
@@ -268,11 +286,18 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
         };
         
         Set<Morador> ms = new HashSet(se.getApartamento().getMoradores().values());
-        float racio = 1 / (float) ms.size();
-        System.out.println("1 / " + ms.size() + " = " + racio);
+        int size =0;
+        for (Morador m: ms){
+            if(m.isAtivo()){
+                size++;
+            }
+        }
+        float racio = 1 / size;
         for (Morador m : ms) {
+            if(m.isAtivo()){
             Object[] ln = {m.getNome(), racio};
             model.addRow(ln);
+            }
         }
     }
     
