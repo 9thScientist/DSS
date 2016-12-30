@@ -195,7 +195,14 @@ public class MoradoresUI extends javax.swing.JFrame {
     private void tableFiller() {
         SplitExpense se = new SplitExpense();
         String cols[] = {"Nome", "Contacto", "Saldo"};
-        tb = new DefaultTableModel(cols, 0);
+        tb = new DefaultTableModel(cols, 0) {
+        
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+            return false;
+            }
+        };
         
         Set<Morador> ms = new HashSet(se.getApartamento().getMoradores().values());
         

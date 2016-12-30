@@ -19,10 +19,18 @@ public class SplitExpense {
             return apartamento;
         }
         
-        
+         public void registarDespesa(String d, Categoria c, float valor,
+		GregorianCalendar data, Map<Morador, Float> racios, Morador morador) {
+		int id = historico.genMovimentoId();
+		Despesa despesa = new Despesa(id, apartamento, morador, d, valor, data, c, racios);
+		historico.addDespesa(despesa);
+
+		apartamento.decSaldo(valor);
+		apartamento.updateSaldos(-valor, racios);
+	}
         
         public void registarDespesa(boolean tr, String d, Categoria c, float valor,
-		GregorianCalendar data, Map<Morador, Float> racios, Morador morador) {
+		java.sql.Date data, Map<Morador, Float> racios, Morador morador) {
 		int id = historico.genMovimentoId();
 		Despesa despesa = new Despesa(id, apartamento, morador, d, valor, data, tr, c, racios);
 		historico.addDespesa(despesa);
