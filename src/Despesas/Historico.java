@@ -18,12 +18,12 @@ public class Historico {
 
 	public void addCategoria(Categoria c) {
 		Categoria n_categoria = new Categoria(c);
-		categorias.put(n_categoria.getId(), n_categoria);
+                categorias.put(n_categoria.getId(), n_categoria);
 	}
 
 	public void addCategoria(int id, String d, boolean r) {
 		Categoria n_categoria = new Categoria(id, d, r);
-		categorias.put(n_categoria.getId(), n_categoria);
+                categorias.put(n_categoria.getId(), n_categoria);
 	}
 
 	public void editCategoria(int categoria, String d, boolean r) {
