@@ -10,6 +10,7 @@ import Despesas.Movimento;
 import Main.SplitExpense;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 import javax.swing.table.DefaultTableModel;
@@ -32,7 +33,7 @@ public class DespesasUI extends javax.swing.JFrame {
         tableFiller();
         initComponents();
         setSaldo();
-        jComboBox1.setSelectedItem("Todas as categorias");
+        categoriasBox.setSelectedItem("Todas as categorias");
     }
 
     /**
@@ -54,9 +55,9 @@ public class DespesasUI extends javax.swing.JFrame {
         EditarDespesaButton = new javax.swing.JButton();
         FiltrarDespesasButton = new javax.swing.JButton();
         RemoverDespesaButton = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>(categorias);
-        jSpinner1 = new javax.swing.JSpinner();
-        jSpinner2 = new javax.swing.JSpinner();
+        categoriasBox = new javax.swing.JComboBox<>(categorias);
+        fromSpinner = new javax.swing.JSpinner();
+        toSpinner = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         label1 = new java.awt.Label();
@@ -136,15 +137,15 @@ public class DespesasUI extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        categoriasBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                categoriasBoxActionPerformed(evt);
             }
         });
 
-        jSpinner1.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1417098600000L), null, null, java.util.Calendar.MONTH));
+        fromSpinner.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1417098600000L), null, null, java.util.Calendar.MONTH));
 
-        jSpinner2.setModel(new javax.swing.SpinnerDateModel());
+        toSpinner.setModel(new javax.swing.SpinnerDateModel());
 
         jLabel1.setText("Inicio:");
 
@@ -170,15 +171,15 @@ public class DespesasUI extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(toSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(fromSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(categoriasBox, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -213,7 +214,7 @@ public class DespesasUI extends javax.swing.JFrame {
                             .addComponent(BackButton))
                         .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fromSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -223,8 +224,8 @@ public class DespesasUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(toSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(categoriasBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
@@ -261,17 +262,17 @@ public class DespesasUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void categoriasBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoriasBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_categoriasBoxActionPerformed
 
     private void RemoverDespesaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoverDespesaButtonActionPerformed
         SplitExpense se = new SplitExpense();
 
         if (movSelec.isTransacao())
-        se.removerMovimento(movSelec);
+            se.removerMovimento(movSelec);
         else
-        se.removerDespesa((Despesa) movSelec);
+            se.removerDespesa((Despesa) movSelec);
 
         EditarDespesaButton.setEnabled(false);
         RemoverDespesaButton.setEnabled(false);
@@ -307,9 +308,45 @@ public class DespesasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_BackButtonActionPerformed
 
     private void FiltrarDespesasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FiltrarDespesasButtonActionPerformed
-        // TODO add your handling code here:
+        model.setRowCount(0);
+        tableFillerFilter();
     }//GEN-LAST:event_FiltrarDespesasButtonActionPerformed
 
+    private void tableFillerFilter() {
+        SplitExpense se = new SplitExpense();
+        String cols[] = {"Data", "Morador", "Valor", "Descricao", "Categoria"};
+        model = new DefaultTableModel(cols, 0) {
+                
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
+        
+        if (categoriasBox.getSelectedItem().equals("Todas as categorias")) {
+            java.sql.Date from = new java.sql.Date(((java.util.Date) fromSpinner.getValue()).getTime());
+            java.sql.Date to = new java.sql.Date(((java.util.Date) toSpinner.getValue()).getTime());
+         
+            ms = new ArrayList(se.getHistorico((Date) fromSpinner.getValue(), (Date) toSpinner.getValue()));
+        } else {
+            java.sql.Date from = new java.sql.Date(((java.util.Date) fromSpinner.getValue()).getTime());
+            java.sql.Date to = new java.sql.Date(((java.util.Date) toSpinner.getValue()).getTime());
+                        
+            ms = new ArrayList(se.getHistorico(from, to, se.getCategoria(categoriasBox.getSelectedItem().toString())));
+        }
+        
+        for (Movimento m : ms) {
+           Date data = m.getData();
+           String morador = m.getMorador().getNome();
+           float valor = m.getValor();
+           String descricao = m.isTransacao() ? "Transação" : getDescricao(m);
+           String categoria = m.isTransacao() ? getTipoTransacao(m) : getCategoria(m);
+            
+            Object[] ln = {data, morador, valor, descricao, categoria};
+            model.addRow(ln);
+        }
+    }
      private void tableFiller() {
         SplitExpense se = new SplitExpense();
         String cols[] = {"Data", "Morador", "Valor", "Descricao", "Categoria"};
@@ -323,7 +360,6 @@ public class DespesasUI extends javax.swing.JFrame {
         };
         
         ms = new ArrayList(se.getHistoricoList());
-        System.out.println(ms.size());
         for (Movimento m : ms) {
            Date data = m.getData();
            String morador = m.getMorador().getNome();
@@ -375,15 +411,15 @@ public class DespesasUI extends javax.swing.JFrame {
     private javax.swing.JButton RegistarDespesaButton;
     private javax.swing.JButton RemoverDespesaButton;
     private java.awt.Label Title;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> categoriasBox;
+    private javax.swing.JSpinner fromSpinner;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner2;
     private javax.swing.JTable jTable1;
     private java.awt.Label label1;
     private java.awt.Label label2;
+    private javax.swing.JSpinner toSpinner;
     // End of variables declaration//GEN-END:variables
 }

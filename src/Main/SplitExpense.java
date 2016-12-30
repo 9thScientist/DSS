@@ -61,7 +61,7 @@ public class SplitExpense {
         public void removerMovimento(Movimento m) {
 		historico.removerMovimento(m);
 
-		apartamento.addSaldo(m.getValor());
+		apartamento.decSaldo(m.getValor());
                 m.getMorador().updateSaldo(m.getValor());
 	}
 
@@ -124,11 +124,11 @@ public class SplitExpense {
             return historico;
         }
 
-	public Set<Movimento> getHistorico(Date from, Date to) {
+	public List<Movimento> getHistorico(Date from, Date to) {
 		return historico.getMovimentos(from, to);
 	}
 
-	public Set<Movimento> getHistorico(Date from, Date to, Categoria categoria) {
+	public List<Movimento> getHistorico(Date from, Date to, Categoria categoria) {
 		return historico.getMovimentos(from, to, categoria);
 	}
 
