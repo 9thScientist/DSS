@@ -13,8 +13,9 @@ public class Categoria {
                 this.id = id;
 		descricao = d;
 		recorrente = r;
-                dao.put(id,this);
                 ativo = true;
+                dao.put(id,this);
+                
 	}
         	
         public Categoria(int id, String d, boolean r, boolean at) {
