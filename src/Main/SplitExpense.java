@@ -96,7 +96,7 @@ public class SplitExpense {
 
 		int id = historico.genMovimentoId();
                 java.sql.Date hoje = new java.sql.Date((new Date()).getTime());
-		Movimento levantamento = new Movimento(id, apartamento, m, valor, hoje, true);
+		Movimento levantamento = new Movimento(id, apartamento, m, -valor, hoje, true);
 		historico.addMovimento(levantamento);
 	}
 
