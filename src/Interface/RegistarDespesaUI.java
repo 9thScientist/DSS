@@ -228,17 +228,22 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
     }//GEN-LAST:event_categoriasBoxActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+        if (categoriasBox.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(null, "Nenhuma categoria selecionada",  "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         SplitExpense se = new SplitExpense();
         Map<Morador, Float> racios = readTable();
         Categoria categoria = se.getCategoria(categoriasBox.getSelectedItem().toString());
         Morador morador = se.getApartamento().getMoradorNome(MoradorBox.getSelectedItem().toString());
         java.sql.Date data = new Date(Calendar.getInstance().getTimeInMillis());
-
+      
         try {
             if((int)Nr_PrestacoesSpinner.getValue()==1){
             se.registarDespesa(false, descricaoTextField.getText(), categoria, Float.parseFloat(valorSpinner.getText()), data, racios, morador);
-        }
-            else{
+            } else{
                 int i;
                 float valor = Float.parseFloat(valorSpinner.getText())/ (int)Nr_PrestacoesSpinner.getValue();
                 for(i=1; i!=((int)Nr_PrestacoesSpinner.getValue()+1);i++){
@@ -249,16 +254,23 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
                     c.add(Calendar.DATE, (int)freqSpinner.getValue());
                     data = new java.sql.Date(c.getTimeInMillis());
                     
+                    float soma = 0;
+                    for (float r : racios.values())
+                        soma += r;
+                    if (soma < 1) {
+                        JOptionPane.showMessageDialog(null, "A soma dos rácios não equivale a 1.",  "Erro", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                        
                     
                     se.registarDespesa(false,descricao,categoria,valor,data,racios,morador);
                 }
                 
             }
-        
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "O valor deve ser válido.\nEx.: 25.9 Corresponde a 25,09€",  "Erro", JOptionPane.ERROR_MESSAGE);
             return;
-        }
+        } 
         
         this.setVisible(false);
         new DespesasUI().setVisible(true);
