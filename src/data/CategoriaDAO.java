@@ -105,6 +105,30 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
         return size() == 0;
     }
 
+    public Categoria desativa(Categoria cat){
+        Categoria c = null;
+        try {
+            conn = Connect.connect();
+            PreparedStatement stm = conn.prepareStatement(
+				"INSERT INTO Categoria VALUES (?,?,?,?)\n" +
+				"ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Recorrente=VALUES(Recorrente), Ativo=VALUES(Ativo)", Statement.RETURN_GENERATED_KEYS);
+
+            stm.setInt(1, cat.getId());
+            stm.setString(2, cat.getDescricao());
+            stm.setBoolean(3, cat.isRecorrente());
+            stm.setBoolean(4, false);
+            stm.executeUpdate();
+            c = cat;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Connect.close(conn);
+        }
+        return c;
+    }
+    
+    
+    
     @Override
     public Categoria put(Integer id, Categoria cat) {
         Categoria c = null;
@@ -117,7 +141,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
             stm.setInt(1, id);
             stm.setString(2, cat.getDescricao());
             stm.setBoolean(3, cat.isRecorrente());
-            stm.setBoolean(4, true);
+            stm.setBoolean(4, cat.isAtivo());
             stm.executeUpdate();
             c = cat;
         } catch (Exception e) {

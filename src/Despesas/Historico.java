@@ -34,7 +34,7 @@ public class Historico {
 	}
 
 	public void removerCategoria(Categoria c) {
-            categorias.remove(c.getId());
+            categorias.desativa(c);
 	}
         
         public Set<String> getCategorias() {
