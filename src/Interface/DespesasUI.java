@@ -295,6 +295,7 @@ public class DespesasUI extends javax.swing.JFrame {
         movSelec = ms.get(jTable1.getSelectedRow());
 
         if (!movSelec.isTransacao()) EditarDespesaButton.setEnabled(true);
+        else EditarDespesaButton.setEnabled(false);
         RemoverDespesaButton.setEnabled(true);
     }//GEN-LAST:event_jTable1MouseClicked
 
