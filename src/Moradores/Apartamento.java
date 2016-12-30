@@ -85,6 +85,11 @@ public class Apartamento {
                         moradores.put(m.getId(),m);
                 }
         }
+        
+        public void updateSaldo(Morador m, float valor) {
+            m.updateSaldo(valor);
+            moradores.put(m.getId(), m);
+        }
 
 	public void addSaldo(float valor) {
 		saldo += valor;

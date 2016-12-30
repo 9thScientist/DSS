@@ -233,6 +233,10 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Nenhuma categoria selecionada",  "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        if (valorSpinner.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Nenhuma valor especificado.",  "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         SplitExpense se = new SplitExpense();
         Map<Morador, Float> racios = readTable();
@@ -240,7 +244,16 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
         Morador morador = se.getApartamento().getMoradorNome(MoradorBox.getSelectedItem().toString());
         java.sql.Date data = new Date(Calendar.getInstance().getTimeInMillis());
       
-        try {
+        System.out.println("categoria:"+categoria.getId());
+        float soma = 0;
+        for (float r : racios.values())
+            soma += r;
+         if (soma < 1 || soma > 1.3) {
+            JOptionPane.showMessageDialog(null, "A soma dos rácios não equivale a 1.",  "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+         }
+
+         try {
             if((int)Nr_PrestacoesSpinner.getValue()==1){
             se.registarDespesa(false, descricaoTextField.getText(), categoria, Float.parseFloat(valorSpinner.getText()), data, racios, morador);
             } else{
@@ -254,15 +267,7 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
                     c.add(Calendar.DATE, (int)freqSpinner.getValue());
                     data = new java.sql.Date(c.getTimeInMillis());
                     
-                    float soma = 0;
-                    for (float r : racios.values())
-                        soma += r;
-                    if (soma < 1) {
-                        JOptionPane.showMessageDialog(null, "A soma dos rácios não equivale a 1.",  "Erro", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                        
-                    
+                 
                     se.registarDespesa(false,descricao,categoria,valor,data,racios,morador);
                 }
                 
@@ -304,7 +309,7 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
                 size++;
             }
         }
-        float racio = 1 / size;
+        float racio = 1 / (float) size;
         for (Morador m : ms) {
             if(m.isAtivo()){
             Object[] ln = {m.getNome(), racio};

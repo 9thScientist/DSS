@@ -6,22 +6,38 @@ public class Categoria {
 	private int id;
 	private String descricao;
 	private boolean recorrente;
+        private boolean ativo;
 
 	public Categoria(int id, String d, boolean r) {
-		CategoriaDAO dao = new CategoriaDAO();
                 this.id = id;
 		descricao = d;
 		recorrente = r;
-                dao.put(id,this);
+                ativo = true;
+                
+	}
+        	
+        public Categoria(int id, String d, boolean r, boolean at) {
+                this.id = id;
+		descricao = d;
+		recorrente = r;
+                ativo = at;
 	}
 
+
 	public Categoria(Categoria c){
-		CategoriaDAO dao = new CategoriaDAO();
+                id = c.getId();
                 descricao = c.getDescricao();
 		recorrente = c.isRecorrente();
-                dao.put(id,this);
         }
 
+        public boolean isAtivo() {
+            return ativo;
+        }
+        
+        public void desativar() {
+            ativo = false;
+        }
+        
 	public int getId() {
 		return id;
 	}
