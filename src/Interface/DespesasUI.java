@@ -8,12 +8,9 @@ package Interface;
 import Despesas.Despesa;
 import Despesas.Movimento;
 import Main.SplitExpense;
-import Moradores.Morador;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -31,6 +28,7 @@ public class DespesasUI extends javax.swing.JFrame {
     public DespesasUI() {
         tableFiller();
         initComponents();
+        setSaldo();
     }
 
     /**
@@ -57,6 +55,8 @@ public class DespesasUI extends javax.swing.JFrame {
         jSpinner2 = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        label1 = new java.awt.Label();
+        label2 = new java.awt.Label();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,6 +81,9 @@ public class DespesasUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         EditarCategoriasButton.setText("Categorias");
+        EditarCategoriasButton.setMaximumSize(new java.awt.Dimension(150, 23));
+        EditarCategoriasButton.setMinimumSize(new java.awt.Dimension(150, 23));
+        EditarCategoriasButton.setPreferredSize(new java.awt.Dimension(150, 23));
         EditarCategoriasButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EditarCategoriasButtonActionPerformed(evt);
@@ -88,6 +91,9 @@ public class DespesasUI extends javax.swing.JFrame {
         });
 
         RegistarDespesaButton.setText("Registar Despesa");
+        RegistarDespesaButton.setMaximumSize(new java.awt.Dimension(150, 23));
+        RegistarDespesaButton.setMinimumSize(new java.awt.Dimension(150, 23));
+        RegistarDespesaButton.setPreferredSize(new java.awt.Dimension(150, 23));
         RegistarDespesaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RegistarDespesaButtonActionPerformed(evt);
@@ -96,6 +102,9 @@ public class DespesasUI extends javax.swing.JFrame {
 
         EditarDespesaButton.setText("Editar Despesa");
         EditarDespesaButton.setEnabled(false);
+        EditarDespesaButton.setMaximumSize(new java.awt.Dimension(150, 23));
+        EditarDespesaButton.setMinimumSize(new java.awt.Dimension(150, 23));
+        EditarDespesaButton.setPreferredSize(new java.awt.Dimension(150, 23));
         EditarDespesaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EditarDespesaButtonActionPerformed(evt);
@@ -103,9 +112,20 @@ public class DespesasUI extends javax.swing.JFrame {
         });
 
         FiltrarDespesasButton.setText("Filtrar Despesas");
+        FiltrarDespesasButton.setMaximumSize(new java.awt.Dimension(150, 23));
+        FiltrarDespesasButton.setMinimumSize(new java.awt.Dimension(150, 23));
+        FiltrarDespesasButton.setPreferredSize(new java.awt.Dimension(150, 23));
+        FiltrarDespesasButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FiltrarDespesasButtonActionPerformed(evt);
+            }
+        });
 
         RemoverDespesaButton.setText("Remover Despesa");
         RemoverDespesaButton.setEnabled(false);
+        RemoverDespesaButton.setMaximumSize(new java.awt.Dimension(150, 23));
+        RemoverDespesaButton.setMinimumSize(new java.awt.Dimension(150, 23));
+        RemoverDespesaButton.setPreferredSize(new java.awt.Dimension(150, 23));
         RemoverDespesaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RemoverDespesaButtonActionPerformed(evt);
@@ -127,39 +147,58 @@ public class DespesasUI extends javax.swing.JFrame {
 
         jLabel2.setText("Fim:");
 
+        label1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        label1.setPreferredSize(new java.awt.Dimension(155, 36));
+        label1.setText("Saldo:");
+
+        label2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        label2.setText("0");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(BackButton)
-                            .addGap(172, 172, 172)
-                            .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addGap(50, 50, 50)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(BackButton)
+                                .addGap(172, 172, 172)
+                                .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(FiltrarDespesasButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(RemoverDespesaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(EditarDespesaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(RegistarDespesaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(EditarCategoriasButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(2, 14, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(EditarCategoriasButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(RegistarDespesaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(EditarDespesaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(RemoverDespesaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(FiltrarDespesasButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, 0)))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,32 +208,38 @@ public class DespesasUI extends javax.swing.JFrame {
                     .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BackButton))
                 .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(EditarCategoriasButton)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(RegistarDespesaButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(EditarDespesaButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(RemoverDespesaButton)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(22, 22, 22)
-                        .addComponent(FiltrarDespesasButton)
-                        .addGap(47, 47, 47)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(EditarCategoriasButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(RegistarDespesaButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(EditarDespesaButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(RemoverDespesaButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(FiltrarDespesasButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        label1.getAccessibleContext().setAccessibleName("Saldo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -216,51 +261,56 @@ public class DespesasUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        this.setVisible(false);
-        new SplitExpenseUI().setVisible(true);
-    }//GEN-LAST:event_BackButtonActionPerformed
+    private void RemoverDespesaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoverDespesaButtonActionPerformed
+        SplitExpense se = new SplitExpense();
 
-    private void EditarCategoriasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarCategoriasButtonActionPerformed
-        this.setVisible(false);
-        new CategoriasUI().setVisible(true);
-    }//GEN-LAST:event_EditarCategoriasButtonActionPerformed
+        if (movSelec.isTransacao())
+        se.removerMovimento(movSelec);
+        else
+        se.removerDespesa((Despesa) movSelec);
 
-    private void RegistarDespesaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistarDespesaButtonActionPerformed
+        EditarDespesaButton.setEnabled(false);
+        RemoverDespesaButton.setEnabled(false);
         this.setVisible(false);
-        new RegistarDespesaUI().setVisible(true);
-    }//GEN-LAST:event_RegistarDespesaButtonActionPerformed
+        new DespesasUI().setVisible(true);
+    }//GEN-LAST:event_RemoverDespesaButtonActionPerformed
 
     private void EditarDespesaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarDespesaButtonActionPerformed
         this.setVisible(false);
         new EditarDespesaUI(movSelec).setVisible(true);
     }//GEN-LAST:event_EditarDespesaButtonActionPerformed
 
+    private void RegistarDespesaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistarDespesaButtonActionPerformed
+        this.setVisible(false);
+        new RegistarDespesaUI().setVisible(true);
+    }//GEN-LAST:event_RegistarDespesaButtonActionPerformed
+
+    private void EditarCategoriasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarCategoriasButtonActionPerformed
+        this.setVisible(false);
+        new CategoriasUI().setVisible(true);
+    }//GEN-LAST:event_EditarCategoriasButtonActionPerformed
+
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         movSelec = ms.get(jTable1.getSelectedRow());
-        
+
         if (!movSelec.isTransacao()) EditarDespesaButton.setEnabled(true);
         RemoverDespesaButton.setEnabled(true);
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void RemoverDespesaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoverDespesaButtonActionPerformed
-        SplitExpense se = new SplitExpense();
-        
-        if (movSelec.isTransacao())
-           se.removerMovimento(movSelec);
-        else
-            se.removerDespesa((Despesa) movSelec);
-        
-        EditarDespesaButton.setEnabled(false);
-        RemoverDespesaButton.setEnabled(false);
-        
-    }//GEN-LAST:event_RemoverDespesaButtonActionPerformed
+    private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
+        this.setVisible(false);
+        new SplitExpenseUI().setVisible(true);
+    }//GEN-LAST:event_BackButtonActionPerformed
+
+    private void FiltrarDespesasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FiltrarDespesasButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FiltrarDespesasButtonActionPerformed
 
      private void tableFiller() {
         SplitExpense se = new SplitExpense();
         String cols[] = {"Data", "Morador", "Valor", "Descricao"};
         model = new DefaultTableModel(cols, 0) {
-        
+                
             @Override
             public boolean isCellEditable(int row, int column) {
                 //all cells false
@@ -288,6 +338,12 @@ public class DespesasUI extends javax.swing.JFrame {
          } else 
              return "";
      } 
+     
+     
+     private void setSaldo(){
+         SplitExpense se = new SplitExpense();
+         label2.setText(""+se.getApartamento().getSaldo());
+     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
@@ -305,5 +361,7 @@ public class DespesasUI extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
     private javax.swing.JTable jTable1;
+    private java.awt.Label label1;
+    private java.awt.Label label2;
     // End of variables declaration//GEN-END:variables
 }
