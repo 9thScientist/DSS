@@ -239,7 +239,11 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
             se.registarDespesa(false, descricaoTextField.getText(), categoria, Float.parseFloat(valorSpinner.getText()), data, racios, morador);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "O valor deve ser válido.\nEx.: 25.9 Corresponde a 25,09€",  "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+        
+        this.setVisible(false);
+        new DespesasUI().setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void descricaoTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descricaoTextFieldActionPerformed

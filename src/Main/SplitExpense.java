@@ -57,6 +57,13 @@ public class SplitExpense {
 		apartamento.addSaldo(d.getValor());
 		apartamento.updateSaldos(d.getValor(), d.getRacios());
 	}
+        
+        public void removerMovimento(Movimento m) {
+		historico.removerMovimento(m);
+
+		apartamento.addSaldo(m.getValor());
+                m.getMorador().updateSaldo(m.getValor());
+	}
 
 	public void registarMorador(String nome, String contacto, String img) {
 		int id = apartamento.genMoradorId();

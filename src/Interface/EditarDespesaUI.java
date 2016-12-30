@@ -5,6 +5,9 @@
  */
 package Interface;
 import Despesas.Categoria;
+import Despesas.Despesa;
+import Despesas.Movimento;
+import Despesas.MovimentoNaoExisteException;
 import Moradores.*;
 import Main.SplitExpense;
 import java.sql.Date;
@@ -29,10 +32,12 @@ public class EditarDespesaUI extends javax.swing.JFrame {
     private String[] moradores;
     private Morador moradorSelec;
     private DefaultTableModel model;
+    private final Despesa despSelec;
     /**
      * Creates new form RegistarDespesaUI
      */
-    public EditarDespesaUI() {
+    public EditarDespesaUI(Movimento movSelec) {
+        despSelec = (Despesa) movSelec;
         fillCategorias();
         fillMoradores();
         tableFiller();
@@ -56,9 +61,6 @@ public class EditarDespesaUI extends javax.swing.JFrame {
         Title = new java.awt.Label();
         categoriasBox = new javax.swing.JComboBox<>(categorias);
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        Nr_PrestacoesSpinner = new javax.swing.JSpinner();
-        freqSpinner = new javax.swing.JSpinner();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
@@ -97,7 +99,7 @@ public class EditarDespesaUI extends javax.swing.JFrame {
         Title.setFont(new java.awt.Font("Gargi-1.2b", 1, 24)); // NOI18N
         Title.setText("SplitExpense");
 
-        categoriasBox.setSelectedItem(null);
+        categoriasBox.setSelectedItem(despSelec.getCategoria().getDescricao());
         categoriasBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 categoriasBoxActionPerformed(evt);
@@ -106,17 +108,10 @@ public class EditarDespesaUI extends javax.swing.JFrame {
 
         jLabel1.setText("Valor da Despesa");
 
-        jLabel2.setText("Número de Prestações");
-
-        Nr_PrestacoesSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 99, 1));
-        Nr_PrestacoesSpinner.setToolTipText("");
-
-        freqSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 99, 1));
-
         jTable2.setModel(model);
         jScrollPane2.setViewportView(jTable2);
 
-        jButton3.setText("Registar Despesas");
+        jButton3.setText("Editar Despesas");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -127,11 +122,16 @@ public class EditarDespesaUI extends javax.swing.JFrame {
 
         jLabel3.setText("Descrição");
 
+        descricaoTextField.setText(despSelec.getDescricao());
         descricaoTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 descricaoTextFieldActionPerformed(evt);
             }
         });
+
+        MoradorBox.setSelectedItem(despSelec.getMorador().getNome());
+
+        valorSpinner.setText(Float.toString(despSelec.getValor()));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -153,23 +153,17 @@ public class EditarDespesaUI extends javax.swing.JFrame {
                                 .addComponent(jButton3))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel1)
-                                        .addComponent(jLabel4)))
-                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel4))
+                                .addGap(49, 49, 49)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(Nr_PrestacoesSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(freqSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(categoriasBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(categoriasBox, 0, 114, Short.MAX_VALUE)
                                     .addComponent(valorSpinner)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(descricaoTextField)))))
+                                .addComponent(descricaoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -189,20 +183,15 @@ public class EditarDespesaUI extends javax.swing.JFrame {
                     .addComponent(valorSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(Nr_PrestacoesSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(freqSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(descricaoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(descricaoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(MoradorBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -233,12 +222,20 @@ public class EditarDespesaUI extends javax.swing.JFrame {
         Map<Morador, Float> racios = readTable();
         Categoria categoria = se.getCategoria(categoriasBox.getSelectedItem().toString());
         Morador morador = se.getApartamento().getMoradorNome(MoradorBox.getSelectedItem().toString());
-        java.sql.Date data = new Date(Calendar.getInstance().getTimeInMillis());
-
+        java.sql.Date data = despSelec.getData();
         try {
-            se.registarDespesa(false, descricaoTextField.getText(), categoria, Float.parseFloat(valorSpinner.getText()), data, racios, morador);
+            Float valor = Float.parseFloat(valorSpinner.getText());
+            Despesa nova = new Despesa(despSelec.getId(), despSelec.getApartamento(), morador, descricaoTextField.getText(), valor, data, false,categoria, racios);
+            
+            
+            se.editarDespesa(despSelec.getId(), nova);
+            
+            this.setVisible(false);
+            new DespesasUI().setVisible(true);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "O valor deve ser válido.\nEx.: 25.9 Corresponde a 25,09€",  "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (MovimentoNaoExisteException e) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro.\nNão foi possível editar a despesa.",  "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -253,7 +250,6 @@ public class EditarDespesaUI extends javax.swing.JFrame {
     }
     
     private void tableFiller() {
-    SplitExpense se = new SplitExpense();
         String cols[] = {"Morador", "Rácio"};
         model = new DefaultTableModel(cols, 0) {
         
@@ -262,12 +258,10 @@ public class EditarDespesaUI extends javax.swing.JFrame {
                 return column != 0;
             }
         };
-        
-        Set<Morador> ms = new HashSet(se.getApartamento().getMoradores().values());
-        float racio = 1 / (float) ms.size();
-        System.out.println("1 / " + ms.size() + " = " + racio);
-        for (Morador m : ms) {
-            Object[] ln = {m.getNome(), racio};
+       
+        Map<Morador, Float> racios = despSelec.getRacios();
+        for (Morador m : racios.keySet()) {
+            Object[] ln = {m.getNome(), racios.get(m)};
             model.addRow(ln);
         }
     }
@@ -307,16 +301,13 @@ public class EditarDespesaUI extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> MoradorBox;
-    private javax.swing.JSpinner Nr_PrestacoesSpinner;
     private java.awt.Label Title;
     private javax.swing.JComboBox<String> categoriasBox;
     private javax.swing.JTextField descricaoTextField;
-    private javax.swing.JSpinner freqSpinner;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
