@@ -80,17 +80,23 @@ public class Apartamento {
 	}
 
 	public void updateSaldos(float valor, Map<Morador, Float> racios) {
-		for (Morador m : racios.keySet())
+		for (Morador m : racios.keySet()){
 			m.updateSaldo(valor * racios.get(m));
-	}
+                        moradores.put(m.getId(),m);
+                }
+        }
 
 	public void addSaldo(float valor) {
 		saldo += valor;
+                ApartamentoDAO dao = new ApartamentoDAO();
+                dao.put(this);
 	}
 
 	public void decSaldo(float valor) {
 		saldo -= valor;
-	}
+                ApartamentoDAO dao = new ApartamentoDAO();
+                dao.put(this);
+        }
 
 	public int genMoradorId() {
 		return moradores.size();
