@@ -16,7 +16,7 @@ public class Morador {
 		nome = n;
 		contacto = c;
 		saldo = s;
-		ativo = true;
+		this.ativo = ativo;
 	}
 
 	public Morador(Morador m) {
@@ -33,7 +33,7 @@ public class Morador {
 		nome ="";
 		contacto = "";
 		saldo = 0;
-		ativo = false;
+		ativo = true;
 		apartamento = null;
 	}
 
