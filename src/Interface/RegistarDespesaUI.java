@@ -268,11 +268,19 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
         };
         
         Set<Morador> ms = new HashSet(se.getApartamento().getMoradores().values());
-        float racio = 1 / (float) ms.size();
-        System.out.println("1 / " + ms.size() + " = " + racio);
+        int size =0;
+        for (Morador m: ms){
+            if(m.isAtivo()){
+                size++;
+            }
+        }
+        float racio = 1 / size;
+        System.out.println("1 / " + size + " = " + racio);
         for (Morador m : ms) {
+            if(m.isAtivo()){
             Object[] ln = {m.getNome(), racio};
             model.addRow(ln);
+            }
         }
     }
     
