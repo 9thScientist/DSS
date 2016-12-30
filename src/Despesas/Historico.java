@@ -51,8 +51,8 @@ public class Historico {
 		return new ArrayList<Movimento>(historico.values());
 	}
 
-	public Set<Movimento> getMovimentos(Date from, Date to) {
-		Set<Movimento> ret = new TreeSet<>();
+	public List<Movimento> getMovimentos(Date from, Date to) {
+		List<Movimento> ret = new ArrayList<>();
 
 		for (Movimento m : historico.values())
 			if (m.getData().compareTo(from) >= 0 && m.getData().compareTo(to) <= 0 )
@@ -61,8 +61,8 @@ public class Historico {
 		return ret;
 	}
 
-	public Set<Movimento> getMovimentos(Date from, Date to, Categoria categoria) {
-		Set<Movimento> ret = new TreeSet<>();
+	public List<Movimento> getMovimentos(Date from, Date to, Categoria categoria) {
+		List<Movimento> ret = new ArrayList<>();
 
 		for (Movimento m : historico.values())
 			if (m.getData().compareTo(from) >= 0 && m.getData().compareTo(to) <= 0 && m.getClass().getSimpleName().equals("Despesa")) {
