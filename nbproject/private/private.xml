@@ -4,6 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/andre/Desktop/git/dss/src/data/DespesaDAO.java</file>
+            <file>file:/C:/Users/andre/Desktop/git/dss/src/Despesas/Despesa.java</file>
+            <file>file:/C:/Users/andre/Desktop/git/dss/src/Despesas/Historico.java</file>
+            <file>file:/C:/Users/andre/Desktop/git/dss/src/Despesas/Movimento.java</file>
+            <file>file:/C:/Users/andre/Desktop/git/dss/src/Main/SplitExpense.java</file>
+            <file>file:/C:/Users/andre/Desktop/git/dss/src/data/MovimentoDAO.java</file>
         </group>
     </open-files>
 </project-private>

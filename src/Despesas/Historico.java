@@ -48,9 +48,11 @@ public class Historico {
 	public Set<Movimento> getMovimentos() {
 		Set<Movimento> ret = new TreeSet<>();
 
-		for (Movimento movimento : historico.values())
-			ret.add(movimento);
-
+		for (Movimento movimento : historico.values()){
+                    System.out.println("move"+ movimento +": "+ movimento.getId());
+                    ret.add(movimento);
+                }
+                System.out.println("size ret:"+ret.size());
 		return ret;
 	}
 
