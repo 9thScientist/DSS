@@ -108,10 +108,10 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
 
         jLabel2.setText("Número de Prestações");
 
-        Nr_PrestacoesSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 99, 1));
+        Nr_PrestacoesSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
         Nr_PrestacoesSpinner.setToolTipText("");
 
-        freqSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 99, 1));
+        freqSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
 
         jTable2.setModel(model);
         jScrollPane2.setViewportView(jTable2);
