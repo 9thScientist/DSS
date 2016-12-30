@@ -248,7 +248,7 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
         float soma = 0;
         for (float r : racios.values())
             soma += r;
-         if (soma < 1) {
+         if (soma < 1 || soma > 1.3) {
             JOptionPane.showMessageDialog(null, "A soma dos rácios não equivale a 1.",  "Erro", JOptionPane.ERROR_MESSAGE);
             return;
          }
