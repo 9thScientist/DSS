@@ -10,7 +10,6 @@ import Main.SplitExpense;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -250,7 +249,6 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
                     c.add(Calendar.DATE, (int)freqSpinner.getValue());
                     data = new java.sql.Date(c.getTimeInMillis());
                     
-                    System.out.println("data:"+data);
                     
                     se.registarDespesa(false,descricao,categoria,valor,data,racios,morador);
                 }
@@ -295,7 +293,6 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
             }
         }
         float racio = 1 / size;
-        System.out.println("1 / " + size + " = " + racio);
         for (Morador m : ms) {
             if(m.isAtivo()){
             Object[] ln = {m.getNome(), racio};

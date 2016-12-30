@@ -6,19 +6,10 @@
 package Interface;
 
 import Despesas.Categoria;
-import Despesas.Historico;
 import Main.SplitExpense;
-import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.Set;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
 
-/**
- *
- * @author zesilva63
- */
 public class CategoriasUI extends javax.swing.JFrame {
     
     

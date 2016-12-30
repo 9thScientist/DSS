@@ -8,10 +8,7 @@ package Interface;
 import Main.SplitExpense;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author zesilva63
- */
+
 public class AdicionarCategoriaUI extends javax.swing.JFrame {
 
     /**

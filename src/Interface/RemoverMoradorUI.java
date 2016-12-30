@@ -13,10 +13,6 @@ import java.util.List;
 import java.util.Set;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author zesilva63
- */
 public class RemoverMoradorUI extends javax.swing.JFrame {
 
     private String[] moradores;

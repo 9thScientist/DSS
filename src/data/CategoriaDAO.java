@@ -81,14 +81,12 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
             conn = Connect.connect();
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM mydb.Categoria WHERE Categoria = ?");
             ResultSet rs = stm.executeQuery();
-            System.out.println("rs:" + rs.next());
             if(rs.next()) {
                 int id = rs.getInt("Id");
                 String nome = rs.getString("Categoria");
                 boolean recorrente = rs.getBoolean("Recorrente");
                 c = new Categoria(id, nome, recorrente);
             
-            System.out.println("c: "+c + id + nome + recorrente);
             }
         } catch (Exception e) {
              e.printStackTrace();

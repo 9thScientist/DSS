@@ -10,15 +10,11 @@ import Despesas.Movimento;
 import Main.SplitExpense;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author zesilva63
- */
+
 public class DespesasUI extends javax.swing.JFrame {
 
     private String[] categorias;

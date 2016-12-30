@@ -8,10 +8,7 @@ package Interface;
 import Main.SplitExpense;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author zesilva63
- */
+
 public class AdicionarMoradorUI extends javax.swing.JFrame {
 
     /**
@@ -154,7 +151,6 @@ public class AdicionarMoradorUI extends javax.swing.JFrame {
         if (txtUsername.getText().equals("") || txtContacto.getText().equals(""))
             JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos.",  "Erro",JOptionPane.ERROR_MESSAGE);
         else {
-            System.out.println("us:"+txtUsername.getText());
             s.registarMorador(txtUsername.getText(),txtContacto.getText());
             
             this.setVisible(false);

@@ -4,12 +4,8 @@
  * and open the template in the editor.
  */
 package Interface;
-import Main.SplitExpense;
 
-/**
- *
- * @author zesilva63
- */
+
 public class SplitExpenseUI extends javax.swing.JFrame {
 
     /**
