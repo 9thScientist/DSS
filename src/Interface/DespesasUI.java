@@ -10,7 +10,9 @@ import Despesas.Movimento;
 import Main.SplitExpense;
 import Moradores.Morador;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.swing.table.DefaultTableModel;
 
@@ -232,7 +234,7 @@ public class DespesasUI extends javax.swing.JFrame {
             }
         };
         
-        Set<Movimento> ms = new HashSet(se.getHistorico());
+        List<Movimento> ms = new ArrayList(se.getHistoricoList());
         System.out.println(ms.size());
         for (Movimento m : ms) {
            Date data = m.getData();

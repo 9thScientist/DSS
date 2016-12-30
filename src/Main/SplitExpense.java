@@ -109,6 +109,10 @@ public class SplitExpense {
 		return historico.getMovimentos();
 	}
         
+        public List<Movimento> getHistoricoList() {
+            return historico.getMovimentosList();
+        }
+        
         public Historico getFullHistorico(){
             return historico;
         }
