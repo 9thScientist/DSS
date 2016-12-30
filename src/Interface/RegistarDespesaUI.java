@@ -244,7 +244,7 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
         Morador morador = se.getApartamento().getMoradorNome(MoradorBox.getSelectedItem().toString());
         java.sql.Date data = new Date(Calendar.getInstance().getTimeInMillis());
       
-        
+        System.out.println("categoria:"+categoria.getId());
         float soma = 0;
         for (float r : racios.values())
             soma += r;
