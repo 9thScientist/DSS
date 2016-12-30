@@ -141,7 +141,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
             stm.setInt(1, id);
             stm.setString(2, cat.getDescricao());
             stm.setBoolean(3, cat.isRecorrente());
-            stm.setBoolean(4, cat.isAtivo());
+            stm.setBoolean(4, true);
             stm.executeUpdate();
             c = cat;
         } catch (Exception e) {
