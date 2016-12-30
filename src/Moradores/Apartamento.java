@@ -80,7 +80,7 @@ public class Apartamento {
 	}
 
 	public void updateSaldos(float valor, Map<Morador, Float> racios) {
-		for (Morador m : moradores.values())
+		for (Morador m : racios.keySet())
 			m.updateSaldo(valor * racios.get(m));
 	}
 

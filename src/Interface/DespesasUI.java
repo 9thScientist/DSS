@@ -68,14 +68,7 @@ public class DespesasUI extends javax.swing.JFrame {
         Title.setFont(new java.awt.Font("Gargi-1.2b", 1, 24)); // NOI18N
         Title.setText("SplitExpense");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
+        jTable1.setModel(model);
         jScrollPane1.setViewportView(jTable1);
 
         EditarCategoriasButton.setText("Categorias");
@@ -240,7 +233,7 @@ public class DespesasUI extends javax.swing.JFrame {
         };
         
         Set<Movimento> ms = new HashSet(se.getHistorico());
-        
+        System.out.println(ms.size());
         for (Movimento m : ms) {
            Date data = m.getData();
            String morador = m.getMorador().getNome();
