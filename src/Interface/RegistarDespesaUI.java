@@ -257,7 +257,7 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
     }
     
     private void tableFiller() {
-    SplitExpense se = new SplitExpense();
+        SplitExpense se = new SplitExpense();
         String cols[] = {"Morador", "Rácio"};
         model = new DefaultTableModel(cols, 0) {
         
