@@ -89,7 +89,7 @@ public class LevantamentoUI extends javax.swing.JFrame {
 
         labelUsername.setText("Valor");
 
-        DepositarButton.setText("Depositar");
+        DepositarButton.setText("Levantar");
         DepositarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DepositarButtonActionPerformed(evt);
