@@ -84,18 +84,20 @@ public class DespesaDAO implements Map<Integer,Despesa> {
             pStmR.setInt(1, (Integer)key);
             ResultSet rsR = pStmR.executeQuery();
             
-            PreparedStatement pStmC = con.prepareStatement("select * from mydb.Categoria where Id=?");
-            pStmR.setInt(1, rs.getInt("Categoria"));
             
-            if(rs.next()){
+            if(rs.next() && rsM.next()){
+                PreparedStatement pStmC = con.prepareStatement("select * from mydb.Categoria where Id=?");
+                pStmC.setInt(1, rs.getInt("Categoria"));
+            
+                
                 HashMap<Morador, Float> racios = new HashMap<>();
                 MoradorDAO mor = new MoradorDAO();
                 ApartamentoDAO apa = new ApartamentoDAO();
                 CategoriaDAO cat = new CategoriaDAO();
                 while(rsR.next()){
-                    racios.put(mor.get(rsR.getInt("Id")),rsR.getFloat("Valor"));
+                    racios.put(mor.get(rsM.getInt("Morador")),rsR.getFloat("Racio"));
                 }
-                a = new Despesa(rsM.getInt("Id"), apa.get(rsM.getInt("Apartamento")), mor.get(rsM.getInt("Morador")), rsM.getFloat("Valor"), rsM.getDate("Data"), rsM.getBoolean("Transacao"),rs.getBoolean("Pago"),rs.getString("Descricao"),cat.get(rs.getInt("Categoria")),racios);
+                a = new Despesa(rsM.getInt("Id"), apa.get(rsM.getInt("Apartamento")), mor.get(rsM.getInt("Morador")), rsM.getFloat("Valor"), rsM.getDate("Data"), rsM.getBoolean("Transacao"),rs.getBoolean("Pago"),rs.getString("Descrição"),cat.get(rs.getInt("Categoria")),racios);
             }
 
         }catch(ClassNotFoundException | SQLException e){
@@ -116,16 +118,7 @@ public class DespesaDAO implements Map<Integer,Despesa> {
         Despesa a = null;
         try{
             con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("insert into mydb.Despesa values (?,?,?,?)\n" +
-            "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Descrição= VALUES(Descrição),Pago= VALUES(Pago)", Statement.RETURN_GENERATED_KEYS);
-
-            pStm.setInt(1,despesa.getId());
-            pStm.setInt(2,despesa.getCategoria().getId());
-            pStm.setString(3,despesa.getDescricao());
-            pStm.setBoolean(4,despesa.pago());
-            pStm.executeUpdate();
-            
-            pStm = con.prepareStatement("insert into mydb.Movimento values (?,?,?,?,?,?)\n" +
+            PreparedStatement pStm = con.prepareStatement("insert into mydb.Movimento values (?,?,?,?,?,?)\n" +
             "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Morador=VALUES(Morador), Valor=VALUES(Valor), Data=VALUES(Data), Transacao=VALUES(Transacao)", Statement.RETURN_GENERATED_KEYS);
 
             pStm.setInt(1,despesa.getId());
@@ -135,6 +128,18 @@ public class DespesaDAO implements Map<Integer,Despesa> {
             pStm.setDate(5,despesa.getData());
             pStm.setBoolean(6,despesa.isTransacao());
             pStm.executeUpdate();
+            
+            pStm = con.prepareStatement("insert into mydb.Despesa values (?,?,?,?)\n" +
+            "ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria),Pago= VALUES(Pago), Descrição= VALUES(Descrição)", Statement.RETURN_GENERATED_KEYS);
+
+            pStm.setInt(1,despesa.getId());
+            pStm.setInt(2,despesa.getCategoria().getId());
+            pStm.setBoolean(3,despesa.pago());
+            pStm.setString(4,despesa.getDescricao());
+            pStm.executeUpdate();
+            
+            
+            
             for(Map.Entry<Morador,Float> r : despesa.getRacios().entrySet()) {
                 PreparedStatement pStmR = con.prepareStatement("insert into mydb.Racio values (?,?,?)\n" +
                 "ON DUPLICATE KEY UPDATE Morador=VALUES(Morador), Despesa=VALUES(Despesa), Racio=VALUES(Racio)", Statement.RETURN_GENERATED_KEYS);
