@@ -87,7 +87,7 @@ public class Historico {
 	}
 
 	public void removerMovimento(Movimento mov) {
-		historico.remove(mov);
+		historico.remove(mov.getId());
 	}
 
 	public int genMovimentoId() {

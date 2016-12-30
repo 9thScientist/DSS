@@ -253,6 +253,7 @@ public class DespesasUI extends javax.swing.JFrame {
         
         EditarDespesaButton.setEnabled(false);
         RemoverDespesaButton.setEnabled(false);
+        
     }//GEN-LAST:event_RemoverDespesaButtonActionPerformed
 
      private void tableFiller() {
