@@ -65,7 +65,7 @@ public class Historico {
 		List<Movimento> ret = new ArrayList<>();
 
 		for (Movimento m : historico.values())
-			if (m.getData().compareTo(from) >= 0 && m.getData().compareTo(to) <= 0 && m.getClass().getSimpleName().equals("Despesa")) {
+			if (m.getData().toString().compareTo(from.toString()) >= 0 && m.getData().toString().compareTo(to.toString()) <= 0 && m.getClass().getSimpleName().equals("Despesa")) {
 				Despesa d = (Despesa) m;
 				if (d.getCategoria().equals(categoria))
 					ret.add(m);

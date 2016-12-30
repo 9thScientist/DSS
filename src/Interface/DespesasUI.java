@@ -308,27 +308,14 @@ public class DespesasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_BackButtonActionPerformed
 
     private void FiltrarDespesasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FiltrarDespesasButtonActionPerformed
-        model.setRowCount(0);
-        tableFillerFilter();
-    }//GEN-LAST:event_FiltrarDespesasButtonActionPerformed
-
-    private void tableFillerFilter() {
         SplitExpense se = new SplitExpense();
-        String cols[] = {"Data", "Morador", "Valor", "Descricao", "Categoria"};
-        model = new DefaultTableModel(cols, 0) {
-                
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                //all cells false
-                return false;
-            }
-        };
+        model.setRowCount(0);
         
         if (categoriasBox.getSelectedItem().equals("Todas as categorias")) {
             java.sql.Date from = new java.sql.Date(((java.util.Date) fromSpinner.getValue()).getTime());
             java.sql.Date to = new java.sql.Date(((java.util.Date) toSpinner.getValue()).getTime());
          
-            ms = new ArrayList(se.getHistorico((Date) fromSpinner.getValue(), (Date) toSpinner.getValue()));
+            ms = new ArrayList(se.getHistorico(from, to));
         } else {
             java.sql.Date from = new java.sql.Date(((java.util.Date) fromSpinner.getValue()).getTime());
             java.sql.Date to = new java.sql.Date(((java.util.Date) toSpinner.getValue()).getTime());
@@ -346,7 +333,8 @@ public class DespesasUI extends javax.swing.JFrame {
             Object[] ln = {data, morador, valor, descricao, categoria};
             model.addRow(ln);
         }
-    }
+    }//GEN-LAST:event_FiltrarDespesasButtonActionPerformed
+
      private void tableFiller() {
         SplitExpense se = new SplitExpense();
         String cols[] = {"Data", "Morador", "Valor", "Descricao", "Categoria"};
