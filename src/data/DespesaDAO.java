@@ -95,7 +95,7 @@ public class DespesaDAO implements Map<Integer,Despesa> {
                 ApartamentoDAO apa = new ApartamentoDAO();
                 CategoriaDAO cat = new CategoriaDAO();
                 while(rsR.next()){
-                    racios.put(mor.get(rsM.getInt("Morador")),rsR.getFloat("Racio"));
+                   racios.put(mor.get(rsR.getInt("Morador")),rsR.getFloat("Racio"));
                 }
                 a = new Despesa(rsM.getInt("Id"), apa.get(rsM.getInt("Apartamento")), mor.get(rsM.getInt("Morador")), rsM.getFloat("Valor"), rsM.getDate("Data"), rsM.getBoolean("Transacao"),rs.getBoolean("Pago"),rs.getString("Descrição"),cat.get(rs.getInt("Categoria")),racios);
             }
