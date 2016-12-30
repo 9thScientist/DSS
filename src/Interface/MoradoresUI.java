@@ -207,11 +207,13 @@ public class MoradoresUI extends javax.swing.JFrame {
         Set<Morador> ms = new HashSet(se.getApartamento().getMoradores().values());
         
         for (Morador m : ms) {
+            if(m.isAtivo()){
             String nome = m.getNome();
             String contacto = m.getContacto();
             float saldo = m.getSaldo();
             Object[] ln = {nome, contacto, saldo};
             tb.addRow(ln);
+            }
         }
     }
     

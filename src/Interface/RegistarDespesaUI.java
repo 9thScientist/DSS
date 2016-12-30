@@ -299,12 +299,13 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
         Set<Morador> ms = new HashSet<>(se.getApartamento().getMoradores().values());
         List<String> tmp = new ArrayList<>();
         
-        for (Morador m : ms)
-            if (m.isAtivo())
+        for (Morador m : ms){
+            if (m.isAtivo()){
                 tmp.add(m.getNome());
-        moradores = new String[tmp.size()];
-        moradores = tmp.toArray(moradores);
-        
+            moradores = new String[tmp.size()];
+            moradores = tmp.toArray(moradores);
+        }
+        }
         if (moradores.length > 0)
             moradorSelec = se.getApartamento().getMoradorNome(moradores[0]);
     }
