@@ -45,15 +45,10 @@ public class Historico {
 	}
         
 
-	public Set<Movimento> getMovimentos() {
-		Set<Movimento> ret = new TreeSet<>();
 
-		for (Movimento movimento : historico.values()){
-                    System.out.println("move"+ movimento +": "+ movimento.getId());
-                    ret.add(movimento);
-                }
-                System.out.println("size ret:"+ret.size());
-		return ret;
+        
+        public List<Movimento> getMovimentosList() {
+		return new ArrayList<Movimento>(historico.values());
 	}
 
 	public Set<Movimento> getMovimentos(Date from, Date to) {

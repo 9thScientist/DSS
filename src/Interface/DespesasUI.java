@@ -10,7 +10,9 @@ import Despesas.Movimento;
 import Main.SplitExpense;
 import Moradores.Morador;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,6 +22,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DespesasUI extends javax.swing.JFrame {
 
+    private List<Movimento> ms;
+    private Movimento movSelec;
     private DefaultTableModel model;
     /**
      * Creates new form DespesasUI
@@ -69,6 +73,11 @@ public class DespesasUI extends javax.swing.JFrame {
         Title.setText("SplitExpense");
 
         jTable1.setModel(model);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         EditarCategoriasButton.setText("Categorias");
@@ -86,6 +95,7 @@ public class DespesasUI extends javax.swing.JFrame {
         });
 
         EditarDespesaButton.setText("Editar Despesa");
+        EditarDespesaButton.setEnabled(false);
         EditarDespesaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EditarDespesaButtonActionPerformed(evt);
@@ -95,6 +105,12 @@ public class DespesasUI extends javax.swing.JFrame {
         FiltrarDespesasButton.setText("Filtrar Despesas");
 
         RemoverDespesaButton.setText("Remover Despesa");
+        RemoverDespesaButton.setEnabled(false);
+        RemoverDespesaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoverDespesaButtonActionPerformed(evt);
+            }
+        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todas as Categorias", "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -217,8 +233,27 @@ public class DespesasUI extends javax.swing.JFrame {
 
     private void EditarDespesaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarDespesaButtonActionPerformed
         this.setVisible(false);
-        new EditarDespesaUI().setVisible(true);
+        new EditarDespesaUI(movSelec).setVisible(true);
     }//GEN-LAST:event_EditarDespesaButtonActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        movSelec = ms.get(jTable1.getSelectedRow());
+        
+        if (!movSelec.isTransacao()) EditarDespesaButton.setEnabled(true);
+        RemoverDespesaButton.setEnabled(true);
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void RemoverDespesaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoverDespesaButtonActionPerformed
+        SplitExpense se = new SplitExpense();
+        
+        if (movSelec.isTransacao())
+           se.removerMovimento(movSelec);
+        else
+            se.removerDespesa((Despesa) movSelec);
+        
+        EditarDespesaButton.setEnabled(false);
+        RemoverDespesaButton.setEnabled(false);
+    }//GEN-LAST:event_RemoverDespesaButtonActionPerformed
 
      private void tableFiller() {
         SplitExpense se = new SplitExpense();
@@ -232,7 +267,7 @@ public class DespesasUI extends javax.swing.JFrame {
             }
         };
         
-        Set<Movimento> ms = new HashSet(se.getHistorico());
+        ms = new ArrayList(se.getHistoricoList());
         System.out.println(ms.size());
         for (Movimento m : ms) {
            Date data = m.getData();
