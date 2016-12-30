@@ -309,7 +309,7 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
                 size++;
             }
         }
-        float racio = 1 / size;
+        float racio = 1 / (float) size;
         for (Morador m : ms) {
             if(m.isAtivo()){
             Object[] ln = {m.getNome(), racio};
