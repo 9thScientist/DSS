@@ -180,7 +180,7 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
             String nome = rs.getString("Categoria");
             boolean recorrente = rs.getBoolean("Recorrente");
             boolean ativo = rs.getBoolean("Ativo");
-            cat.add(new Categoria(id, nome, recorrente,ativo));
+            cat.add(new Categoria(id, nome, recorrente, ativo));
             }
         } catch (Exception e) {
             e.printStackTrace();

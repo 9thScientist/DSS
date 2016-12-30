@@ -40,7 +40,7 @@ public class Historico {
         public Set<String> getCategorias() {
 		Set<String> ret = new TreeSet<>();
                 for (Categoria cat : categorias.values()) 
-                    if (cat.isActive()) 
+                    if (cat.isAtivo()) 
                         ret.add(cat.getDescricao());
                 return ret;
 	}

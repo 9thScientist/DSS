@@ -6,7 +6,7 @@ public class Categoria {
 	private int id;
 	private String descricao;
 	private boolean recorrente;
-        private boolean active;
+        private boolean ativo;
 
 	public Categoria(int id, String d, boolean r) {
 		CategoriaDAO dao = new CategoriaDAO();
@@ -14,7 +14,18 @@ public class Categoria {
 		descricao = d;
 		recorrente = r;
                 dao.put(id,this);
+                ativo = true;
 	}
+        	
+        public Categoria(int id, String d, boolean r, boolean at) {
+		CategoriaDAO dao = new CategoriaDAO();
+                this.id = id;
+		descricao = d;
+		recorrente = r;
+                dao.put(id,this);
+                ativo = at;
+	}
+
 
 	public Categoria(Categoria c){
 		CategoriaDAO dao = new CategoriaDAO();
@@ -23,12 +34,12 @@ public class Categoria {
                 dao.put(id,this);
         }
 
-        public boolean isActive() {
-            return active;
+        public boolean isAtivo() {
+            return ativo;
         }
         
         public void desativar() {
-            active = false;
+            ativo = false;
         }
         
 	public int getId() {
