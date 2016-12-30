@@ -112,14 +112,14 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
         try {
             conn = Connect.connect();
             PreparedStatement stm = conn.prepareStatement(
-				"INSERT INTO Categoria VALUES (?,?,?)\n" +
-				"ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Recorrente=VALUES(Recorrente)", Statement.RETURN_GENERATED_KEYS);
+				"INSERT INTO Categoria VALUES (?,?,?,?)\n" +
+				"ON DUPLICATE KEY UPDATE Id=VALUES(Id), Categoria=VALUES(Categoria), Recorrente=VALUES(Recorrente), Ativo=VALUES(Ativo)", Statement.RETURN_GENERATED_KEYS);
 
-            stm.setInt(1, cat.getId());
+            stm.setInt(1, id);
             stm.setString(2, cat.getDescricao());
             stm.setBoolean(3, cat.isRecorrente());
+            stm.setBoolean(4, cat.isAtivo());
             stm.executeUpdate();
-            ResultSet rs = stm.getGeneratedKeys();
             c = cat;
         } catch (Exception e) {
             e.printStackTrace();
@@ -179,7 +179,8 @@ public class CategoriaDAO implements Map<Integer,Categoria> {
             int id = rs.getInt("Id");
             String nome = rs.getString("Categoria");
             boolean recorrente = rs.getBoolean("Recorrente");
-            cat.add(new Categoria(id, nome, recorrente));
+            boolean ativo = rs.getBoolean("Ativo");
+            cat.add(new Categoria(id, nome, recorrente,ativo));
             }
         } catch (Exception e) {
             e.printStackTrace();

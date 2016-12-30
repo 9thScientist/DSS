@@ -6,8 +6,6 @@
 package Main;
 
 import Interface.SplitExpenseUI;
-import Moradores.Apartamento;
-import data.ApartamentoDAO;
 import data.Connect;
 import java.sql.Connection;
 import java.sql.SQLException;
