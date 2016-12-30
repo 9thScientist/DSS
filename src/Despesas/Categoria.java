@@ -29,6 +29,7 @@ public class Categoria {
 
 	public Categoria(Categoria c){
 		CategoriaDAO dao = new CategoriaDAO();
+                id = c.getId();
                 descricao = c.getDescricao();
 		recorrente = c.isRecorrente();
                 dao.put(id,this);
