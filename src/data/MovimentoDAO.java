@@ -127,11 +127,11 @@ public class MovimentoDAO implements Map<Integer,Movimento> {
         Movimento a = this.get(key);
         try{
             con = Connect.connect();
-            PreparedStatement pStm = con.prepareStatement("delete from mydb.racio where Despesa = ? ; ");
+            PreparedStatement pStm = con.prepareStatement("delete from mydb.Racio where Despesa = ? ; ");
             pStm.setInt(1,(Integer)key);
             pStm.executeUpdate();
                     
-            pStm = con.prepareStatement("delete from mydb.despesa where Id = ? ; ");
+            pStm = con.prepareStatement("delete from mydb.Despesa where Id = ? ; ");
             pStm.setInt(1,(Integer)key);
             pStm.executeUpdate();
                     
