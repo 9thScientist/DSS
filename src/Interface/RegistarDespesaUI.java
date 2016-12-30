@@ -236,7 +236,27 @@ public class RegistarDespesaUI extends javax.swing.JFrame {
         java.sql.Date data = new Date(Calendar.getInstance().getTimeInMillis());
 
         try {
+            if((int)Nr_PrestacoesSpinner.getValue()==1){
             se.registarDespesa(false, descricaoTextField.getText(), categoria, Float.parseFloat(valorSpinner.getText()), data, racios, morador);
+        }
+            else{
+                int i;
+                float valor = Float.parseFloat(valorSpinner.getText())/ (int)Nr_PrestacoesSpinner.getValue();
+                for(i=1; i!=((int)Nr_PrestacoesSpinner.getValue()+1);i++){
+                    String descricao = descricaoTextField.getText().concat(" "+i+"/"+Nr_PrestacoesSpinner.getValue());
+                
+                    Calendar c = Calendar.getInstance(); 
+                    c.setTime(data); 
+                    c.add(Calendar.DATE, (int)freqSpinner.getValue());
+                    data = new java.sql.Date(c.getTimeInMillis());
+                    
+                    System.out.println("data:"+data);
+                    
+                    se.registarDespesa(false,descricao,categoria,valor,data,racios,morador);
+                }
+                
+            }
+        
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "O valor deve ser válido.\nEx.: 25.9 Corresponde a 25,09€",  "Erro", JOptionPane.ERROR_MESSAGE);
             return;
