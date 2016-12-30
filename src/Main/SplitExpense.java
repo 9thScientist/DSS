@@ -44,7 +44,7 @@ public class SplitExpense {
 		float ant_valor = despesa.getValor();
 		Map<Morador, Float> ant_racios = despesa.getRacios();
 		despesa.update(d);
-
+                historico.addDespesa(d);
 		apartamento.addSaldo(ant_valor);
 		apartamento.decSaldo(d.getValor());
 		apartamento.updateSaldos(ant_valor, ant_racios);
