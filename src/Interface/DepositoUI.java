@@ -31,7 +31,7 @@ public class DepositoUI extends javax.swing.JFrame {
         List<String> tmp = new ArrayList<>();
         
         for (Morador m : ms)
-            if (m.ativo())
+            if (m.isAtivo())
                 tmp.add(m.getNome());
         moradores = new String[tmp.size()];
         moradores = tmp.toArray(moradores);

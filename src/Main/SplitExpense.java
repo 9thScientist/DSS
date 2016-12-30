@@ -65,9 +65,9 @@ public class SplitExpense {
                 m.getMorador().updateSaldo(m.getValor());
 	}
 
-	public void registarMorador(String nome, String contacto, String img) {
+	public void registarMorador(String nome, String contacto) {
 		int id = apartamento.genMoradorId();
-		Morador morador = new Morador(id, apartamento, nome, contacto, 0, img);
+		Morador morador = new Morador(id, apartamento, nome, contacto, 0,true);
 
 		apartamento.addMorador(morador);
 	}
@@ -77,9 +77,9 @@ public class SplitExpense {
 		morador.update(m);
 	}
         
-        public void editarMorador(String nome, String n_nome, String n_contacto, String n_imagem) {
+        public void editarMorador(String nome, String n_nome, String n_contacto) {
             Morador morador = apartamento.getMoradorNome(nome);
-            apartamento.editMorador(morador, n_nome, n_contacto, n_imagem);
+            apartamento.editMorador(morador, n_nome, n_contacto);
 	}
 
 	public void removerMorador(String morador) {

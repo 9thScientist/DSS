@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,7 +28,7 @@ public class RemoverMoradorUI extends javax.swing.JFrame {
         List<String> tmp = new ArrayList<>();
         
         for (Morador m : ms)
-            if (m.ativo())
+            if (m.isAtivo())
                 tmp.add(m.getNome());
         moradores = new String[tmp.size()];
         moradores = tmp.toArray(moradores);
@@ -123,8 +124,11 @@ public class RemoverMoradorUI extends javax.swing.JFrame {
 
     private void RemoverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoverButtonActionPerformed
         SplitExpense s = new SplitExpense();
-        s.removerMorador((String) userComboBox.getSelectedItem());
         
+        if(s.getApartamento().getMoradorNome((String) userComboBox.getSelectedItem() ).getSaldo()!=0) 
+            JOptionPane.showMessageDialog(null, "Apenas pode eliminar moradores que não tenham saldo em conta.",  "Erro", JOptionPane.ERROR_MESSAGE);
+        else
+            s.removerMorador((String) userComboBox.getSelectedItem());
         this.setVisible(false);
         new MoradoresUI().setVisible(true);
     }//GEN-LAST:event_RemoverButtonActionPerformed

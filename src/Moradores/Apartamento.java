@@ -64,12 +64,12 @@ public class Apartamento {
 		moradores.put(m.getId(), m);
 	}
 
-	public void editMorador(Morador m, String nome, String contacto, String img) {
+	public void editMorador(Morador m, String nome, String contacto) {
 		Morador morador = moradores.get(m.getId());
 
 		morador.setNome(nome);
 		morador.setContacto(contacto);
-		morador.setImagem(img);
+		
                 
                 moradores.put(morador.getId(), morador);
 	}

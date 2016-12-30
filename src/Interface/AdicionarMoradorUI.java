@@ -155,7 +155,7 @@ public class AdicionarMoradorUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos.",  "Erro",JOptionPane.ERROR_MESSAGE);
         else {
             System.out.println("us:"+txtUsername.getText());
-            s.registarMorador(txtUsername.getText(),txtContacto.getText(),"");
+            s.registarMorador(txtUsername.getText(),txtContacto.getText());
             
             this.setVisible(false);
             new MoradoresUI().setVisible(true);

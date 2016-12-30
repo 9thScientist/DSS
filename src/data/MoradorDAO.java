@@ -66,9 +66,9 @@ public class MoradorDAO implements Map<Integer,Morador> {
                 Apartamento ap = apDAO.get(rs.getInt("Apartamento"));
                 String nome = rs.getString("Nome");
                 String contacto = rs.getString("Contacto");
-                String imagem = rs.getString("Imagem");
+                Boolean ativo = rs.getBoolean("Ativo");
                 float saldo = rs.getFloat("Saldo");
-                m = new Morador(id, ap, nome, contacto, saldo, imagem);
+                m = new Morador(id, ap, nome, contacto, saldo, ativo);
             }
         } catch (Exception e) {
              e.printStackTrace();
@@ -94,9 +94,9 @@ public class MoradorDAO implements Map<Integer,Morador> {
                 Apartamento ap = apDAO.get(rs.getInt("Apartamento"));
                 String nome = rs.getString("Nome");
                 String contacto = rs.getString("Contacto");
-                String imagem = rs.getString("Imagem");
+                Boolean ativo = rs.getBoolean("Ativo");
                 float saldo = rs.getFloat("Saldo");
-                m = new Morador(id, ap, nome, contacto, saldo, imagem);
+                m = new Morador(id, ap, nome, contacto, saldo, ativo);
             }
         } catch (Exception e) {
              e.printStackTrace();
@@ -119,16 +119,15 @@ public class MoradorDAO implements Map<Integer,Morador> {
             conn = Connect.connect();
             PreparedStatement stm = conn.prepareStatement(
 				"INSERT INTO Morador VALUES (?,?,?,?,?,?)\n" +
-				"ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Nome=VALUES(Nome), Contacto=VALUES(Contacto), Saldo=VALUES(Saldo), Imagem=VALUES(Imagem)", Statement.RETURN_GENERATED_KEYS);
+				"ON DUPLICATE KEY UPDATE Id=VALUES(Id), Apartamento=VALUES(Apartamento), Nome=VALUES(Nome), Contacto=VALUES(Contacto), Saldo=VALUES(Saldo), Ativo=VALUES(Ativo)", Statement.RETURN_GENERATED_KEYS);
 
             stm.setInt(1, morador.getId());
             stm.setInt(2, morador.getApartamento().getId());
             stm.setString(3, morador.getNome());
             stm.setString(4, morador.getContacto());
             stm.setFloat(5, morador.getSaldo());
-            stm.setString(6, morador.getImagem());
+            stm.setBoolean(6, morador.isAtivo());
             stm.executeUpdate();
-            ResultSet rs = stm.getGeneratedKeys();
             m = morador;
         } catch (Exception e){
             e.printStackTrace();
@@ -190,9 +189,9 @@ public class MoradorDAO implements Map<Integer,Morador> {
                 Apartamento ap = apDAO.get(rs.getInt("Apartamento"));
                 String nome = rs.getString("Nome");
                 String contacto = rs.getString("Contacto");
-                String imagem = rs.getString("Imagem");
+                Boolean ativo = rs.getBoolean("Ativo");
                 float saldo = rs.getFloat("Saldo");
-                cat.add(new Morador(id, ap, nome, contacto, saldo, imagem));
+                cat.add(new Morador(id, ap, nome, contacto, saldo, ativo));
             }
         } catch (Exception e) {
             e.printStackTrace();

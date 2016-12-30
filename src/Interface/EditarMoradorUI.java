@@ -27,7 +27,7 @@ public class EditarMoradorUI extends javax.swing.JFrame {
         List<String> tmp = new ArrayList<>();
         
         for (Morador m : ms)
-            if (m.ativo())
+            if (m.isAtivo())
                 tmp.add(m.getNome());
         moradores = new String[tmp.size()];
         moradores = tmp.toArray(moradores);
@@ -172,7 +172,7 @@ public class EditarMoradorUI extends javax.swing.JFrame {
         else {
             SplitExpense se = new SplitExpense();
             
-            se.editarMorador(moradorSelec.getNome(), newUsername.getText(), newContacto.getText(), "");
+            se.editarMorador(moradorSelec.getNome(), newUsername.getText(), newContacto.getText());
                        
             this.setVisible(false);
             new MoradoresUI().setVisible(true);

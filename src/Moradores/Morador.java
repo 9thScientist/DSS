@@ -6,17 +6,15 @@ public class Morador {
 	private int id;
 	private String nome;
 	private String contacto;
-	private String imagem;
 	private float saldo;
 	private boolean ativo;
 	private Apartamento apartamento;
 
-	public Morador(int id, Apartamento a, String n, String c, float s, String img) {
+	public Morador(int id, Apartamento a, String n, String c, float s, Boolean ativo) {
 		this.id = id;
 		apartamento = a;
 		nome = n;
 		contacto = c;
-		imagem = img;
 		saldo = s;
 		ativo = true;
 	}
@@ -25,9 +23,8 @@ public class Morador {
 		id = m.getId();
 		nome = m.getNome();
 		contacto = m.getContacto();
-		imagem = m.getImagem();
 		saldo = m.getSaldo();
-		ativo = m.ativo();
+		ativo = m.isAtivo();
 		apartamento = m.getApartamento();
 	}
         
@@ -35,7 +32,6 @@ public class Morador {
 		id = 0;
 		nome ="";
 		contacto = "";
-		imagem = "";
 		saldo = 0;
 		ativo = false;
 		apartamento = null;
@@ -57,19 +53,15 @@ public class Morador {
 		return contacto;
 	}
 
-	public String getImagem() {
-		return imagem;
+	public Boolean isAtivo() {
+		return ativo;
 	}
 
 	public float getSaldo() {
 		return saldo;
 	}
 
-	public boolean ativo() {
-		return ativo;
-	}
-
-	public void desativar() {
+        public void desativar() {
 		ativo = false;
 	}
 
@@ -93,10 +85,7 @@ public class Morador {
 		contacto = c;
 	}
 
-	public void setImagem(String img) {
-		imagem = img;
-	}
-
+	
 	public float addSaldo(float m) throws MontanteInvalidoException {
             if (m < 0)
                     throw new MontanteInvalidoException("O montante a adicionar deve ser positivo");
@@ -122,9 +111,8 @@ public class Morador {
 	public void update(Morador m) {
 		nome = m.getNome();
 		contacto = m.getContacto();
-		imagem = m.getImagem();
 		saldo = m.getSaldo();
-		ativo = m.ativo();
+		ativo = m.isAtivo();
 		apartamento = m.getApartamento();
 	}
         
