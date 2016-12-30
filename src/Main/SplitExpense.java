@@ -61,7 +61,7 @@ public class SplitExpense {
         public void removerMovimento(Movimento m) {
 		historico.removerMovimento(m);
 
-		apartamento.addSaldo(m.getValor());
+		apartamento.decSaldo(m.getValor());
                 m.getMorador().updateSaldo(m.getValor());
 	}
 

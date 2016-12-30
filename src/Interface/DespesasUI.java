@@ -269,9 +269,9 @@ public class DespesasUI extends javax.swing.JFrame {
         SplitExpense se = new SplitExpense();
 
         if (movSelec.isTransacao())
-        se.removerMovimento(movSelec);
+            se.removerMovimento(movSelec);
         else
-        se.removerDespesa((Despesa) movSelec);
+            se.removerDespesa((Despesa) movSelec);
 
         EditarDespesaButton.setEnabled(false);
         RemoverDespesaButton.setEnabled(false);
