@@ -312,7 +312,7 @@ public class DespesasUI extends javax.swing.JFrame {
 
      private void tableFiller() {
         SplitExpense se = new SplitExpense();
-        String cols[] = {"Data", "Morador", "Valor", "Descricao"};
+        String cols[] = {"Data", "Morador", "Valor", "Descricao", "Categoria"};
         model = new DefaultTableModel(cols, 0) {
                 
             @Override
@@ -329,11 +329,22 @@ public class DespesasUI extends javax.swing.JFrame {
            String morador = m.getMorador().getNome();
            float valor = m.getValor();
            String descricao = m.isTransacao() ? "Transação" : getDescricao(m);
+           String categoria = m.isTransacao() ? getTipoTransacao(m) : getCategoria(m);
             
-            Object[] ln = {data, morador, valor, descricao};
+            Object[] ln = {data, morador, valor, descricao, categoria};
             model.addRow(ln);
         }
     }
+     
+     private String getCategoria(Movimento m) {
+         Despesa d = (Despesa) m;
+         
+         return d.getCategoria().getDescricao();
+     }
+     
+     private String getTipoTransacao(Movimento m) {
+         return (m.getValor() < 0) ? "Levantamento" : "Depósito";
+     }
      
      private String getDescricao(Movimento m) {
          if (m.getClass().getSimpleName().equals("Despesa")) {
