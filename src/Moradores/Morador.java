@@ -105,7 +105,7 @@ public class Morador {
 	}
 
 	public float updateSaldo(float valor) {
-		saldo -= valor;
+		saldo += valor;
                 
                 apartamento.addMorador(this);
                 

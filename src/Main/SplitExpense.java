@@ -62,7 +62,7 @@ public class SplitExpense {
 		historico.removerMovimento(m);
 
 		apartamento.decSaldo(m.getValor());
-                m.getMorador().updateSaldo(m.getValor());
+                apartamento.updateSaldo(m.getMorador(), m.getValor());
 	}
 
 	public void registarMorador(String nome, String contacto) {
